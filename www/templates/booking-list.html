@@ -1,0 +1,60 @@
+<ion-view class="booking booking-new">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-title>
+			<div class="page-title">할인 부킹</div>
+		</ion-nav-title>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<div class="bar bar-subheader">
+		<!-- <div>
+			<div class="row text-center">
+				<div class="col col-20" ng-click="location('')" ng-class="{'active': clubRegion == ''}">전체</div>
+				<div class="col col-20" ng-click="location(1)" ng-class="{'active': clubRegion == '1'}">수도권</div>
+				<div class="col col-20" ng-click="location(2)" ng-class="{'active': clubRegion == '2'}">강원</div>
+				<div class="col col-20" ng-click="location(3)" ng-class="{'active': clubRegion == '3'}">충청</div>
+				<div class="col col-20 letter-spacing" ng-click="location(4)" ng-class="{'active': clubRegion == '4'}">경상/전라</div>
+			</div>
+		</div> -->
+	 	<div class="booking-date">
+	 	 	<ion-scroll zooming="false" direction="x" delegate-handle="bookingDateScroll">
+				<ul ng-style="{'width': 1428}">
+					<li ng-repeat="date in DateList" class="text-center letter-spacing" ng-class="{'active': b_date == (date.date | f_formatdate : 97) }" ng-bind-html="date.date | f_formatdate : 99" ng-click="dateView(date.date)"></li>
+				</ul>
+			</ion-scroll>
+	 	</div>
+	 	<div class="padding dark-bg light font16">
+			<!-- <strong>{{bookingCnt.clubcnt}}개 골프장과  {{bookingCnt.totalcnt | numberformat}}개 부킹</strong> -->
+			<strong>추천 골프장</strong>
+			<span class="badge badge-assertive pull-right" ng-click="bookingSort(3)">거리순</span>
+		</div>
+	</div>
+
+	<ion-content class="has-subheader booking-list" delegate-handle="bookingTimeScroll">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<ion-item collection-repeat="list in lists" collection-item-height="85" ng-click="openModal(1, list)" class="item-list-width" item-width="100%" item-height="85">
+			<div class="row">
+				<div class="col col-67 text-left">
+					<strong class="dark font16">{{list.name}}</strong>
+					<p class="margin-top">{{list.region}}</p>
+				</div>
+				<div class="col col-33 text-right booking-field-green-fee">
+					<div class="bold assertive font18">{{list.green_fee | numberformat}}원~</div>
+					<div class="margin-top">{{list.cnt}}팀</div>
+				</div>
+			</div>
+		</ion-item>
+
+		<div class="list text-center padding" ng-if="lists.length < 1">
+			<strong>해당타입에는 부킹 리스트가 없습니다.</strong>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+
+</ion-view>

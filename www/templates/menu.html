@@ -1,0 +1,179 @@
+<ion-side-menus enable-menu-with-back-views="true">
+	<ion-side-menu-content>
+		<ion-nav-bar class="bar-positive">
+			<ion-nav-back-button>
+			</ion-nav-back-button>
+	
+			<ion-nav-buttons side="left">
+				<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+				</button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+		<ion-nav-view name="menuContent"></ion-nav-view>
+	</ion-side-menu-content>
+
+	<ion-side-menu side="left" id="side-menu">
+	<!-- <ion-header-bar class="bar-stable">
+		<h1 class="title">Left</h1>
+	</ion-header-bar> -->
+		<ion-content>
+			<ion-list>
+				<div class="menu-header">
+					<a class="item item-avatar bar bar-positive" href="#/app/mypage/info" menu-close >
+						<img ng-src="{{me.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-if="me.profile.thumbnail_image">
+						<!--<img ng-src="https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif" ng-if="!me.profile.thumbnail_image"> -->
+						{{me.username}}
+					</a>
+					<a class="button button-icon icon ion-gear-a icon-setting" href="#/app/setting" menu-close></a>
+				</div>
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/golfjoin/lists">
+					<i class="icon ion-flag"></i>
+					골프장 조인
+				</ion-item> -->
+
+				<ion-item menu-close class="item-icon-left" href="#/app/mypage/new">
+					<i class="icon ion-home"></i>
+					마이페이지
+					<span class="badge badge-assertive" ng-if="badgeCount.bookingcnt">{{badgeCount.bookingcnt}}</span>
+				</ion-item>
+
+				<ion-item menu-close class="item-icon-left margin-bottom" href="#/app/payment">
+					<i class="icon ion-card"></i>
+					결제(이용권 구매)
+				</ion-item>
+				
+				<ion-item menu-close class="item-icon-left" href="#/app/booking/list">
+					<i class="icon ion-flag"></i>
+					할인부킹
+				</ion-item>
+
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/compare/list">
+					<i class="icon ion-flag"></i>
+					가격비교
+				</ion-item>
+
+				<ion-item menu-close class="item-icon-left" href="#/app/saleBooking/lists">
+					<i class="icon ion-flag"></i>
+					할인 부킹
+				</ion-item> -->
+
+				<ion-item menu-close class="item-icon-left" href="#/app/bookingjoin/memberlists">
+					<i class="icon ion-flag"></i>
+					골프 조인
+				</ion-item>
+
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/sponsorInvite/lists/0">
+					<i class="icon ion-flag"></i>
+					골프 조인
+				</ion-item> -->
+
+				<ion-item menu-close class="item-icon-left margin-bottom" href="#/app/premium/lists">
+					<i class="icon ion-flag"></i>
+					프리미엄 초청
+				</ion-item>
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/sponsorInvite/lists/1">
+					<i class="icon ion-flag"></i>
+					프리미엄 초청
+				</ion-item> -->
+				<!-- <ion-item menu-close class="item-icon-left margin-bottom" href="#/app/inviteTabs/invite">
+					<i class="icon ion-calendar"></i>
+					활동정보
+				</ion-item> -->
+				
+				<!-- <ion-item nav-clear ng-class="{ 'active' : submenu, 'margin-bottom' : !submenu }" class="item-icon-left item-icon-right" ng-click="toggleSubmenu()" ng-if="me.id">
+					<i class="icon ion-calendar"></i>
+					활동정보
+					<span class="font16 item-note icon ion-chevron-right"></span>
+				</ion-item>
+				<ion-item nav-clear menu-close ng-show="submenu" class="side-sub-menu margin-bottom">
+					<ion-list>
+						<ion-item class="item-icon-left" href="#/app/saleBookingTabs/invite">
+							<i class="font14 icon ion-minus-round"></i>
+							할인 부킹
+						</ion-item>
+						<ion-item class="item-icon-left" href="#/app/bookingJoinTabs/invite">
+							<i class="font14 icon ion-minus-round"></i>
+							골프 조인
+						</ion-item>
+						<ion-item class="item-icon-left" href="#/app/premiumTabs/invite">
+							<i class="font14 icon ion-minus-round"></i>
+							프리미엄 초청
+						</ion-item>
+					</ion-list>
+				</ion-item>	 -->	
+
+				
+
+				<ion-item menu-close class="item-icon-left" href="#/app/screen/map">
+					<i class="icon ion-flash"></i>
+					스크린 번개
+				</ion-item>
+
+			<!--
+				<ion-item menu-close class="item-icon-left" href="#/app/map">
+					<i class="icon ion-location"></i>
+					근처 회원들
+				</ion-item>
+			-->
+				<ion-item menu-close class="item-icon-left" href="#/app/usersFind/list">
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/usersFilter"> -->
+					<i class="icon ion-person-stalker"></i>
+					회원 검색
+				</ion-item>
+				<ion-item menu-close class="item-icon-left" href="#/app/visitors">
+					<i class="icon ion-eye"></i>
+					프로필 방문자
+					<span class="badge badge-assertive" ng-if="badgeCount.newVisit">{{badgeCount.newVisit}}</span>
+				</ion-item>
+				<ion-item menu-close class="item-icon-left" href="#/app/messages">
+					<i class="icon ion-chatbubbles"></i>
+					메시지
+					<span class="badge badge-assertive" ng-if="badgeCount.newMessage">{{badgeCount.newMessage}}</span>
+				</ion-item>
+				<ion-item menu-close class="item-icon-left" href="#/app/friendstab/request">
+					<i class="icon ion-person-add"></i>
+					친구
+					<span class="badge badge-assertive" ng-if="badgeCount.newInvite">{{badgeCount.newInvite}}</span>
+				</ion-item>
+
+				<ion-item menu-close class="item-icon-left margin-bottom" href="#/app/news/list">
+					<i class="icon ion-ios-bell"></i>
+					내 소식
+					<span class="badge badge-assertive" ng-if="badgeCount.newsCnt">{{badgeCount.newsCnt}}</span>
+				</ion-item>
+			
+				
+				<!-- <ion-item nav-clear ng-class="{ 'active' : submenu }" class="item-icon-left item-icon-right" ng-click="toggleSubmenu()" ng-if="me.id">
+					<i class="icon ion-home"></i>
+					마이페이지
+					<span class="font16 item-note icon ion-chevron-right"></span>
+				</ion-item>
+				<ion-item nav-clear menu-close ng-show="submenu" class="side-sub-menu">
+					<ion-list>
+						<ion-item class="item-icon-left" href="#/app/mypage/info">
+							<i class="font14 icon ion-minus-round"></i>
+							내 프로필
+						</ion-item>
+						<ion-item class="item-icon-left" href="#/app/inviteTabs/invite">
+							<i class="font14 icon ion-minus-round"></i>
+							활동정보
+						</ion-item>
+					</ion-list>
+				</ion-item>		 -->				
+				
+				
+
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/manager/request">
+					<i class="icon ion-clipboard"></i>
+					부킹매니저 등록신청
+				</ion-item> -->
+
+				<!-- <ion-item menu-close class="item-icon-left" href="#/app/bugs/1">
+					<i class="icon ion-compose"></i>
+					버그 및 오류 신고
+				</ion-item> -->
+
+			</ion-list>
+		</ion-content>
+	</ion-side-menu>
+</ion-side-menus>

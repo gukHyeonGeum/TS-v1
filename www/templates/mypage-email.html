@@ -1,0 +1,55 @@
+<ion-view view-title="이메일 수정">
+	
+	<form name="setEmailForm" id="setEmailForm" novalidate>
+
+		<ion-nav-bar class="bar-positive">
+			<ion-nav-back-button></ion-nav-back-button>
+			<ion-nav-buttons side="right">
+				<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+				<button type="button" class="button button-clear" ng-disabled="setEmailForm.$invalid" ng-click="submitEmailForm()">확인</button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+		
+		<ion-content>
+			<div class="list">
+				<label class="item item-input item-text-wrap">
+					<span class="input-label">현재 이메일</span>
+					{{userData.me.email}}
+				</label>
+				<label class="item item-input item-text-wrap">
+					<span class="input-label">변경할 이메일</span>
+				</label>
+				<div class="item item-input item-border-top-width-zero item-input-padding-right">
+					<input type="email" name="email" ng-model="setData.emailId" placeholder="이메일" required>
+					<i class="icon ion-at"></i>
+					<input type="email" name="domain" ng-model="setData.emailDomain" placeholder="직접입력" required>
+					<select class="form-control" ng-model="setData.sel_domain" ng-change="set_domain()">
+						<option>선택</option>
+						<option>naver.com</option>
+						<option>hanmail.net</option>
+						<option>nate.com</option>
+						<option>gmail.com</option>
+						<option>hotmail.com</option>
+						<option>empas.com</option>
+						<option>dreamwiz.com</option>
+						<option>korea.com</option>
+					</select>
+				</div>
+			</div>
+			<label class="item item-input" ng-show="setData.emailSecretBox"><!--   -->
+				<span class="input-label">이메일인증번호</span>
+				<input type="password" name="email_secret" ng-model="setData.emailSecret" placeholder="전송된 이메일을 인증번호를 입력하세요" required />
+				<label>
+				<button type="button" class="pull-right button button-small button-positive" ng-click="email_secretkey()">확인</button>
+				</label>
+			</label>
+			
+				
+				
+				
+			
+		</ion-content>
+
+	</form>
+
+</ion-view>

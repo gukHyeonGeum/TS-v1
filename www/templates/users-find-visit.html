@@ -1,0 +1,49 @@
+<ion-view view-title="접속일자순" class="users-find">
+
+	<ion-nav-buttons side="right">
+		<button class="button button-icon" ng-click="openModal(1)">정렬보기</button>
+	</ion-nav-buttons>
+
+	<div class="bar bar-subheader">
+ 	 <form name="findFriends" novalidate>
+			<div class="item item-input-inset">
+				<label class="item-input-wrapper">
+					<input type="text" name="search" ng-model="setData.search" required placeholder="닉네임 검색">
+				</label>
+				<a class="button button-icon button-small icon ion-ios-search-strong" ng-disabled="findFriends.$invalid" ng-click="serchFriend()"></a>
+			</div>
+		</form>
+	</div>
+
+	<ion-content class="has-subheader has-footer">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list">
+		  <ion-item collection-repeat="list in lists" ng-click="onItemProfile(1,list)" class="users-location">
+		  	<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+			<p class="users-nickname">{{list.username}}</p>
+		  </ion-item>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="10%" immediate-check="false" ng-if="!hasMoreData && lists.length > 29"></ion-infinite-scroll>
+
+	</ion-content>
+
+	<div class="bar bar-footer bar-positive">
+      <div class="sponsor-tab-modal">
+      	<div class="row row-no-padding text-center font16">
+      	  <div class="col col-33">
+      	  	<a ng-click="partner_ask(fieldInfo)"><span class="light">전체</span></a>
+      	  </div>
+      	  <div class="col col-33">
+      	  	<a ng-click="openModal(4, fieldInfo)"><span class="light">남자</a>
+      	  </div>
+      	  <div class="col col-33">
+      	  	<a ng-click="openModal(2, fieldInfo)"><span class="light">여자</a>
+      	  </div>
+      	</div>
+      </div>
+		</div>
+
+</ion-view>

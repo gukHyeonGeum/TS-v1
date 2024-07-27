@@ -1,0 +1,69 @@
+<ion-view view-title="패스워드 찾기">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+	</ion-nav-bar>
+
+	<ion-content><!--  ng-controller="findPassCtrl" -->
+
+		<form name="findBySmsForm" ng-submit="submitBySmsForm(findBySmsForm)" novalidate>
+			<div class="card">
+				<div class="list">
+					<div class="item item-divider bold">
+						휴대폰으로 찾기
+					</div>
+					<div ng-class="{ 'has-error' : findBySmsForm.nickname.$invalid && !findBySmsForm.nickname.$pristine }">
+						<label class="item item-input">
+							<span class="input-label">이름</span>
+							<input type="text" name="rname" ng-model="rname" required placeholder="이름을 입력하세요.">
+						</label>
+					</div>
+					<div ng-class="{ 'has-error' : findBySmsForm.nickname.$invalid && !findBySmsForm.nickname.$pristine }">
+						<label class="item item-input">
+							<span class="input-label">휴대폰</span>
+							<input type="text" name="phone" ng-model="phone" required placeholder="휴대폰을 입력하세요.">
+						</label>
+					</div>
+					<div class="item">
+						<button type="submit" class="button button-block button-positive" ng-disabled="findBySmsForm.$invalid">확인</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<form name="findByEmailForm" ng-submit="submitByEmailForm(findByEmailForm)" novalidate>
+			<div class="card findpass-email">
+				<div class="list">
+					<div class="item item-divider bold">
+						이메일로 찾기
+					</div>
+
+					<div class="item item-input item-padding-full item-input-padding-right">
+						<div ng-class="{ 'has-error' : findByEmailForm.email.$invalid && !findByEmailForm.email.$pristine }">
+							<input type="text" name="email" required ng-model="setData.emailId" ng-class="has-error" placeholder="이메일">
+						</div>
+						<i class="icon ion-at"></i>
+						<div ng-class="{ 'has-error' : findByEmailForm.domain.$invalid && !findByEmailForm.domain.$pristine }">
+							<input type="text" name="domain" required ng-model="setData.emailDomain" placeholder="직접입력">
+						</div>
+						<select name="sel_domain" class="form-control" ng-model="setData.sel_domain" ng-change="set_domain()">
+							<option>선택</option>
+							<option>naver.com</option>
+							<option>hanmail.net</option>
+							<option>nate.com</option>
+							<option>gmail.com</option>
+							<option>hotmail.com</option>
+							<option>empas.com</option>
+							<option>dreamwiz.com</option>
+							<option>korea.com</option>
+						</select>
+					</div>
+					<div class="item">
+						<button type="submit" class="button button-block button-positive" ng-disabled="findByEmailForm.$invalid">확인</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+	</ion-content>
+</ion-view>

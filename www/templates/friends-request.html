@@ -1,0 +1,31 @@
+<ion-view view-title="친구">
+
+	<ion-content>
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<ion-list>
+
+			<ion-item collection-repeat="list in lists" class="item-avatar item-remove-animate">
+				<img ng-src="{{list.thumbnail_image}}" ng-click="onItemProfile(list)">
+				<h2><strong>{{list.username}}</strong></h2>
+				<p>{{list.updated_at | f_formatdate}} 요청</p>
+				<div class="row">
+					<div class="col text-center">
+						<button ng-click="onItemMakeFriend(list, $index)" class="button button-block button-small button-positive">수락</button>
+					</div>
+					<div class="col text-center">
+						<button ng-click="onItemDelete(list, $index)" class="button button-block button-small button-stable">삭제</button>
+					</div>
+				</div>
+			</ion-item>
+
+		</ion-list>
+		<div class="row" ng-if="lists && !lists.length">
+			<div class="col text-center">친구승락할 리스트가 없습니다.</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="10%" immediate-check="false" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,11 @@
+/www/fonts
+/www/images
+/www/img
+/www/lib
+.project
+favicon.ico
+index.html
+manifest.json
+readme.txt
+test.html
+www/templates/term

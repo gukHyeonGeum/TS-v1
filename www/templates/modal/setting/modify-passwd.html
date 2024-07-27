@@ -1,0 +1,23 @@
+<ion-modal-view class="modal-pop-menu">	
+	<div class="ion-modal-content-custom">	
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(2)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">비밀번호 수정</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitPassword()" ng-disabled="passwordForm.$invalid">확인</button>
+		</div>
+		<form name="passwordForm" id="passwordForm" novalidate>	
+		<ion-content overflow-scroll="true" class="has-header">
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">현재 비밀번호</span>
+					<input type="password" name="old_password" ng-model="setData.old_password" placeholder="" required>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경할 비밀번호</span>
+					<input type="password" name="new_password" ng-model="setData.new_password" placeholder="" required>
+				</label>
+			</div>
+		</ion-content>
+		</form>
+	</div>
+</ion-modal-view>

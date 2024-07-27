@@ -1,0 +1,25 @@
+<ion-view view-title="닉네임 수정">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="right">
+			<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+			<button type="button" class="button button-clear" ng-click="submitUsername()" ng-disabled="usernameForm.$invalid">확인</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<form name="usernameForm" id="usernameForm" novalidate>	
+		<ion-content>
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">현재 닉네임</span>
+					{{me.username}}
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경할 닉네임</span>
+					<input type="text" name="new_username" ng-model="setData.newUsername" placeholder="한글2 ~ 8자 입력" required>
+				</label>
+			</div>
+		</ion-content>
+
+	</form>
+
+</ion-view>

@@ -1,0 +1,102 @@
+<ion-view view-title="마이페이지">
+	<ion-content>
+		<div class="list">
+			<div class="item item-thumbnail-left">
+				<img ng-src="{{me.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-if="me.profile.thumbnail_image">
+				<a class="button button-small button-dark pull-right" href="#/app/mypage/info">프로필 관리</a>
+				<p>
+					<strong class="font16 dark">
+						{{me.profile.realname}}
+						<span ng-if="me.profile.phone">({{me.profile.gender | f_gender}}, {{me.profile.dob | f_age}}세)</span>
+					</strong>
+				</p>
+				<p class="padding-top">{{me.username}}</p>
+			</div>
+			<ion-item class="item-divider line-height31 blue-line-top">
+				<strong>이용권 구매내용</strong>
+				<a href="#/app/paymentCoupon" class="pull-right underline"><span class="dark">더보기 &nbsp; <i class="icon ion-ios-arrow-right"></span></i></a>
+			</ion-item>
+			<div class="sponsor-wrap font16">
+				<div class="sponsor-view">
+					<div class="row light-bg">
+						<div class="col col-33">회원등급</div>
+						<div class="col">
+							{{myMember.class}}
+							<div ng-if="myMember.division">({{myMember.division}})</div>
+						</div>
+					</div>
+					<div class="row light-bg">
+						<div class="col col-33">이용권 기간</div>
+						<div class="col">
+							<a class="button button-small button-assertive pull-right" href="#/app/payment">구매하기</a>
+							<div class="assertive" ng-if="myMember.endDate">{{myMember.endDate}}일 까지</div>
+							<div>
+								<span ng-if="myMember.day > 0">({{myMember.day}}일 남음)</span>
+								<span ng-if="myMember.day == 0">(오늘 만료)</span>
+								<span ng-if="myMember.day < 0">(만료)</span>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="row light-bg">
+						<div class="col col-33 bold">자동결제</div>
+						<div class="col">미사용</div>
+					</div> -->
+				</div>
+			</div>
+			<ion-item class="item-divider line-height31 blue-line-top">
+				<strong>활동내용(예약, 등록&신청)</strong>
+			</ion-item>
+			<div class="sponsor-wrap font16">
+				<div class="sponsor-view">
+					<div class="row light-bg">
+						<div class="col col-33">할인부킹</div>
+						<a class="col dark underline" href="#/app/bookingTabs/invite">
+							<span ng-if="!badgeCount.bookingcnt">0건</span>
+							<span ng-if="badgeCount.bookingcnt"><strong class="assertive font18">{{badgeCount.bookingcnt}}</strong> 건</span>
+							<span class="badge badge-assertive margin-left" ng-if="badgeCount.bookingcnt">new</span>
+
+							<i class="icon ion-ios-arrow-right pull-right"></i>
+						</a>
+					</div>
+					<div class="row light-bg">
+						<div class="col col-33">골프조인</div>
+<!-- 						<a class="col dark underline" href="#/app/bookingJoinTabs/invite">
+							
+						</a> -->
+							<a href="#/app/bookingJoinTabs/invite" class="col underline dark">
+							초청 <strong class="assertive">{{myMember.join}}</strong> 건 
+							<span class="padding-left padding-right">|</span> 
+							신청 <strong class="assertive">{{myMember.joinRsvp}}</strong> 건
+							<i class="icon ion-ios-arrow-right pull-right"></i>
+							</a>
+					</div>
+					<div class="row light-bg">
+						<div class="col col-33">프리미엄</div>
+<!-- 						<a class="col dark underline" href="#/app/premiumTabs/invite">
+						</a> -->
+							<a href="#/app/premiumTabs/invite" class="col underline dark">
+							초청 <strong class="assertive">{{myMember.premium}}</strong> 건 
+							<span class="padding-left padding-right">|</span> 
+							신청 <strong class="assertive">{{myMember.premiumRsvp}}</strong> 건
+							<i class="icon ion-ios-arrow-right pull-right"></i>
+							</a>
+					</div>
+					<!-- <div class="row light-bg">
+						<div class="col col-33 bold">골프패키지</div>
+						<div class="col">
+							0
+							<i class="icon ion-ios-arrow-right pull-right"></i>
+						</div>
+					</div>
+					<div class="row light-bg">
+						<div class="col col-33 bold">해외골프</div>
+						<div class="col">
+							0
+							<i class="icon ion-ios-arrow-right pull-right"></i>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

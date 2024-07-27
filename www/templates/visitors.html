@@ -1,0 +1,36 @@
+<ion-view view-title="프로필 방문자 {{badgeCount.visitsCnt}}명">
+
+	<ion-nav-buttons side="right">
+		<button class="button button-clear" ng-click="data.showDelete = !data.showDelete" ng-if="lists.length > 0">삭제</button>
+	</ion-nav-buttons>
+	<ion-content class="has-header visitors-list">
+		
+		<!-- <ion-list ng-hide="items.pictures.length">
+			<ion-item class="item-avatar"  ng-click="openImageSetModal(item)" id="smallImage">
+				<img ng-src="https://ssl.pstatic.net/static/pwe/address/nodata_33x33.gif">
+				<h2><strong>사진 올리기</strong></h2>
+				<p>첫번째로 검색되어집니다.({{items.pictures.length}})</p>
+			</ion-item>
+		</ion-list> -->
+		
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<ion-list show-delete="data.showDelete">
+			<ion-item collection-repeat="list in lists" class="item-avatar">
+				<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(list)">
+				<h2 ng-click="openModal(list)"><strong>{{list.username}}</strong></h2>
+				<p ng-click="openModal(list)">{{list.updated_at | f_formatdate}} 방문</p>
+				<a class="button button-clear icon ion-chevron-down list-more" ng-click="openModal(list, $index)"></a>
+				<ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(list)"></ion-delete-button>
+				<span class="badge badge-assertive" ng-if="list.state">new</span>
+			</ion-item>
+		</ion-list>
+
+		<div class="row" ng-if="lists && !lists.length">
+			<div class="col text-center">프로필 방문자가 없습니다.</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" immediate-check="false" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,80 @@
+<ion-view class="premium">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-title>
+			<div class="page-title">프리미엄 초청 <span class='badge badge-calm' ng-click="helpMsg('premium')">?</span></div>
+		</ion-nav-title>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<button type="button" class="button button-clear" ng-click="golfPosts()">등록하기</button>
+			<!-- <button type="button" class="button button-clear" ng-click="testcheck()">체크</button> -->
+		</ion-nav-buttons>		
+	</ion-nav-bar>
+	<div class="bar bar-subheader">
+	 	<div class="row text-center stable-bg">
+			<div class="col col-33 text-left" ng-click="bookingSort(4)">
+				<div class="positive">초청종류 <span ng-if="!b_sod">▼</span><span ng-if="b_sst==4 && b_sod">▲</span></div>
+			</div>
+			<div class="col text-left">
+				<div class="positive">골프장/부킹날짜</div>
+			</div>
+			<div class="col col-25 text-right">
+				<div class="positive">초청인원</div>
+			</div>
+		</div>
+	</div>
+
+	<ion-content class="has-subheader has-footer premium-list">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list" collection-repeat="list in lists">
+			<div class="item margin-bottom" ng-click="openModal(9, list)" ng-class="{'booking-list-end': list.deleted_at}">
+				<div class="row row-no-padding text-center">
+					<div class="col col-33 text-left" style="overflow: hidden;">
+						<p class="dark font15 letter-spacing" ng-if="list.golf_type">{{arrayPremiumType[list.golf_type]}}</p>
+						<p class="dark font15 letter-spacing" ng-if="!list.golf_type">{{list.golf_club_region_name}}</p>
+						<div class="premium-new-badge badge badge-assertive" ng-if="(list.created_at | BetweenDay : 'dayCount') < 3">New</div>
+					</div>
+					<div class="col text-left">
+						<p class="premium-list-title">
+							<strong class="dark font15 letter-spacing">
+							<span ng-if="list.golf_club_code | p_foreign">{{list.golf_club_code | p_foreign}} /</span> {{list.golf_club_name}}
+							</strong>
+						</p>
+						<p class="dark font15 letter-spacing" ng-if="list.golf_type==1 || list.golf_type==0 || list.golf_type==4">{{list.golf_time | f_golfdate : list.golf_reserved}}</p>
+						<p class="dark font15 letter-spacing" ng-if="list.golf_type&&(list.golf_type==2 || list.golf_type==3)">{{list.golf_time | f_formatdate : 'm.dw'}}~{{list.golf_next_time | f_formatdate : 'm.dw'}}</p>
+						<!-- <div class="font13" ng-style="{'padding-left':25}">{{list.advance_payment ? '선결제' : NULL}}</div> -->
+					</div>
+					<div class="col col-25 booking-field-green-fee text-right">
+						<p class="dark font15 letter-spacing" ng-if="!list.filter_sex">{{list.golf_partner | f_invite}}</p>
+						<p class="dark font15 letter-spacing" ng-if="list.filter_sex">{{list.filter_sex | f_golf_sex}} {{list.golf_partner}}명</p>
+						<div class="badge badge-calm" ng-if="!list.deleted_at && list.rsvp_me">내 신청</div>
+						<div class="badge badge-calm" ng-if="!list.deleted_at && list.poster_id == me.id">내 초청</div>
+						<div class="badge badge-dark" ng-if="list.deleted_at">마감</div>
+						<i class="icon ion-arrow-right-a padding-top" ng-if="!list.deleted_at && !list.rsvp_me && list.poster_id != me.id"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="list text-center padding" ng-if="lists.length < 1">
+			<strong>프리미엄 초청 리스트가 없습니다.</strong>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+
+	<div class="bar bar-footer bar-stable bookingjoin-footer" ng-show="lists">
+		<div class="row text-center font16">
+			<div class="col">
+				<button class="button button-block button-positive" ng-click="infoLink()">내글 보기</button>
+			</div>
+			<div class="col">
+				<button class="button button-block button-green" ng-click="golfPosts()">등록하기(무료)</button>
+			</div>
+		</div>
+	</div>
+</ion-view>

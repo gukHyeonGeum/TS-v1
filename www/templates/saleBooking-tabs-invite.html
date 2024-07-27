@@ -1,0 +1,36 @@
+<ion-view view-title="활동내용(할인 부킹)" class="booking">
+	<ion-content>
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list" collection-repeat="list in lists">
+			<div class="item margin-bottom" ng-click="openModal(9, list)" ng-class="{'booking-list-end': list.deleted_at}">
+				<div class="row row-no-padding text-center">
+					<div class="col text-left" style="overflow: hidden;">
+						<p><strong class="dark font16">{{list.golf_club_name}}</strong></p>
+						<p class="font13">[{{list.golf_club_region_name}}]</p>
+					</div>
+					<div class="col col-33 text-left">
+						<div class=" bold font14">{{list.golf_time | f_golfdate : list.golf_reserved}}</div>
+						<p class="font13">M {{list.realname}}</p>
+					</div>
+					<div class="col col-25 text-right booking-field-green-fee">
+						<div class="bold"><span class="assertive">{{list.green_fee | numberformat}}</span></div>
+						<p ng-if="!list.rsvp_list.length && list.weekend_fee && !list.status"><strike>{{list.weekend_fee | numberformat}}</strike></p>
+						<!-- <p ng-if="list.rsvp_list.length > 0 && !list.rsvp_list[0].status && !list.status"><button class="button button-small button-stable bold border-stable">예약중</button></p> -->
+						<p class="badge badge-stable border-stable" ng-if="list.rsvp_list.length > 0 && !list.status">예약중</p>
+						<p class="badge badge-positive" ng-if="list.rsvp_list.length > 0 && list.status">확정</p>
+						<!-- <p ng-if="list.booking_id && !list.status"><button class="button button-small button-positive bold">조인중</button></p> -->
+						<!-- <p ng-if="list.status"><button class="button button-small button-assertive bold">부킹완료</button></p> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="list text-center padding" ng-if="lists.length < 1">
+			<strong>해당일자에는 부킹 리스트가 없습니다.</strong>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

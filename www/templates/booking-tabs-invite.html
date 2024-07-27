@@ -1,0 +1,28 @@
+<ion-view view-title="할인부킹 예약내용" class="booking">
+	<ion-content has-header="true">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<ion-item collection-repeat="list in lists" ng-click="openModal(3, list)" class="item-icon-add item-list-width item-icon-right" item-width="100%" item-height="85">
+			<div class="row">
+				<div class="col col-67 text-left item-content">
+					<strong class="dark font16">{{list.name}}</strong>
+					<p class="margin-top">{{list.golf_time | f_golfdate}} <span class="padding-left">{{list.courses}}</span></p>
+				</div>
+				<div class="col col-33 text-right booking-tabs-list">
+					<div class="bold assertive font18">{{list.green_fee | numberformat}}원</div>
+					<div class="margin-top" ng-if="list.status==1">{{list.payment_division ? '선결제' : '현장결제'}}</div>
+					<div class="badge badge-dark" ng-if="list.status==3 || list.status==9">취소</div>
+				</div>
+			</div>
+			<i class="icon ion-ios-arrow-right"></i>
+		</ion-item>
+
+		<div class="list text-center padding font16 position-top30" ng-if="lists.length < 1">
+			<strong class="padding-top">진행중인 예약건이 없습니다.</strong>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

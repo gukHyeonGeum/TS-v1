@@ -1,0 +1,12 @@
+<ion-modal-view class="ion-nifty-modal modal-pop-menu modal-customer-menu">
+	<div class="ion-modal-content-custom">
+		<ion-content scroll="false">
+			<ion-list class="text-center">
+				<ion-item ng-click="onItemMakeFriend(item)" confirm-click="친구요청에서 수락하시겠습니까?">친구맺기</ion-item>
+				<ion-item ng-click="onItemProfile(item)">프로필 방문</ion-item>
+				<ion-item ng-click="onItemMessage(item)">채팅하기</ion-item>
+				<ion-item ng-click="onItemDelete(item, itemIndex)" confirm-click="{{item.username}} 님을 친구요청에서 삭제하시겠습니까?">삭제</ion-item>
+			</ion-list>
+		</ion-content>
+	</div>
+</ion-modal-view>

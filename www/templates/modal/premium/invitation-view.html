@@ -1,0 +1,27 @@
+<ion-modal-view class="modal-pop-menu premium-wrap premium-popup-invitation inv-view">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-dark">
+ 			<h1 class="title">프리미엄 초대장</h1>
+			<button type="button" class="button button-clear icon ion-android-close" ng-click="closeModal(4, fieldInfo.invitation_list_id)"></button>
+		</div>
+		
+		<ion-content overflow-scroll="true" class="has-header">
+
+			<div class="list text-center font16 padding  energized-bg">
+				<h3 class="margin-top20 padding-top bold light">{{fieldInfo.golf_club_name}}</h3>
+				<h4 class="bold">파트너 무료초청</h4>
+				<div class="margin-top20 padding-top">{{fieldInfo.golf_time | f_formatdate : 1}}</div>
+				<div class="margin-top20 padding-top">
+					<p><span class="bold font18">{{me.username}}</span>님을</p>
+					<p>파트너로 초대합니다.</p>
+				</div>
+				<div class="margin-top20 margin-bottom20 padding-bottom">
+					<button class="button button-block button-brown" ng-click="reservation(fieldInfo)">신청하기</button>
+				</div>
+
+			</div>
+
+		</ion-content>
+
+	</div>
+</ion-modal-view>

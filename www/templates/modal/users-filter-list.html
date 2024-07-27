@@ -1,0 +1,21 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(2)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">결과리스트</h1>
+		</div>
+		
+		<ion-content overflow-scroll="false" class="has-header" ng-show="listsFilter.length">
+
+			<ion-list>
+				<ion-item collection-repeat="list in listsFilter" class="item-avatar" ng-click="onItemProfile(list)">
+					<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+					<h2><strong>{{list.username}}</strong></h2>
+					<p>{{list.gender | f_gender}} {{list.dob | f_age}}, {{list.geo_location}}</p>
+				</ion-item>
+			</ion-list>
+		
+		</ion-content>
+
+	</div>
+</ion-modal-view>

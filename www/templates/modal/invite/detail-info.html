@@ -1,0 +1,137 @@
+<ion-modal-view class="modal-pop-menu sponsor-wrap">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(9)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">상세보기</h1>
+		</div>
+		
+		<ion-content overflow-scroll="false" class="has-header has-footer sponsor-view" ng-show="fieldInfo">
+
+			<div class="list" ng-if="fieldInfo.id && me.id != fieldInfo.poster_id">
+				<div class="item item-divider">
+					<strong>조인 절차</strong>
+				</div>
+				<div class="row light-bg">
+					<div class="col text-center">
+						<div class="light text-center" style="width: 50px; height: 50px; margin: 0 auto; padding: 0; border-radius: 50%; background-color: #ff9800">
+							<strong style="display: inline-block; margin-top: 5px;">Step<br />1</strong>
+						</div>
+						<span style="display: inline-block; margin-top: 5px">신청하기</span>
+					</div>
+					<div class="col col-10"><i class="icon ion-ios-fastforward" style="position: absolute; top: 50%; margin-bottom:-10px; "></i></div>
+					<div class="col text-center">
+						<div class="dark stable-bg text-center" style="width: 50px; height: 50px; margin: 0 auto; padding: 0; border-radius: 50%;">
+							<strong style="display: inline-block; margin-top: 5px;">Step<br />2</strong>
+						</div>
+						<span style="display: inline-block; margin-top: 5px">초청자의<br />참가자선택</span>
+					</div>
+					<div class="col col-10"><i class="icon ion-ios-fastforward" style="position: absolute; top: 50%; margin-bottom:-10px; "></i></div>
+					<div class="col text-center">
+						<div class="dark stable-bg text-center" style="width: 50px; height: 50px; margin: 0 auto; padding: 0; border-radius: 50%;">
+							<strong style="display: inline-block; margin-top: 5px;">Step<br />3</strong>
+						</div>
+						<span style="display: inline-block; margin-top: 5px">참가자 확정</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="list">
+				<div class="item item-divider">
+			    <strong>{{TextInvite.DetailInfo}}</strong>
+			  </div>
+			  <div class="row light-bg">
+					<div class="col col-33 bold">골프장(지역)</div>
+					<div class="col">{{fieldInfo.golf_club_name}} [{{fieldInfo.golf_club_region_name}}]</div>
+				</div>
+				<div class="row light-bg">
+					<div class="col col-33 bold">시간</div>
+					<div class="col">{{fieldInfo.golf_time | f_formatdate : 1}}</div>
+				</div>
+				<div class="row light-bg">
+					<div class="col col-33 bold">초청인원</div>
+					<div class="col">{{fieldInfo.golf_partner | f_partner}}</div>
+				</div>
+				<div class="row light-bg" ng-if="fieldInfo">
+					<div class="col col-33 bold">조인 희망</div>
+					<div class="col">{{fieldInfo.filter_sex | f_golf_sex}}, {{fieldInfo.filter_s_age}}세 ~ {{fieldInfo.filter_e_age}}세</div>
+				</div>
+				<div class="row light-bg">
+					<div class="col col-33 bold">비용</div>
+					<div class="col">
+						그린피 : {{fieldInfo.green_fee | numberformat}}원<br />
+						카트피 : {{fieldInfo.cart_fee | numberformat}}원<br />
+						캐디피 : {{fieldInfo.caddie_fee | numberformat}}원<br />
+					</div>
+				</div>
+				<div class="row light-bg" style="line-height: 25px;">
+					<div class="col" ng-bind-html="fieldInfo.message | linky | nl2br"></div>
+				</div>
+			</div>
+			<div class="list">
+				<div class="item item-divider">
+			    <strong>참가자 확정 : 현재 <span class="assertive">{{fieldInfo.teamCnt}}</span> 명</strong>
+			    <button class="button button-small button-positive btn-partner-list" ng-click="partner_ask(fieldInfo)" ng-if="me.id == fieldInfo.poster_id">신청자명단</button>
+			    <button class="button button-small button-positive btn-partner-list" ng-click="partner_ask(fieldInfo)" ng-if="me.id != fieldInfo.poster_id">신청내역</button>
+			  </div>
+			  <a class="item item-thumbnail-left" ng-click="onItemProfile(fieldInfo)">
+		      <img ng-src="{{fieldInfo.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+		      <h2><strong>{{fieldInfo.poster}}</strong></h2>
+		      <p>{{fieldInfo.gender | f_gender}} {{fieldInfo.dob | f_age}}세<span ng-if="fieldInfo.geo_location"> / {{fieldInfo.geo_location}}</span></p>
+		      <p>타수 : {{fieldInfo.golf_score | f_golfScore}}</p>
+		      <p>월라운드 : {{fieldInfo.golf_frequency | f_golfFrequency}}</p>
+		    </a>
+		    <a class="item item-thumbnail-left" href="#" ng-repeat="companion in fieldInfo.companionInfo.sex track by $index">
+		      <img ng-src="images/avatars/{{companion}}.jpg" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+		      <h2><strong>{{fieldInfo.poster}}의 동반자</strong></h2>
+		      <p></p>
+		    </a>
+		    <a class="item item-thumbnail-left" ng-repeat="rsvp in fieldInfo.rsvp_list track by $index" ng-click="onItemProfile(rsvp)" ng-if="fieldInfo.golf_invite_type==0 || me.id == fieldInfo.poster_id">
+		      <img ng-src="{{rsvp.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+		      <h2><strong>{{rsvp.poster}}</strong></h2>
+		      <p>{{rsvp.gender | f_gender}} {{rsvp.dob | f_age}}세 / {{rsvp.geo_location}}</p>
+		      <p>타수 : {{rsvp.golf_score | f_golfScore}}</p>
+		      <p>월라운드 : {{rsvp.golf_frequency | f_golfFrequency}}</p>
+		    </a>
+		    <a class="item item-thumbnail-left" ng-repeat="rsvp in fieldInfo.rsvp_list track by $index" ng-if="fieldInfo.golf_invite_type==1 && me.id != fieldInfo.poster_id">
+		      <img ng-src="images/avatars/a.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+		      <h2><strong>플레이어 확정</strong></h2>
+		    </a>
+			</div>
+
+			<div class="text-center padding" ng-if="!fieldInfo.deleted_at">
+				<button class="button button-block button-green" ng-click="partner_ask(fieldInfo)" ng-if="me.id != fieldInfo.poster_id">신청하기</button>
+				<button class="button button-green" ng-click="onItemModify(fieldInfo)" ng-if="me.id == fieldInfo.poster_id">수정</button>
+				<button class="button button-brown" ng-click="onItemCancel(fieldInfo)" ng-if="me.id == fieldInfo.poster_id">마감</button>
+			</div>
+			<div class="card item-text-wrap padding font14" ng-if="fieldInfo.golf_invite_type==0 || fieldInfo.golf_invite_type==1">
+				<p><strong>[필독사항]</strong></p>
+				<div ng-if="fieldInfo.golf_invite_type==0">
+					<p>① 각자가 1/n로 비용을 내는 조인입니다.</p>
+					<p class="padding-left">초청자만 볼수 있는 가상번호를 제공하기 때문에 안심해도 됩니다. (라운드+1일후 삭제)</p>
+				</div>
+				<div ng-if="fieldInfo.golf_invite_type==1">
+					<p>① 초청자가 비용을 부담하는 초청입니다.</p>
+					<p class="padding-left">초청자만 볼수 있는 가상번호를 제공하기 때문에 안심해도 됩니다. (라운드+1일후 삭제)</p>
+				</div>
+			</div>
+
+		</ion-content>
+
+		<div class="bar bar-footer bar-positive" ng-show="fieldInfo">
+	      <div class="sponsor-tab-modal">
+	      	<div class="row row-no-padding text-center font16">
+	      	  <div class="col col-33">
+	      	  	<a ng-click="partner_ask(fieldInfo)"><span class="light"><i class="icon ion-person-stalker"></i> 신청 <strong class="energized">{{fieldInfo.rsvps}}</strong>명</span></a>
+	      	  </div>
+	      	  <div class="col col-33">
+	      	  	<a ng-click="openModal(4, fieldInfo)"><span class="light"><i class="icon ion-chatbox"></i> 댓글  <strong class="energized">{{fieldInfo.reples}}</strong>개</span></a>
+	      	  </div>
+	      	  <div class="col col-33">
+	      	  	<a ng-click="openModal(2, fieldInfo)"><span class="light"><i class="icon ion-share"></i> 공유</span></a>
+	      	  </div>
+	      	</div>
+	      </div>
+		</div>
+
+	</div>
+</ion-modal-view>

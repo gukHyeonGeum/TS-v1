@@ -1,0 +1,8 @@
+/* Empty. Add your own CSS if you like */
+.menu-header .icon-setting {
+	position: absolute; 
+	top: 13px; 
+	right: 10px; 
+	z-index: 2; 
+	color: #fff
+}

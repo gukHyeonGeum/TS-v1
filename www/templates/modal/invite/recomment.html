@@ -1,0 +1,38 @@
+<ion-modal-view class="modal-pop-menu homeView" id="userMessagesView">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(6)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">답글 달기</h1>
+		</div>
+		
+		<ion-content overflow-scroll="false" class="has-header golf-comment recomment-scroll" delegate-handle="ModalScroll">			
+
+			<div class="list comment-wrap">
+				<div class="item item-avatar item-button-right item-text-wrap" ng-repeat="recomment in recomments"  ng-show="recomments.length">
+					<img ng-src="{{recomment.thumbnail_image | local_img}}"  ng-click="onItemProfile(recomment)">
+					<h3><strong>{{recomment.username}}</strong></h3>
+					<p ng-bind-html="recomment.body | linky | nl2br"></p>
+					<div>{{recomment.created_at | f_formatdate}}</div>
+					<a class="button button-clear icon ion-more list-more" ng-click="openModal(7, recomment)" ng-show="me.id==recomment.user_id"></a>
+				</div>
+				<div class="text-center font14 padding-top" ng-show="recomments && !recomments.length">
+					첫 답글을 먼저 등록해보세요!
+				</div>
+			</div>
+			
+		</ion-content>
+
+		<form name="recommentForm" ng-submit="reCommentSend(recommentForm)" novalidate>
+			<input type="hidden" name="reple_id" ng-model="formData.reple_id" value="">
+			<ion-footer-bar class="bar-light item-input-inset message-footer recomment-footer" keyboard-attach>
+				<label class="item-input-wrapper">
+					<textarea name="body" ng-model="formData.body" value="" placeholder="답글을 입력하세요." required minlength="1" maxlength="1500" msd-elastic on-focus='inputUp()' on-blur='inputDown()'></textarea>
+				</label>
+				<div class="footer-btn-wrap">
+					<button type="submit" class="button button-positive" ng-disabled="!formData.body || formData.body === ''">확인</button>
+				</div>
+			</ion-footer-bar>
+		</form>
+
+	</div>
+</ion-modal-view>

@@ -1,0 +1,103 @@
+<ion-view class="matching" view-title="골프장 조인">
+
+	<ion-content has-header="true" class="golf-list"><!-- overflow-scroll="true" -->
+		
+		<div class="list list-inset" ng-switch on="me.profile.phone">
+			<div ng-switch-when="">
+				<div class="item item-avatar item-button-right field-write" ng-click="phoneCertCheck()">
+					<img ng-src="{{me.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-if="me.profile.thumbnail_image">
+					<img ng-src="images/avatars/avatar-unknown.jpg" ng-if="!me.profile.thumbnail_image">
+					<p>{{message}}</p>
+					<button type="button" class="button button-positive btn-write">
+						등록
+					</button>
+				</div>
+			</div>
+			<div ng-switch-default>
+				<a class="item item-avatar item-button-right field-write" href="#/app/golfjoin/posts">
+					<img ng-src="{{me.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-if="me.profile.thumbnail_image">
+					<img ng-src="images/avatars/avatar-unknown.jpg" ng-if="!me.profile.thumbnail_image">
+					<p>{{message}}</p>
+					<button type="button" class="button button-positive btn-write">
+						등록
+					</button>
+				</a>				
+			</div>
+		</div>
+		<!-- <div class="list">
+			<div class="row text-center item item-divider">
+				<div class="col"><strong>초청인</strong></div>
+				<div class="col col-50"><strong>골프장/부킹일자</strong></div>
+				<div class="col"><strong>초청인원</strong></div>
+			</div>
+		</div> -->
+
+	 	<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+	 	<!-- <div class="list " collection-repeat="list in lists" ng-class="{'matching-list-end': list.deleted_at != null}">
+
+			<div style="position:relative; margin: 5px 10px">
+				<div class="end-back-color" ng-if="list.deleted_at != null"></div>
+				<div class="item item-avatar item-button-right">
+					<img ng-src="{{list.thumbnail_image | local_img}}" ng-click="onItemProfile(list)">
+					<h2><strong><a ng-click="openInAppBrowser(list.webpage)">{{list.golf_club_name}}</a></strong></h2>
+					<h2 class="font16">{{list.golf_time | f_formatdate : 1}} / {{list.golf_partner}}</h2>
+					<p class="font16 padding-top dark">내용 : {{list.green_fee}}</p>
+					<a href="#/app/golfjoin/comment/{{list.id}}" class="underline"><span class="dark">{{list.message}}</span></a>
+					<span class="badge badge-assertive" ng-if="list.deleted_at != null">종료</span>
+					<a class="button button-clear icon ion-chevron-down list-more" ng-click="openModal(1,list)"></a>
+				</div>
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item" ng-click="partner_ask(list)">
+						<i class="icon ion-person-stalker"></i>
+						신청 <strong class="assertive">{{list.rsvps}}</strong>
+					</a>
+					<a class="tab-item" href="#/app/golfjoin/comment/{{list.id}}">
+						<i class="icon ion-chatbox"></i>
+						댓글 <strong class="assertive">{{list.replecnt}}</strong>
+					</a>
+					<a class="tab-item" ng-click="openModal(2, list)">
+						<i class="icon ion-share"></i>
+						공유
+					</a>
+				</div>
+			</div>
+
+		</div> -->
+
+		<div class="list" collection-repeat="list in lists" ng-class="{'matching-list-end': list.deleted_at != null}">
+			<div style="position:relative; margin: 5px 10px">
+				<div class="end-back-color" ng-if="list.deleted_at != null"></div>
+				<div class="item item-avatar item-button-right">
+					<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(list)">
+					<h2><strong><a ng-click="openInAppBrowser(list.webpage)">{{list.golf_club_name}}</a></strong></h2>
+					<p class="font16">{{list.golf_time | f_golfdate : list.golf_reserved}}</p>
+					<div class="list-people">{{list.golf_partner | f_golfPartner}}</div>
+					<a class="button button-clear icon ion-chevron-down list-more" ng-click="openModal(1,list)"></a>
+				</div>
+			
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item" ng-click="partner_ask(list)">
+						<i class="icon ion-person-stalker"></i>
+						신청하기 <strong class="assertive">{{list.rsvps}}</strong>
+					</a>
+					<a class="tab-item" ng-click="phoneCertCheck()" ng-if="!me.profile.phone">
+						<i class="icon ion-chatbox"></i>
+						댓글달기 <strong class="assertive">{{list.replecnt}}</strong>
+					</a>
+					<a class="tab-item" href="#/app/golfjoin/comment/{{list.id}}" ng-if="me.profile.phone">
+						<i class="icon ion-chatbox"></i>
+						댓글달기 <strong class="assertive">{{list.replecnt}}</strong>
+					</a>
+					<a class="tab-item" ng-click="openModal(2, list)">
+						<i class="icon ion-share"></i>
+						공유하기
+					</a>
+				
+				</div>
+			</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>

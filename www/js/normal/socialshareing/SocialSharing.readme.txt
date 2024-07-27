@@ -1,0 +1,35 @@
+plugin/cordova-plugin-x-socialsharing/src/android/nl/xservices/plugins/SocialSharing.java
+
+//Naver Band
+
+private static final String ACTION_SHARE_VIA_NAVER_BAND_EVENT = "shareViaNaverBand";
+
+
+if (ACTION_SHARE_VIA_NAVER_BAND_EVENT.equals(action)) {
+        if (notEmpty(args.getString(0))) {
+            copyHintToClipboard(args.getString(0), "Naver Band paste message");
+        }
+        return doSendIntent(callbackContext, args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), "com.nhn.android.band", false);
+    }
+    
+
+plugin/cordova-plugin-x-socialsharing/www/SocialSharing.js
+
+
+SocialSharing.prototype.shareViaNaverBand = function (via, message, subject, fileOrFileArray, url, successCallback, errorCallback) {
+  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaNaverBand"), "SocialSharing", "shareViaNaverBand", [message, subject, this._asArray(fileOrFileArray), url, via]);
+};
+
+
+
+plugin/cordova-plugin-x-socialsharing/src/ios/SocialSharing.h
+
+- (void)shareViaNaverBand:(CDVInvokedUrlCommand*)command;
+
+
+plugin/cordova-plugin-x-socialsharing/src/ios/SocialSharing.m
+
+
+- (bool)canshareViaNaverBand {
+    return [[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"bandapp://app"]]; // requires whitelisting on iOS9
+}

@@ -1,0 +1,26 @@
+<ion-view view-title="프로파일">
+	<ion-content>
+		<h1>프로파일</h1>
+		
+		
+		
+		
+		<div class="list card">
+		
+			<div class="item item-avatar">
+				<img ng-src="{{data.user.profile.profile_image}}">
+				<h2>{{data.user.username}}</h2>
+				<p>{{data.user.profile.dob}}({{data.user.profile.gender=='male'?'남자':(data.user.profile.gender=='female'?'여자':'미상')}})</p>
+			</div>
+				
+			<div class="item item-body">
+				<p>
+				{{data.user.profile.bio}}
+				</p>
+				<p>
+				</p>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
+

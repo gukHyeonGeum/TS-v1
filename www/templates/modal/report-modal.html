@@ -1,0 +1,25 @@
+<ion-modal-view class="modal-pop-menu modal-agreement-field">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button class="button button-clear" ng-click="closeProfileModal(2)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">불량회원 신고하기</h1>
+		</div>
+		<ion-content scroll="true">			
+			<ion-list>
+				<ion-radio ng-repeat="list in ReportData.title" ng-if="list" ng-model="ReportData.choice" ng-value="{{$index}}">{{list}}</ion-radio>
+				<!-- <ion-radio ng-model="ReportData.choice" ng-value="1">불쾌감을 주는 언행(욕설, 비방 등)</ion-radio>
+  				<ion-radio ng-model="ReportData.choice" ng-value="2">가짜 프로필 및 사진</ion-radio>
+  				<ion-radio ng-model="ReportData.choice" ng-value="3">허위 가입(주민번호 도용 등)</ion-radio>
+  				<ion-radio ng-model="ReportData.choice" ng-value="4">사생활 침해</ion-radio>
+  				<ion-radio ng-model="ReportData.choice" ng-value="5">광고, 홍보성 글 신고</ion-radio> -->
+  				<ion-radio ng-model="ReportData.choice" ng-value="6">기타</ion-radio>
+  				<label class="item item-input" ng-if="ReportData.choice==6">
+  					<textarea name="etc" ng-model="ReportData.etc" rows="3" placeholder="신고하실 내용을 입력하세요."></textarea>
+  				</label>
+			</ion-list>
+			<div class="padding">
+				<button type="button" class="button button-block button-calm" ng-click="submitReport(item)">신고하기</button>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

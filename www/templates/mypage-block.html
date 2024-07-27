@@ -1,0 +1,39 @@
+<ion-view view-title="차단 / 신고하기" class="mypage">
+	
+	<form name="registForm" ng-submit="" novalidate>
+
+		<ion-nav-bar class="bar-positive">
+			<ion-nav-back-button></ion-nav-back-button>
+			<ion-nav-buttons side="right">
+				<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+				<button type="submit" class="button button-clear" ng-disabled="registForm.$invalid">확인</button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+		
+		<ion-content>
+			<ul class="list">
+				<li class="item item-toggle">
+					이 회원 차단하기
+					<label class="toggle toggle-assertive">
+						<input type="checkbox">
+						<div class="track">
+							<div class="handle"></div>
+						</div>
+					</label>
+				</li>
+			</ul>
+			<div class="list">
+				<ion-radio ng-model="choice" ng-value="'A'">신고하지 않기</ion-radio>
+				<ion-radio ng-model="choice" ng-value="'B'">무례하거나 모욕적인 발언 신고</ion-radio>
+				<ion-radio ng-model="choice" ng-value="'C'">부적절한 컨텐츠 신고하기</ion-radio>
+				<ion-radio ng-model="choice" ng-value="'D'">스팸 신고하기</ion-radio>
+			</div>
+			<div class="list text-center padding">
+				<a href="#/app/mypage/block" class="button button-dark button-small">프로필 아이디 복사하기</a>
+			</div>
+
+		</ion-content>
+
+	</form>
+
+</ion-view>

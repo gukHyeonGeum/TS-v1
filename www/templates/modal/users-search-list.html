@@ -1,0 +1,23 @@
+<ion-modal-view class="modal-pop-menu modal-c-search-list">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header">
+ 			<h1 class="title">검색 결과</h1>
+ 			<button class="button button-positive" ng-click="closeModal(2)">닫기</button>
+		</div>
+		<ion-content has-header="true" scroll="true">
+			<div class="list">
+				<ion-item class="text-center">
+					<div class="users-thumb-list item-text-wrap">
+						<ul>
+							<li ng-repeat="list in searchLists" ng-click="onItemProfile(2,list)">
+								<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+								<span class="users-nickname">{{list.username}}</span>
+								<div class="users-online"></div>
+							</li>
+						</ul>
+					</div>
+				</ion-item>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

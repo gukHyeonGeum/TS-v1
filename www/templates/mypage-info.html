@@ -1,0 +1,257 @@
+<ion-view view-title="프로필" class="mypage">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<button class="button button-icon icon ion-forward" ng-click="openShareModal(userData)"></button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<ion-content ng-show="userData">
+		<ion-list>
+			<div class="list my-profile-field">
+				<div class="my-profile-add" ng-click="openImageSetModal()">
+					<i class="icon ion-camera"></i>
+					사진추가
+				</div>
+				<ion-scroll zooming="false" direction="x" class="my-profile-img">
+					<ul ng-style="{'width': setData.scrollWidth}">
+						<li ng-repeat="item in userData.pictures" ng-if="userData.pictures.length>0"><img ng-src="http://s3-ap-northeast-1.amazonaws.com/teeshot-photo/images/{{item.id}}/thumb/{{item.image_file_name}}" on-hold="imageManage(item, $index)"></li>
+						<!-- <li ng-if="userData.pictures.length<1"><img ng-src="{{userData.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" on-hold="imageManage('social',0)"></li> -->
+					</ul>
+				</ion-scroll>
+			</div>
+			<div class="list">
+				<ion-item class="my-info">
+					<p><strong class="my-nickname font18">{{userData.me.username}}</strong>, {{userData.profile.gender | f_gender}} {{userData.profile.dob | f_age}}<span ng-if="!(userData.profile.dob | f_age)">/ 휴대폰인증을 진행하세요</span></p>
+					<p>{{userData.profile.geo_location}}<span ng-if="!userData.profile.geo_location">위치정보를 허용해주세요</span></p>
+					<a href="#/app/visitors" class="underline"><span class="badge badge-assertive">방문자 {{userData.profile.view_count}}명</span></a>
+				</ion-item>
+			</div>
+			<!-- <div class="list" ng-hide="setData.genderBox">
+				<ion-item class="item-divider line-height31">
+					<strong>기본정보</strong>
+					<button class="pull-right button button-small button-positive" ng-click="setGenderBirth()">입력하기</button>
+				</ion-item>
+				<form id="setUserGender">
+					<label class="item item-input item-radio-m" ng-hide="setData.genderAgeBox">
+						<span class="input-label">성별</span>
+						<ion-radio name="gender" ng-model="userData.profile.gender" value="male">남</ion-radio>
+						<ion-radio name="gender" ng-model="userData.profile.gender" value="female">여</ion-radio>
+					</label>
+					<div class="item item-input ymd-field">
+						<span class="input-label">생년월일</span>
+						<label for="birthDate">
+							<input type="date" name="birthDate" id="birthDate" class="form-control text-center" ng-model="userData.profile.BirthDate" required placeholder="생년월일">
+						</label>
+					</div>
+					<label class="item item-input padding-right">
+						<span class="input-label font14">생년월일</span>
+						<input type="date" name="birthDate" id="birthDate" ng-model="userData.profile.BirthDate" class="form-control text-center" date-field required placeholder="날짜를 선택하세요." />
+					</label>
+				</form>
+			</div> -->
+			
+			<div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>골프 정보</strong>
+				</ion-item>
+				<label class="item item-input item-select" ng-class="{'item-gray': userData.profile.golf_score==0}">
+					<span class="input-label">평균타수</span>
+					<select name="golf_score" ng-model="userData.profile.golf_score" ng-change="myUpdate(userData.profile.golf_score,'score')">
+						<option value="0">선택하세요</option>
+						<option value="2">싱글</option>
+						<option value="3">80-90타</option>
+						<option value="4">90-100타</option>
+						<option value="5">100-110타</option>
+						<option value="6">110타 이하</option>
+						<option value="7">초보</option>
+					</select>
+				</label>
+				<label class="item item-input item-select" ng-class="{'item-gray': userData.profile.golf_year==0}">
+					<span class="input-label">골프경력</span>
+					<select name="golf_year" ng-model="userData.profile.golf_year" ng-change="myUpdate(userData.profile.golf_year,'year')">
+						<option value="0">선택하세요</option>
+						<option value="1">1년 이하</option>
+						<option value="2">2-3년</option>
+						<option value="3">4-5년</option>
+						<option value="4">6-7년</option>
+						<option value="5">8-9년</option>
+						<option value="6">10년 이상</option>
+					</select>
+				</label>
+				<label class="item item-input item-select" ng-class="{'item-gray': userData.profile.golf_frequency==0}">
+					<span class="input-label">월라운딩 회수</span>
+					<select name="golf_frequency" ng-model="userData.profile.golf_frequency" ng-change="myUpdate(userData.profile.golf_frequency,'frequency')">
+						<option value="0">선택하세요</option>
+						<option value="1">1회 이하</option>
+						<option value="2">1-2회</option>
+						<option value="3">2-3회</option>
+						<option value="4">4-5회</option>
+						<option value="5">6-7회</option>
+						<option value="6">8-9회</option>
+						<option value="7">10회 이상</option>
+					</select>
+				</label>
+				<label class="item item-input item-select" ng-class="{'item-gray': userData.profile.golf_oversea==0}">
+					<span class="input-label">해외 골프횟수</span>
+					<select name="golf_oversea" ng-model="userData.profile.golf_oversea" ng-change="myUpdate(userData.profile.golf_oversea,'oversea')">
+						<option value="0">선택하세요</option>
+						<option value="1">1회 이하</option>
+						<option value="2">1-2회</option>
+						<option value="3">2-3회</option>
+						<option value="4">4-5회</option>
+						<option value="5">6-7회</option>
+						<option value="6">8-9회</option>
+						<option value="7">10회 이상</option>
+					</select>
+				</label>
+				<label class="item item-input item-select" ng-class="{'item-gray': userData.profile.golf_membership==0}">
+					<span class="input-label">보유 골프회원권</span>
+					<select name="golf_membership" ng-model="userData.profile.golf_membership" ng-change="myUpdate(userData.profile.golf_membership,'membership')"><option value="0">선택하세요</option> <option value="1">가평베네스트</option> <option value="2">광릉포레스트</option> <option value="3">남양주 해비치</option> <option value="4">뉴코리아</option> <option value="5">더스타휴</option> <option value="6">레이크우드</option> <option value="7">마이다스밸리</option> <option value="8">몽베르</option> <option value="9">비전힐스</option> <option value="10">서서울</option> <option value="11">서울</option> <option value="12">서원밸리</option> <option value="13">송추</option> <option value="14">썬힐</option> <option value="15">아난티클럽서울(구.리츠칼튼)</option> <option value="16">양주</option> <option value="17">양평 TPC</option> <option value="18">일동레이크</option> <option value="19">크리스탈밸리</option> <option value="20">태릉</option> <option value="21">티클라우드</option> <option value="22">포천아도니스</option> <option value="23">프리스틴밸리</option> <option value="24">필로스</option> <option value="25">한양</option> <option value="26">88</option> <option value="27">강남300</option> <option value="28">경찰대 체력단련장</option> <option value="29">곤지암</option> <option value="30">골드</option> <option value="31">그린힐</option> <option value="32">금강</option> <option value="33">기흥</option> <option value="34">김포시사이드</option> <option value="35">남부</option> <option value="36">남서울</option> <option value="37">남수원 체력단련장</option> <option value="38">남촌</option> <option value="39">뉴서울</option> <option value="40">뉴스프링빌</option> <option value="41">덕산대 체력단련장</option> <option value="42">덕평힐뷰</option> <option value="43">동여주</option> <option value="44">레이크사이드</option> <option value="45">레이크힐스 용인</option> <option value="46">렉스필드</option> <option value="47">리베라</option> <option value="48">마에스트로</option> <option value="49">발리오스</option> <option value="50">블루버드</option> <option value="51">블루원 용인(구.태영)</option> <option value="52">블루헤런</option> <option value="53">비승대 체력단련장</option> <option value="54">비에이비스타</option> <option value="55">선봉대 체력단련장</option> <option value="56">세라지오</option> <option value="57">솔모로</option> <option value="58">수원</option> <option value="59">수원 체력단련장</option> <option value="60">스카이밸리</option> <option value="61">신라</option> <option value="62">신안</option> <option value="63">신원</option> <option value="64">아시아나</option> <option value="65">아일랜드</option> <option value="66">안성</option> <option value="67">안성베네스트</option> <option value="68">안양</option> <option value="69">양지파인</option> <option value="70">에덴블루</option> <option value="71">여주</option> <option value="72">윈체스트</option> <option value="73">은화삼</option> <option value="74">이스트밸리</option> <option value="75">이천 블랙스톤</option> <option value="76">이포</option> <option value="77">인천국제</option> <option value="78">자유</option> <option value="79">잭니클라우스</option> <option value="80">제일</option> <option value="81">중부</option> <option value="82">지산</option> <option value="83">처인</option> <option value="84">캐슬렉스</option> <option value="85">캐슬파인</option> <option value="86">코리아</option> <option value="87">태광</option> <option value="88">트리니티</option> <option value="89">파인크리크</option> <option value="90">평택 체력단련장</option> <option value="91">플라자 용인</option> <option value="92">한성</option> <option value="93">한성대체력단련장(구.성남체력단련장)</option> <option value="94">한원</option> <option value="95">해슬리 나인브릿지</option> <option value="96">화산</option> <option value="97">휘닉스스프링스</option> <option value="98">강릉 체력단련장</option> <option value="99">골든비치</option> <option value="100">남춘천</option> <option value="101">동원썬밸리</option> <option value="102">동해 체력단련장</option> <option value="103">라데나</option> <option value="104">비발디파크</option> <option value="105">산요수 웰니스카운티</option> <option value="106">샌드파인</option> <option value="107">샤인데일 </option> <option value="108">센추리21</option> <option value="109">알펜시아트룬</option> <option value="110">엘리시안 강촌</option> <option value="111">오크밸리</option> <option value="112">오크힐스</option> <option value="113">오투리조트</option> <option value="114">옥스필드</option> <option value="115">용평</option> <option value="116">용평버치힐</option> <option value="117">원주 체력단련장</option> <option value="118">웰리힐리</option> <option value="119">제이드팰리스</option> <option value="120">청우</option> <option value="121">클럽모우</option> <option value="122">파가니카</option> <option value="123">파인밸리</option> <option value="124">플라자 설악</option> <option value="125">휘닉스파크</option> <option value="126">휘슬링락</option> <option value="127">힐드로사이</option> <option value="128">계룡대</option> <option value="129">골든베이</option> <option value="130">공사 체력단련장</option> <option value="131">그랜드(청주)</option> <option value="132">도고</option> <option value="133">동촌</option> <option value="134">떼제베</option> <option value="135">레인보우힐스</option> <option value="136">로얄포레</option> <option value="137">마론뉴데이</option> <option value="138">버드우드</option> <option value="139">상떼힐</option> <option value="140">서산 체력단련장</option> <option value="141">서산수</option> <option value="142">세종에머슨(구.IMG)</option> <option value="143">시그너스</option> <option value="144">실크리버</option> <option value="145">썬밸리</option> <option value="146">아름다운</option> <option value="147">아트밸리</option> <option value="148">에딘버러</option> <option value="149">에머슨(구 중앙)</option> <option value="150">우정힐스</option> <option value="151">유성</option> <option value="152">이븐데일</option> <option value="153">임페리얼레이크</option> <option value="154">자운대</option> <option value="155">젠스필드(구.드래곤힐)</option> <option value="156">창공대 체력단련장</option> <option value="157">천룡</option> <option value="158">청주 체력단련장</option> <option value="159">충주 체력단련장</option> <option value="160">코스카</option> <option value="161">태안비치</option> <option value="162">힐데스하임</option> <option value="163">가야</option> <option value="164">경주 신라</option> <option value="165">고성노벨</option> <option value="166">구미</option> <option value="167">그레이스</option> <option value="168">김해 체력단련장</option> <option value="169">꽃담</option> <option value="170">남안동</option> <option value="171">대구</option> <option value="172">대구 체력단련장</option> <option value="173">동래베네스트</option> <option value="174">동부산</option> <option value="175">드비치</option> <option value="176">레이크힐스 경남</option> <option value="177">롯데스카이힐 김해</option> <option value="178">마우나오션</option> <option value="179">무열대 체력단련장</option> <option value="180">베네치아</option> <option value="181">베이사이드</option> <option value="182">보라</option> <option value="183">부곡</option> <option value="184">부산</option> <option value="185">블루원 보문(구.디아너스)</option> <option value="186">사천 체력단련장</option> <option value="187">선산</option> <option value="188">세븐밸리</option> <option value="189">스카이뷰</option> <option value="190">아델스코트</option> <option value="191">아시아드</option> <option value="192">양산</option> <option value="193">에덴밸리</option> <option value="194">에이원</option> <option value="195">엠스클럽의성</option> <option value="196">영천</option> <option value="197">영천 오펠</option> <option value="198">예천 체력단련장</option> <option value="199">오션뷰</option> <option value="200">오션힐스 청도</option> <option value="201">오션힐스 포항</option> <option value="202">용원</option> <option value="203">울산</option> <option value="204">인터불고 경산</option> <option value="205">정산</option> <option value="206">진주</option> <option value="207">진해 체력단련장</option> <option value="208">창원</option> <option value="209">충성대</option> <option value="210">타니</option> <option value="211">탑블리스</option> <option value="212">통도파인이스트(구.통도)</option> <option value="213">파미힐스</option> <option value="214">팔공</option> <option value="215">포항 체력단련장</option> <option value="216">해운대</option> <option value="217">힐마루</option> <option value="218">JNJ</option> <option value="219">골드레이크</option> <option value="220">광주</option> <option value="221">광주 체력단련장</option> <option value="222">군산</option> <option value="223">남광주</option> <option value="224">담양다이너스티</option> <option value="225">레이크힐스 순천</option> <option value="226">무등산</option> <option value="227">무주덕유산</option> <option value="228">베어리버</option> <option value="229">상떼힐 익산</option> <option value="230">상무대</option> <option value="231">승주</option> <option value="232">어등산</option> <option value="233">전주샹그릴라</option> <option value="234">태인</option> <option value="235">파인비치</option> <option value="236">함평다이너스티</option> <option value="237">해피니스</option> <option value="238">화순</option> <option value="239">나인브릿지 </option> <option value="240">더클래식</option> <option value="241">라온</option> <option value="242">라헨느 리조트</option> <option value="243">레이크힐스 제주</option> <option value="244">롯데스카이힐 제주</option> <option value="245">블랙스톤</option> <option value="246">사이프러스</option> <option value="247">세인트포</option> <option value="248">스프링데일</option> <option value="249">아덴힐</option> <option value="250">에버리스</option> <option value="251">엘리시안 제주</option> <option value="252">오라</option> <option value="253">우리들</option> <option value="254">제주</option> <option value="255">제주 해비치</option> <option value="256">제피로스</option> <option value="257">캐슬렉스 제주</option> <option value="258">크라운</option> <option value="259">타미우스</option> <option value="260">테디밸리</option> <option value="261">핀크스</option> <option value="262">한라산</option></select> 
+				</label>
+			</div>
+
+			<div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>자주가는 골프장</strong>
+				</ion-item>
+				<label class="item item-input item-select">
+					<span class="input-label">회원종류</span>
+						<select name="club_type" ng-model="setData.clubType" ng-change="set_clubs()" required>
+							<option value="" selected="selected">선택하세요</option>
+							<option value="1">회원제</option>
+							<option value="2">퍼블릭 18홀</option>
+							<option value="3">퍼블릭 9홀</option>
+						</select>
+				</label>
+				<label class="item item-input item-select">
+					<span class="input-label">지역</span>
+					<select id="clubRegion" name="club_region" ng-model="setData.clubRegion" ng-change="set_clubs()" required >
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">경기북부</option>
+						<option value="2">경기남부</option>
+						<option value="3">강원도</option>
+						<option value="4">충청도</option>
+						<option value="5">경상도</option>
+						<option value="6">전라도</option>
+						<option value="7">제주도</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<span class="input-label">골프장</span>
+					<select name="club_name" ng-model="setData.clubName" ng-options="club as club.name for club in clubs" ng-change="submitAddGolfPlaceForm()" required>
+						<option value="">선택하세요</option>
+					</select>
+				</label>
+				<div class="favorites-field" ng-show="userData.clubs.length">
+					<div class="item">
+						<ul>
+							<li ng-repeat="item in userData.clubs">
+								[{{item.region}}] {{item.name}} 
+								<i class="icon ion-close-circled" ng-click="remove_club(item, $index)"></i>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="list">
+				<form name="myBioForm" id="myBioForm" novalidate>	
+				<div class="list">
+					<ion-item class="item-divider line-height31">
+						<strong>자기소개</strong>
+						<button type="button" class="pull-right button button-small button-assertive" ng-click="myUpdate(userData.profile.bio,'bio')" ng-disabled="myBioForm.$invalid || setData.bio == userData.profile.bio">확인</button>
+					</ion-item>
+					<ion-item class="item-text-wrap">
+						<input type="hidden" name="chType" value="updateBio">
+						<textarea name="bio" ng-model="userData.profile.bio" class="form-control mypage-textarea" rows="3" placeholder="내 소개를 작성하세요." required></textarea>
+					</ion-item>
+				</div>
+				</form>
+			</div>
+
+			<!-- <div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>골프 정보</strong>
+					<a href="#/app/mypage/golfinfo" class="pull-right font14 underline">수정</a> 
+				</ion-item>
+				<label class="item item-input">
+					<span class="input-label">평균타수</span>
+					<span class="input-value">{{userData.profile.golf_score | f_golfScore}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">골프경력</span>
+					<span class="input-value">{{userData.profile.golf_year | f_golfYear}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">월라운딩 회수</span>
+					<span class="input-value">{{userData.profile.golf_frequency | f_golfFrequency}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">해외 골프횟수</span>
+					<span class="input-value">{{userData.profile.golf_oversea | f_golfOversea}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">보유 골프회원권</span>
+					<span class="input-value">{{userData.profile.golf_membership | f_golfMembership}}</span>
+				</label>
+				<ion-item class="item-border-bottom-width-zero">
+					<span class="font14">자주가는 골프장</span>
+				</ion-item>
+				<div class="favorites-field">
+					<div class="item item-divider item-text-wrap">
+						<p ng-hide="userData.clubs.length">등록된 골프장이 없습니다.</p>
+						<p ng-repeat="item in userData.clubs">[{{item.region}}] {{item.name}}</p>
+					</div>
+				</div>
+			</div> -->
+			<!-- <div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>내 소개</strong>
+					<a href="#/app/mypage/myinfo" class="pull-right font14 underline">수정</a>
+				</ion-item>
+				<ion-item class="item-text-wrap">{{userData.profile.bio}}</ion-item>
+			</div> -->
+			<!-- <div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>위치 정보</strong>
+					<a href="#/app/mypage/location" class="pull-right font14 underline">수정</a>
+				</ion-item>
+				<ion-item>{{userData.profile.geo_location}}</ion-item>
+			</div> -->
+			<!-- <div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>회원 정보</strong>
+				</ion-item>
+				<a class="item item-icon-right" href="#/app/mypage/nickname">
+					닉네임
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</a>
+				<a class="item item-icon-right" href="#/app/mypage/password" ng-if="me.login_check">
+					비밀번호
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</a>
+				<a class="item item-icon-right" href="#/app/mypage/email">
+					이메일
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</a>
+				<a class="item item-icon-right" ng-click="certificationOpen()">
+					휴대폰인증
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</a>
+				<a class="item item-icon-right" href="#/app/mypage/account">
+					대표계정 통합
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</a>
+				<a class="item item-icon-right" href="#/app/mypage/drop">
+					회원탈퇴
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</a>
+			</div> -->
+		</ion-list>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,23 @@
+<ion-modal-view class="modal-pop-menu premium-wrap premium-popup-invitation">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+ 			<h1 class="title letter-spacing">신청하기</h1>
+ 			<button type="button" class="button button-clear icon ion-android-close" ng-click="closeModal(99)"></button>
+		</div>
+		<ion-content overflow-scroll="true" class="has-header light-bg padding">	
+			<div class="list margin-top20">
+				<div class="margin-top20 padding text-center font16 bold">▶ 프리미엄 신청인원</div>
+				<label class="padding">
+					<div class="btn-group-field golfType-btn-group">
+						<ion-radio name="reqPeople" type="radio" value="1" ng-model="fieldInfo.reqPeople" ng-style="{'width':'50%'}" required><strong>1명</strong> (본인)</ion-radio>
+						<ion-radio name="reqPeople" type="radio" value="2" ng-model="fieldInfo.reqPeople" ng-style="{'width':'50%'}" required><strong>2명</strong> (본인+1명)</ion-radio>
+					</div>
+				</label>
+				<!-- <div class="padding text-center font16 assertive bold">신청하시겠습니까?</div> -->
+				<div class="text-center margin-top20">
+					<button class="button button-green" ng-click="reservation(fieldInfo)" ng-style="{'width':'200'}">확인</button>
+				</div>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

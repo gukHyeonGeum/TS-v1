@@ -1,0 +1,61 @@
+<ion-view view-title="로그인" class="login-fields">
+	<ion-content scroll="false">
+
+		<div class="list list-inset text-center">
+		  <ion-item>
+		  	<div class="social-login-naver margin-bottom" ng-click="naverLogin()">네이버 아이디로 로그인</div>
+			<div class="social-login-kakao margin-bottom" ng-click="kakaoLogin()">카카오 아이디로 로그인</div>
+			<div class="social-login-facebook margin-bottom" ng-click="facebookLogin()">페이스북 계정으로 로그인</div>
+			<div class="social-login-email"><a href="#/loginTeeshot">이메일 로그인 (기존회원)</a></div>
+			<!-- <p><img ng-src="images/loginNaverButton.png" ng-click="naverLogin()"/></p>
+			<p><img ng-src="images/loginKakaoButton.png" ng-click="kakaoLogin()"/></p>
+			<p><img ng-src="images/loginFacebookButton.png" ng-click="facebookLogin()" /></p> -->
+		  </ion-item>
+		</div>
+		<!-- <form>
+			<div class="list list-inset">
+				<label class="item item-input">
+					<input type="text" ng-model="username" placeholder="이메일">
+				</label>
+				<label class="item item-input">
+					<input type="password" ng-model="password" placeholder="비밀번호">
+				</label>
+				<div class="item item-input field-btn-group">
+					<button class="button button-block button-positive btn-login" ng-click="loginprocess()">로그인</button>
+					<button class="button button-block button-positive btn-join" ng-click="openModal()">회원가입</button>
+				</div>
+			</div>
+		</form> -->
+
+		<!-- <div class="list text-center">
+		  <ion-item class="text-password-find">
+		  	비밀번호를 잃어버리셨나요?
+		  </ion-item>
+		</div>
+
+		<form ng-submit="doLogin()">
+			<div class="list">
+				<label class="item">
+				<button class="button button-block button-positive" type="submit">노인증 Log in</button>
+				</label>
+			</div>
+		</form> -->
+		<div class="login-buttons">
+			<ion-list>
+				<ion-item>
+					<a class="button button-dark bold btn-join" href="#/join">회원가입</a>
+					<div class="item item-input field-btn-group">
+						<ul>
+							<!-- <li><a class="button button-dark bold btn-login" href="#/loginTeeshot">로그인</a></li> -->
+							<!-- <li><a class="button button-dark bold btn-join" href="#/join">회원가입</a></li> -->
+							<!--<li><a href="#/app/golfjoin/lists">골프장조인</a></li>-->
+						</ul>
+						<!-- <button class="button button-block button-positive btn-join" ng-click="openModal()">회원가입</button> -->
+					</div>
+				</ion-item>
+			</ion-list>
+		</div>	
+
+	</ion-content>
+
+</ion-view>

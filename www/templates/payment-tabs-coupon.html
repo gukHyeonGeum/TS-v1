@@ -1,0 +1,84 @@
+<ion-view class="payment-lists">
+
+	<ion-nav-title>
+		<div class="page-title">
+			이용내역 <!-- <span class="font13" ng-if="dateText">{{dateText}}</span> -->
+		</div>
+	</ion-nav-title>
+
+	<div class="bar bar-subheader">
+	 	<div class="row text-center stable-bg bold font13">
+			<div class="col col-15">
+				결제일
+			</div>
+			<div class="col">
+				이용권
+			</div>
+			<div class="col col-15">
+				만료일
+			</div>
+			<div class="col col-20">
+				결제수단
+			</div>
+			<div class="col col-20">
+				취소
+			</div>
+		</div>
+	</div>
+
+	<ion-content class="has-subheader">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list" collection-repeat="list in lists">
+			<div class="row text-center light-bg font14">
+				<div class="col col-15 letter-spacing">
+					{{ list.created_at | f_formatdate : 'y.m.d' }}
+				</div>
+				<div class="col letter-spacing" ng-bind-html="(list.item_code | PayList).title"></div>
+				<div class="col col-15">
+					<div ng-if="!list.deleted_at">
+						<span class="assertive">{{ list.ended_at | f_formatdate : 'm.d' }}</span>
+						<!-- <div class="assertive letter-spacing">{{ list.ended_at | BetweenDay : 'payment' : list.started_at }}</div> -->
+					</div>
+					<div ng-if="list.deleted_at">만료</div>
+				</div>
+				<div class="col col-20">
+					{{ list.payment_type }}
+				</div>
+				<div class="col col-20">
+					<div>
+						<a ng-if="!list.canceled_at" ng-click="paymentCancel(list)"><u>취소</u></a>
+					</div>
+					<div ng-if="list.canceled_at && !list.deleted_at" class="assertive">취소신청</div>
+					<div ng-if="list.deleted_at">취소완료</div>
+				</div>
+			</div>
+		</div>
+		<div class="list text-center padding" ng-if="lists.length < 1 && !me.normal_expired_at">
+			<strong>구매내역이 없습니다.</strong>
+		</div>
+		<div class="list" ng-if="lists.length < 1 && me.normal_expired_at && me.profile.gender=='male'">
+			<div class="row text-center light-bg font14">
+				<div class="col col-15 letter-spacing">
+					{{ me.created_at | f_formatdate : 'y.m.d' }}
+				</div>
+				<div class="col letter-spacing">무료체험권</div>
+				<div class="col col-15">
+					<div ng-if="!list.deleted_at">
+						<span class="assertive">{{ me.normal_expired_at | f_formatdate : 'm.d' }}</span>
+					</div>
+				</div>
+				<div class="col col-20">
+					-
+				</div>
+				<div class="col col-20">
+					-
+				</div>
+			</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

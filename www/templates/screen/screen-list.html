@@ -1,0 +1,52 @@
+<ion-view view-title="번개 리스트">
+	<ion-content has-header="true" class="golf-list">
+		<div class="list">
+			<div class="row text-center item item-divider">
+				<div class="col"><small>초청인</small></div>
+				<div class="col col-50"><small>골프장/번개일자</small></div>
+				<div class="col"><small>지역</small></div>
+			</div>
+		</div>
+
+			<!-- 	<ion-refresher pulling-text="새로고침" on-refresh="doRefresh(lists)"></ion-refresher> -->
+	<!--	<a class="button button-clear icon ion-more list-more" ng-click="openModal(1,list)" ng-show="list.poster_id == me.id"></a>-->
+		<div class="list card" ng-repeat="list in lists.screens">
+			<div class="item item-avatar item-button-right">
+				<img ng-src="{{list.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(list)">
+				<h2><strong><a href="#" class="ng-binding">{{list.golf_store_name}}</a></strong></h2>
+				<p class="font16 ng-binding">{{list.golf_time | f_golfdate : list.golf_reserved}}</p>
+				<div class="list-people ng-binding">{{list.golf_store_region_name}}</div>
+				<a class="button button-clear icon ion-chevron-down list-more" ng-click="openModal(1,list)"  ng-show="list.poster_id == me.id"></a>
+			</div>
+		
+			<div class="item tabs tabs-secondary tabs-icon-left">
+			<!--	
+				<a class="tab-item" href="#/app/golfjoin/comment/1289">
+					<i class="icon ion-chatbox"></i>
+					댓글달기 <strong class="assertive ng-binding">5</strong>
+				</a>
+				<a class="tab-item" ng-click="req_partner(list)">
+					<i class="icon ion-person-stalker"></i>
+					신청하기 <strong class="assertive ng-binding">2</strong>
+				</a>
+			-->
+				<a class="tab-item" ng-click="onItemCall(list.profile.phone)">
+				<!-- <a class="tab-item" ng-href="tel:{{list.profile.phone}}"> -->
+					<i class="icon ion-ios-telephone"></i>
+					통화
+				</a>
+				
+				<a class="tab-item" ng-click="onItemMessage(list)">
+					<i class="icon ion-chatbubbles"></i>
+				채팅
+				</a>
+				
+				<a class="tab-item" ng-click="openModal(2,list)">
+					<i class="icon ion-share"></i>
+					공유하기
+				</a>
+			</div>
+		</div>
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMore()" distance="2%"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>

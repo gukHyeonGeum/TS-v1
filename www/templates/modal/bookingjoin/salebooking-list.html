@@ -1,0 +1,77 @@
+<ion-modal-view class="modal-pop-menu bookingjoin-salelist">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(4)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">골프장 선택</h1>
+		</div>
+
+		<div class="bar bar-subheader">
+			<div class="item">
+				<div class="row">
+					<div class="col text-center Guide-step">
+						<div class="text-center step-circle active">
+							<strong>Step<br />1</strong>
+						</div>
+						<span class="step-title">골프장 선택</span>
+					</div>
+					<div class="col col-10"><i class="icon ion-ios-fastforward Guide-r-arrow"></i></div>
+					<div class="col text-center Guide-step">
+						<div class="text-center step-circle ">
+							<strong>Step<br />2</strong>
+						</div>
+						<span class="step-title">조인등록</span>
+					</div>
+					<div class="col col-10"><i class="icon ion-ios-fastforward Guide-r-arrow"></i></div>
+					<div class="col text-center Guide-step">
+						<div class="text-center step-circle ">
+							<strong>Step<br />3</strong>
+						</div>
+						<span class="step-title">조인확정</span>
+					</div>
+				</div>
+			</div>
+		 	<div class="row text-center stable-bg">
+				<div class="col text-left" ng-click="bookingSortSale(1)">
+					<div class="positive">골프장 <span ng-if="!sb_sod || sb_sst==2 || sb_sst==3">▼</span><span ng-if="sb_sst==1 && sb_sod">▲</span></div>
+				</div>
+				<div class="col col-33" ng-click="bookingSortSale(2)">
+					<div class="positive">예약일시 <span ng-if="!sb_sod || sb_sst==1 || sb_sst==3">▼</span><span ng-if="sb_sst==2 && sb_sod">▲</span></div>
+				</div>
+				<div class="col col-25 text-right" ng-click="bookingSortSale(3)">
+					<div class="positive">그린피 <span ng-if="!sb_sod || sb_sst==1 || sb_sst==2">▼</span><span ng-if="sb_sst==3 && sb_sod">▲</span></div>
+				</div>
+			</div>
+		</div>
+
+		<ion-content overflow-scroll="false" class="has-subheader bookingjoin-salelist">
+
+			<ion-refresher pulling-text="새로고침" on-refresh="doRefreshSale()"></ion-refresher>
+
+			<div class="list" collection-repeat="list in SaleLists">
+				<div class="item margin-bottom" ng-click="salebookingSelect(list)">
+					<div class="row row-no-padding text-center">
+						<div class="col text-left" style="overflow: hidden;">
+							<p><strong class="dark">{{list.golf_club_name}}</strong></p>
+							<p>[{{list.golf_club_region_name}}]</p>
+						</div>
+						<div class="col col-33">
+							<div class=" bold">{{list.golf_time | f_golfdate : list.golf_reserved}}</div>
+							<p>M {{list.realname}}</p>
+						</div>
+						<div class="col col-25 text-right booking-field-green-fee">
+							<div class="bold"><span class="assertive">{{list.green_fee | numberformat}}</span></div>
+							<p ng-if="!list.rsvp_list.length && list.weekend_fee"><strike>{{list.weekend_fee | numberformat}}</strike></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="list text-center padding" ng-if="SaleLists.length < 1">
+				<strong>해당일자에는 부킹 리스트가 없습니다.</strong>
+			</div>
+
+			<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMoresSale()" distance="5%" ng-if="!hasMoreDataSale && SaleLists.length > 19"></ion-infinite-scroll>
+
+		</ion-content>
+
+	</div>
+</ion-modal-view>

@@ -1,0 +1,94 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">할인부킹 예약내용</h1>
+		</div>
+		
+		<ion-content overflow-scroll="false" class="has-header booking-view golf-posts premium-detail booking-reservation" ng-show="reservationInfo">
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>예약내용</strong>
+				</div>
+				<div class="item item-text-wrap booking-content blue-line-bottom">
+					<div class="item">
+						<i class="icon ion-flag"></i> {{reservationInfo.name}} <span class="padding-left">{{reservationInfo.courses}}</span>
+					</div>
+					<div class="item">
+						<i class="icon ion-clock"></i> {{reservationInfo.golf_time | f_formatdate : 1}}
+					</div>
+					<div class="item">
+						<i class="icon">￦</i> {{reservationInfo.green_fee | numberformat}}원
+					</div>
+					<div class="item" ng-if="reservationInfo.explain">
+						<i class="icon ion-clipboard"></i> {{reservationInfo.explain}}
+					</div>
+				</div>
+				<div class="sponsor-wrap font16">
+					<div class="sponsor-view">
+						<div class="row light-bg">
+							<div class="col col-33">결제방식</div>
+							<div class="col bold">
+								<span class="assertive font18" ng-if="reservationInfo.payment_division">선결제</span>
+								<span ng-if="!reservationInfo.payment_division">현장결제</span>
+								상품입니다.
+							</div>
+						</div>
+						<div class="row light-bg">
+							<div class="col col-33">예약인원</div>
+							<div class="col bold">{{reservationInfo.people}}명</div>
+						</div>
+						<div class="row light-bg">
+							<div class="col col-33">결제금액</div>
+							<div class="col bold">{{ reservationInfo.payment_price | numberformat}}원</div>
+						</div>
+						<div class="row light-bg">
+							<div class="col col-33">예약취소 시한</div>
+							<div class="col assertive bold">{{ reservationInfo.cancel_day | f_formatdate : 'mdw' }}</div>
+						</div>
+						<div class="row light-bg">
+							<div class="col col-33">
+								위약안내
+								<div ng-click="openModal(99, reservationInfo)" class="margin-top20">
+									<button class="button button-small border-stable padding-left padding-right">보기</button>
+								</div>
+							</div>
+							<div class="col">
+								<p>임박취소 및 미내장의 경우</p>
+								<p>-> 골프장 위약정책에 따라 위약금이 발생합니다.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="assertive-bg text-center padding bold light margin-top20 margin-bottom20" ng-if="reservationInfo.status == 3 || reservationInfo.status == 9">
+					{{ reservationInfo.payment_division ? '결제가' : '예약이'}} 취소되었습니다 / {{ reservationInfo.deleted_at | f_formatdate : 1}}
+				</div>
+				<div class="padding text-center margin-top20 margin-bottom20" ng-if="reservationInfo.status == 1">
+					<button class="button button-dark margin-left margin-right" ng-click="bookingCancel(reservationInfo)" ng-if="reservationInfo.status==1">
+						<span class="padding-left padding-right">{{ reservationInfo.payment_division ? '결제취소' : '예약취소'}}</span>
+					</button>
+					<!-- <button class="button button-assertive margin-left margin-right" ng-if="reservationInfo.status==2"><span class="padding-left padding-right">취소요청중</span></button> -->
+					<a href="tel:070-7763-3489"><button class="button button-light margin-left margin-right border-stable"><span class="padding-left padding-right">전화문의</span></button></a>
+				</div>
+				<div class="sponsor-wrap">
+					<div class="sponsor-view">
+						<div class="row text-center stable-bg blue-line-top bold">
+							<div class="col col-15">안내</div>
+							<div class="col col-34">취소시한</div>
+							<div class="col">위약금</div>
+						</div>
+						<div class="row text-center light-bg">
+							<div class="col" ng-repeat="week in reservationInfo.week" ng-class="{'col-15' : $index == 0, 'col-34' : $index == 1}">{{week}}</div>
+						</div>
+						<div class="row text-center light-bg">
+							<div class="col" ng-repeat="weekend in reservationInfo.weekend" ng-class="{'col-15' : $index == 0, 'col-34' : $index == 1}">{{weekend}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</ion-content>
+
+	</div>
+</ion-modal-view>

@@ -1,0 +1,25 @@
+<ion-view view-title="대화리스트 {{badgeCount.partCnt}}명">
+	<ion-content ng-show="lists">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<ion-list>
+			<ion-item collection-repeat="list in lists" class="item-avatar msg-list" on-hold="chatManage(list, $index)">
+				<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(list)" ng-if=!list.u_deleted_at>
+				<img ng-src="images/avatars/avatar-deleted.png" ng-if=list.u_deleted_at>
+				<!-- <a href="#/app/message/{{list.id}}" class="msg-link" ng-if="me.profile.phone"> -->
+				<a ng-click="chatMove(list)" class="msg-link" ng-if="me.profile.phone">
+					<h2><strong>{{list.u_deleted_at?'탈퇴회원' : list.name}}</strong></h2>
+					<p ng-if="chargeCheck && !list.unread_cnt || !chargeCheck">{{list.lastmsg | htmlToPlaintext}}</p>
+					<p ng-if="chargeCheck && list.unread_cnt"><span class="assertive">새 메시지가 있습니다.</span></p>
+					<div class="msg-date">{{list.message_created_at | f_formatdate}}</div>
+					<span class="badge badge-assertive" ng-if="list.unread_cnt">{{list.unread_cnt}}</span>
+				</a>
+			</ion-item>
+			<p class="padding font16 text-center" ng-show="lists && !lists.length">대화중인 채팅이 없습니다.</p>
+		</ion-list>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

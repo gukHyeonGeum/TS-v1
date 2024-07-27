@@ -1,0 +1,31 @@
+<ion-modal-view class="modal-pop-menu premium-wrap premium-popup-invitation">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-dark">
+ 			<h1 class="title">프리미엄 초대장</h1>
+			<button type="button" class="button button-clear icon ion-android-close" ng-click="closeModal(2)"></button>
+		</div>
+		<ion-content overflow-scroll="true" class="has-header">
+			<div class="list text-center font16 padding  energized-bg">
+				<h3 class="margin-top20 padding-top bold light">
+					<span ng-if="form.club_code && form.golfType==3">{{form.club_code | p_foreign}} /</span>
+					<span ng-if="form.golfType!=4">{{form.club_name}}</span>
+					<span ng-if="form.golfType==4">{{form.screenArea}} / {{form.screenName}}</span>
+				</h3>
+				<h4 class="bold">파트너 무료초청</h4>
+				<div class="margin-top20 padding-top" ng-if="form.golfType==1 || form.golfType==4">
+					{{form.bookingDate | f_formatdate : 95}} {{form.bookingDateTime | f_formatdate : 'Hi'}}
+				</div>
+				<div class="margin-top20 padding-top" ng-if="form.golfType==2 || form.golfType==3">
+					{{form.bookingDate | f_formatdate : 95}} ~ {{form.nextDate | f_formatdate : 95}}
+				</div>
+				<div class="margin-top20 padding-top">
+					<p><span class="bold font18">{{me.username}}</span>님을</p>
+					<p>파트너로 초대합니다.</p>
+				</div>
+				<div class="margin-top20 margin-bottom20 padding-bottom">
+					<button class="button button-block button-brown">신청하기</button>
+				</div>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

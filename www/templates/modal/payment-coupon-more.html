@@ -1,0 +1,15 @@
+<ion-modal-view class="ion-nifty-modal modal-pop-menu modal-customer-menu modal-c-mypage-share">
+	<div class="ion-modal-content-custom">
+		<ion-content scroll="false">
+			<!-- <div class="item text-center modal-head">
+				<strong>내 프로필 공유하기</strong>
+			</div> -->
+			<ion-list class="share-field">
+				<ion-item><strong>종료일자</strong> : {{ moreItem.ended_at | f_formatdate : 'y.m.d' }}</ion-item>
+				<ion-item><strong>결제금액</strong> : {{ moreItem.item_price | numberformat }}원</ion-item>
+				<ion-item><strong>결제수단</strong> : {{ moreItem.payment_type }}</ion-item>
+				<ion-item class="text-center modal-head" ng-click="paymentCancel(moreItem)" ng-if="!moreItem.canceled_at && !moreItem.deleted_at"><strong>취소하기</strong></ion-item>
+			</ion-list>
+		</ion-content>
+	</div>
+</ion-modal-view>

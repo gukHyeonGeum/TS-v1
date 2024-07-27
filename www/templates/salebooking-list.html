@@ -1,0 +1,84 @@
+<ion-view class="booking">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-title>
+			<div class="page-title">할인 부킹</div>
+		</ion-nav-title>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<button type="button" class="button button-clear" ng-click="golfPosts()">등록하기</button>
+		</ion-nav-buttons>		
+	</ion-nav-bar>
+	<div class="bar bar-subheader">
+	 	<div class="booking-date">
+	 	 	<ion-scroll zooming="false" direction="x">
+				<ul ng-style="{'width': 2040}">
+					<li ng-repeat="date in DateList" class="text-center letter-spacing" ng-class="{'active': b_date == (date.date | f_formatdate : 97) }" ng-bind-html="date.date | f_formatdate : 99" ng-click="dateView(date.date)"></li>
+				</ul>
+			</ion-scroll>
+	 	</div>
+	 	<div class="row text-center stable-bg">
+			<div class="col text-left" ng-click="bookingSort(1)">
+				<div class="positive">골프장 <span ng-if="!b_sod || b_sst==2 || b_sst==3">▼</span><span ng-if="b_sst==1 && b_sod">▲</span></div>
+			</div>
+			<div class="col col-33 text-left" ng-click="bookingSort(2)">
+				<div class="positive">예약일시 <span ng-if="!b_sod || b_sst==1 || b_sst==3">▼</span><span ng-if="b_sst==2 && b_sod">▲</span></div>
+			</div>
+			<div class="col col-25 text-right" ng-click="bookingSort(3)">
+				<div class="positive">그린피 <span ng-if="!b_sod || b_sst==1 || b_sst==2">▼</span><span ng-if="b_sst==3 && b_sod">▲</span></div>
+			</div>
+		</div>
+	</div>
+
+	<ion-content class="has-subheader has-footer">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list" collection-repeat="list in lists">
+			<div class="item margin-bottom" ng-click="openModal(9, list)">
+				<div class="row row-no-padding text-center">
+					<div class="col text-left" style="overflow: hidden;">
+						<p><strong class="dark font16">{{list.golf_club_name}}</strong></p>
+						<p class="font13">[{{list.golf_club_region_name}}]</p>
+					</div>
+					<div class="col col-33 text-left">
+						<div class=" bold font14">{{list.golf_time | f_golfdate : list.golf_reserved}}</div>
+						<p class="font13">M {{list.realname}}</p>
+					</div>
+					<div class="col col-25 text-right booking-field-green-fee">
+						<div class="bold"><span class="assertive">{{list.green_fee | numberformat}}</span></div>
+						<p ng-if="!list.rsvp_list.length && list.weekend_fee && !list.status">
+							<strike>
+								{{(list.golf_time | f_golfdate : 'week') == 6 || (list.golf_time | f_golfdate : 'week') == 0 ? (list.weekend_fee | numberformat) : (list.weekday_fee | numberformat)}}
+							</strike>
+						</p>
+						<!-- <p ng-if="list.rsvp_list.length > 0 && !list.rsvp_list[0].status && !list.status"><button class="button button-small button-stable bold border-stable">예약중</button></p> -->
+						<p class="badge badge-stable border-stable" ng-if="list.rsvp_list.length > 0 && !list.status">예약중</p>
+						<p class="badge badge-positive" ng-if="list.rsvp_list.length > 0 && list.status">확정</p>
+						<!-- <p ng-if="list.booking_id && !list.status"><button class="button button-small button-positive bold">조인중</button></p> -->
+						<!-- <p ng-if="list.status"><button class="button button-small button-assertive bold">부킹완료</button></p> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="list text-center padding" ng-if="lists.length < 1">
+			<strong>해당일자에는 부킹 리스트가 없습니다.</strong>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+
+	<div class="bar bar-footer bar-stable bookingjoin-footer" ng-show="lists">
+		<div class="row text-center font16">
+			<div class="col">
+				<button class="button button-block button-positive" ng-click="infoLink()">내글 보기</button>
+			</div>
+			<div class="col">
+				<button class="button button-block button-green" ng-click="golfPosts()">등록하기</button>
+			</div>
+		</div>
+	</div>
+</ion-view>

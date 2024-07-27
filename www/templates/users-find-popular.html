@@ -1,0 +1,16 @@
+<ion-view view-title="인기도순" class="users-find">
+	<ion-content>
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+		
+		<ion-list>
+		  <ion-item collection-repeat="list in lists" ng-click="onItemProfile(list)" class="users-location">
+		  	<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+				<p class="users-nickname">{{list.username}}</p>
+		  </ion-item>
+		</ion-list>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="10%" immediate-check="false" ng-if="!hasMoreData && lists.length > 47"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

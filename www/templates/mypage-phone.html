@@ -1,0 +1,35 @@
+<ion-view view-title="휴대폰 인증">
+	
+	<form name="setMobileForm" id="setMobileForm" novalidate>
+
+		<ion-nav-bar class="bar-positive">
+			<ion-nav-back-button></ion-nav-back-button>
+			<ion-nav-buttons side="right">
+				<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+				<button type="button" class="button button-clear" ng-disabled="setMobileForm.$invalid" ng-click="submitMobileForm()">확인</button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+		
+		<ion-content>
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">현재 휴대폰 번호</span>
+					{{userData.profile.phone}}
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경할 휴대폰 번호</span>
+					<input type="text" name="new_phone" ng-model="setData.newphone" placeholder="" required>
+				</label>
+			</div>
+			<label class="item item-input" ng-show="setData.mobileSecretBox"><!--   -->
+				<span class="input-label">인증번호</span>
+				<input type="password" name="mobile_secret" ng-model="setData.mobileSecret" placeholder="휴대폰으로 전송된 인증번호를 입력하세요" />
+				<label>
+				<button type="button" class="pull-right button button-small button-positive" ng-click="mobile_secretkey()">확인</button>
+				</label>
+			</label>
+		</ion-content>
+
+	</form>
+
+</ion-view>

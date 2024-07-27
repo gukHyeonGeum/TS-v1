@@ -1,0 +1,53 @@
+<ion-view view-title="이용내역" class="payment-lists">
+
+	<div class="bar bar-subheader">
+	 	<div class="row text-center stable-bg bold font12">
+			<div class="col col-15">
+				결제일
+			</div>
+			<div class="col">
+				골프장
+			</div>
+			<div class="col col-25">
+				결제금액
+			</div>
+			<div class="col col-20">
+				결제
+			</div>
+		</div>
+	</div>
+
+	<ion-content class="has-subheader">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list" collection-repeat="list in lists">
+			<div class="row text-center light-bg font14">
+				<div class="col col-15 letter-spacing">
+					{{ list.created_at | f_formatdate : 'y.m.d' }}
+				</div>
+				<div class="col letter-spacing">
+					{{ list.item_name }}
+				</div>
+				<div class="col col-25">
+					{{ list.item_price | numberformat }}원
+					<div>{{ list.booking_people }}명</div>
+				</div>
+				<div class="col col-20">
+					{{ list.payment_type }}
+					<div>
+						<a ng-if="!list.canceled_at" ng-click="paymentCancel(list)"><u>취소</u></a>
+					</div>
+					<div ng-if="list.canceled_at && !list.deleted_at" class="assertive">취소신청</div>
+					<div ng-if="list.deleted_at" class="positive">취소완료</div>
+				</div>
+			</div>
+		</div>
+		<div class="list text-center padding" ng-if="lists.length < 1">
+			<strong>결제내역이 없습니다.</strong>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

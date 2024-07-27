@@ -1,0 +1,54 @@
+<ion-view id="userMessagesView" class="homeView">
+
+	<ion-nav-title>
+    	<div class="page-title">{{toUser.username}}</div>
+    </ion-nav-title>
+	<ion-nav-buttons side="right">
+		<button class="button button-clear font16" ng-click="leaveChatRoom()" ng-if="!message.deleted_at">나가기</button>
+	</ion-nav-buttons>
+		
+	<ion-content class="has-header has-footer message-content" delegate-handle="userMessageScroll"  on-scroll="checkScroll()">
+
+		<div class="list">
+			<div class="padding" ng-if="create">{{toUser.username}} 님과 채팅을 시작하려고 합니다. </div><!-- 처음이면 이곳에 사용자 명을 디스플레이 한다.-->
+			<div ng-repeat="message in lists" class="message-wrapper" ng-init="$last && refreshScroll(me.id === message.user_id)"><!--  on-hold="onMessageHold($event, $index, message)" -->
+				<div class="message-field-wrap" ng-if="me.id !== message.user_id">
+					<div class="message-field left">
+						<img ng-click="viewProfile(message)" class="profile-pic left" ng-src="{{message.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" />
+						<!-- <div class='message-name'>{{message.username}}</div> -->
+						<div class="chat-bubble left">
+							<div class="message" ng-bind-html="message.body | linky | nl2br"><!--	<div class="message" ng-bind-html="message.body | linky:'_blank' | nl2br" | nl2br -->
+							</div>
+							<div class="message-date">{{message.created_at | f_formatdate}}</div>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="message-field-wrap" ng-if="me.id === message.user_id">
+					<!-- <img ng-click="viewProfile(message)" class="profile-pic right" ng-src="{{me.profile.thumbnail_image}}" onerror="onProfilePicError(this)" /> -->
+					<div class="message-field right">
+						<div class="chat-bubble right">
+							<div class="message" ng-bind-html="message.body | linky | nl2br" ></div>
+							<div class="message-date">{{message.created_at | f_formatdate}}</div>
+						</div>
+						
+					</div>
+				</div>
+				<div class="cf"></div>
+			</div>
+		</div>
+
+	</ion-content>
+
+	<form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>				
+		<ion-footer-bar class="bar-light item-input-inset message-footer" keyboard-attach>
+			<label class="item-input-wrapper">
+				<textarea id="textmsgcreate" ng-model="message" value="" placeholder="메시지" required minlength="1" maxlength="1500" msd-elastic ng-focus="inputUp()" ng-blur="inputDown()"></textarea>
+			</label>
+			<div class="footer-btn-wrap">
+			<button type="submit" class="button button-positive footer-btn" ng-disabled="!message || message === ''" ng-click="doFocus()">확인</button>
+			</div>
+		</ion-footer-bar>
+	</form>
+</ion-view>

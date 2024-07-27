@@ -1,0 +1,45 @@
+<ion-view view-title="대표계정 통합">
+	<ion-content>
+		<ion-list>
+			<div class="card">
+				<div class="item item-text-wrap calm-bg light">
+				총 {{setData.accounts.length}}개의 계정이 동일 실명으로 처리되어있습니다. </br>
+				대표계정외의 계정은 통합처리되며 통합 이후에도 소셜계정으로는 계속 이용가능합니다.
+				</div>
+			</div>
+			<form name="mergeAccountForm"  novalidate>
+				<div class="list item-text-wrap">
+					<ion-item class="item-divider"><strong>대표계정 선택</strong></ion-item>
+					<ion-radio ng-model="setData.Mchoice" ng-click="setData.choice(account)" ng-repeat="account in setData.accounts" ng-value="account.id" required><!-- ng-value="" -->
+						<span ng-show="account.provider_type == 'naver'">[네이버로 로그인] {{account.email}}</span>
+						<span ng-show="account.provider_type == 'kakao'">[카카오로 로그인]</span>
+						<span ng-show="account.provider_type == 'facebook'">[페이스북으로 로그인]  {{account.email}}</span>
+						<span ng-show="account.provider_type != 'naver' && account.provider_type != 'kakao' && account.provider_type != 'facebook'">[이메일로 로그인]  {{account.email}}</span>
+					</ion-radio>
+				</div>
+				<ion-item class="item-divider" ng-if="setData.setEmailVal || setData.inputEmail || setData.inputPassword">
+					<strong>추가정보 입력</strong>
+				</ion-item>
+				<div class="list">
+					<label class="item item-input" ng-if="setData.setEmail">
+						<span class="input-label">선택 이메일</span>
+						<span class="input-value">{{setData.setEmailVal}}</span>
+					</label>
+					<label class="item item-input" ng-show="setData.inputEmail">
+						<span class="input-label">이메일</span>
+						<input type="email" placeholder="abc@domain.com" ng-model="setData.inputEmailText" ng-required="setData.inputEmail">
+					</label>
+					<label class="item item-input" ng-show="setData.inputPassword">
+						<span class="input-label">비밀번호</span>
+						<input type="text" placeholder="비밀번호 입력" ng-model="setData.inputPasswordText" ng-required="setData.inputPassword">
+					</label>
+				</div>
+				<div class="list text-center margin-bottom20">
+					<button class="button button-balanced" ng-disabled="mergeAccountForm.$invalid" ng-if="setData.accounts.length > 1" ng-click="submitmergeAccountForm(mergeAccountForm)"  ><!-- --> <!-- ng-disabled="setData.submit"  -->
+					  대표계정으로 설정
+					</button>
+				</div>
+			</form>
+		</ion-list>
+	</ion-content>
+</ion-view>

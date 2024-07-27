@@ -1,0 +1,37 @@
+<ion-view view-title="댓글 달기" id="userMessagesView" class="homeView"><!--  ng-controller="golfcommentCtrl" -->
+	<ion-content class="has-header has-footer message-content golf-comment" delegate-handle="userMessageScroll">
+
+		<div class="list comment-wrap">
+			<div ng-repeat="comment in comments">
+				<div ng-if="comment.thread.length == 1" class="item item-avatar item-button-right">
+					<img ng-src="{{comment.thumbnail_image | local_img}}" class="comment-img"  ng-click="onItemProfile(comment)">
+					<h3><strong>{{comment.username}}</strong></h3>
+					<p ng-bind-html="comment.body | linky | nl2br"></p>
+					<div>{{comment.created_at | f_formatdate}} · <a href="#/app/golfjoin/recomment/{{comment.field_id}}/{{comment.thread}}">답글 달기</a></div>
+					<a class="button button-clear icon ion-more list-more" ng-click="openModal(comment)" ng-show="me.id==comment.user_id"></a>
+				</div>
+				<div ng-if="comment.thread.length != 1" class="recomment-field">
+					<a class="recomment nowrap" href="#/app/golfjoin/recomment/{{comment.field_id}}/{{comment.thread | parentThread}}">
+						<img ng-src="{{comment.thumbnail_image | local_img}}"><!--   ng-click="onItemProfile(comment)" -->
+						<strong>{{comment.username}}</strong>
+						<span>{{comment.body}}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+
+	<form name="commentForm" ng-submit="commentSend(commentForm)" novalidate>
+		<input type="hidden" name="reple_id" ng-model="formData.reple_id" value="">
+		<ion-footer-bar class="bar-light item-input-inset message-footer" keyboard-attach>
+			<label class="item-input-wrapper">
+				<textarea name="body" ng-model="formData.body" value="" placeholder="댓글을 남겨주세요." required minlength="1" maxlength="1500" msd-elastic on-focus='inputUp()' on-blur='inputDown()'></textarea>
+			</label>
+			<div class="footer-btn-wrap">
+				<button class="button button-positive footer-btn" type="submit" ng-disabled="!formData.body || formData.body === ''">확인</button>
+				<!--ng-disabled="!formData.body || formData.body === ''"-->
+			</div>
+		</ion-footer-bar>
+	</form>
+</ion-view>

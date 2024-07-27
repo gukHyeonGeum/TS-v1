@@ -1,0 +1,30 @@
+<ion-view view-title="탈퇴하기">
+	
+	<form name="dropForm" id="dropForm" novalidate>
+		<ion-nav-bar class="bar-positive">
+			<ion-nav-back-button></ion-nav-back-button>
+			<ion-nav-buttons side="right">
+				<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+				<button type="button" class="button button-clear" ng-click="submitDropForm()" ng-disabled="dropForm.$invalid">확인</button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+		
+		<ion-content>
+			<div class="list">
+				
+				<label class="item item-input" ng-show="setData.hasPassword">
+					<span class="input-label">비밀번호</span>
+					<input type="password" name="password" placeholder="" ng-model="setData.password" ng-required="setData.hasPassword">
+				</label>
+				<ion-item class="">
+					<span class="input-label">탈퇴사유</span>
+				</ion-item>
+				<label class="item item-input item-border-top-width-zero item-padding-zero">
+					<textarea name="reason" class="form-control mypage-textarea" rows="3" placeholder="탈퇴사유를 적어주세요."  ng-model="setData.reason" required></textarea>
+				</label>
+			</div>
+		</ion-content>
+
+	</form>
+
+</ion-view>

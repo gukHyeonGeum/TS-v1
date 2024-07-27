@@ -1,0 +1,78 @@
+<ion-view view-title="결제하기">
+	<ion-nav-bar class="bar-positive">
+        <ion-nav-back-button></ion-nav-back-button>
+        <ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<a href="#/app/paymentCoupon" class="button button-clear">이용내역</a>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+
+	<ion-content class="payment has-footer" ng-show="products">
+	<!-- <ion-content class="payment"> -->
+
+<!-- 		<div class="list">
+			<div ng-repeat="product in items">
+				<div class="padding-left item-divider" ng-if="product.productId=='n1'">
+					<strong>일반 이용권 구매</strong> <span class='badge badge-calm margin-left' ng-click="helpMsg('payment')">?</span>
+				</div>
+				<div class="padding-left item-divider" ng-if="product.productId=='p1'">
+					<strong>프리미엄 이용권 구매</strong> <span class='badge badge-calm margin-left' ng-click="helpMsg('payment')">?</span>
+				</div>
+				<ion-item class="" ng-click="buyProcess(product.productId,product.price)">
+					{{ (product.productId | PayList).title }} {{ (product.productId | PayList).bonus }}
+					<span class="item-note dark font16 bold">{{ product.price | numberformat }}원</span>
+				</ion-item>
+			</div>
+		</div> -->
+
+		<ion-list>
+			<div class="padding-left item-divider">
+				<strong>일반 이용권 구매</strong> <span class='badge badge-calm margin-left' ng-click="helpMsg('payment')">?</span>
+			</div>
+			<ion-item ng-repeat-start="product in products" ng-click="buy(product.productId,product.price)">
+				{{ (product.productId | PayList).title }}
+				<span class="item-note dark font16 bold" ng-if="isAndroid">{{ product.price | numberformat }}원</span>
+				<span class="item-note dark font16 bold" ng-if="isIOS || isIPad">{{product.price}}</span>
+			</ion-item>
+			<div ng-repeat-end="product in products" class="padding-left item-divider" ng-if="product.productId=='n3'">
+				<strong>프리미엄 이용권 구매</strong> <span class='badge badge-calm margin-left' ng-click="helpMsg('payment')">?</span>
+			</div>
+		</ion-list>
+
+		<!-- <div class="list">
+			<div ng-repeat="product in products | orderBy:'sort'">
+				<div class="padding-left item-divider" ng-if="product.productId=='n1'">
+					<strong>일반 이용권 구매</strong> <span class='badge badge-calm margin-left' ng-click="helpMsg('payment')">?</span>
+				</div>
+				<div class="padding-left item-divider" ng-if="product.productId=='p1'">
+					<strong>프리미엄 이용권 구매</strong> <span class='badge badge-calm margin-left' ng-click="helpMsg('payment')">?</span>
+				</div>
+				<ion-item ng-click="buy(product.productId,product.price)">
+					{{ (product.productId | PayList).title }} {{ (product.productId | PayList).bonus }}
+					<span class="item-note dark font16 bold" ng-if="isAndroid">{{ product.price | numberformat }}원</span>
+					<span class="item-note dark font16 bold" ng-if="isIOS || isIPad">{{product.price}}</span>
+				</ion-item>
+			</div>
+		</div> -->
+
+		<div class="list padding">
+			<p class="bold font16">이용권 구매안내</p>
+			<p>• 일반 이용권 : 골프조인, 메시지 이용가능</p>
+			<p>• 프리미엄 이용권 : 프리미엄과 모든 서비스 이용가능</p>
+			<p>• 본 이용권은 구매일로 부터 7일 이내 청약 철회가 가능하며,  구매일 
+  포함 7일 경과후에는 환불이 불가합니다.</p>
+			<p>• 구매내역은 결제페이지> 이용내역에서 볼 수 있습니다.</p>
+		</div>
+
+	</ion-content>
+
+	<div class="bar bar-footer bar-stable bookingjoin-footer">
+		<div class="row text-center font16">
+			<div class="col">
+				<a href="tel:0222773489"><button class="button button-block button-positive"><i class="icon ion-android-call"></i> 티샷 문의</button></a>
+			</div>
+		</div>
+	</div>	
+</ion-view>

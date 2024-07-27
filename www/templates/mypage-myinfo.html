@@ -1,0 +1,19 @@
+<ion-view view-title="내 소개 수정" class="mypage">
+	<ion-nav-buttons side="right">
+		<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+		<button type="button" class="button button-clear" ng-disabled="myBioForm.$invalid" ng-click="submitMyBio()">확인</button>
+	</ion-nav-buttons>
+	<form name="myBioForm" id="myBioForm" novalidate>	
+		<input type="hidden" name="chType" value="updateBio">
+		<ion-content>
+			<div class="list">
+				<ion-item class="item-text-wrap">
+					<textarea name="bio" ng-model="userData.profile.bio" class="form-control mypage-textarea" rows="3" placeholder="내 소개를 작성하세요." required></textarea>
+				</ion-item>
+			</div>
+
+		</ion-content>
+
+	</form>
+
+</ion-view>

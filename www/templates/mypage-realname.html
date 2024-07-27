@@ -1,0 +1,208 @@
+<!--
+<ion-view view-title="휴대폰인증">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="right">
+			<button type="button" class="button button-clear" ng-disabled="realnameForm.$invalid || realData.tel1.$invalid" ng-click="realnameStart()">확인</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+
+	<ion-content overflow-scroll="true" class="certification-field">
+			
+		<form name="realnameForm" id="realnameForm" novalidate>
+
+		<input type="hidden" name="verified" value="">
+		<input type="hidden" name="rid" value="" ng-model="realData.rid"/>
+		<input type="hidden" name="cpl" value="" ng-model="realData.cpl"/>
+
+		<ion-list>
+		  
+			<ion-item class="item-divider line-height31">
+				<strong class="font14">이동통신사 약관동의</strong>
+				<button type="button" class="pull-right button button-small btn-border" ng-click="openAgreeModal()">자세히보기</button>
+			</ion-item>
+
+			<ion-checkbox ng-model="realData.terms" class="checkbox-positive font14 item-border-top-width-zero" ng-disabled="realData.rid" required>전체 약관에 동의합니다.</ion-checkbox>
+
+			<div class="item-divider padding bold line-height31">이동통신사 선택</div>
+			<ion-item class="item-input btn-group-field tel-btn-group item-border-top-width-zero">
+				<ion-radio name="carrier" type="radio" value="01" ng-model="realData.carrier" ng-disabled="realData.rid" required>SK</ion-radio>
+				<ion-radio name="carrier" type="radio" value="02" ng-model="realData.carrier" ng-disabled="realData.rid" required>KT</ion-radio>
+				<ion-radio name="carrier" type="radio" value="03" ng-model="realData.carrier" ng-disabled="realData.rid" required>LG</ion-radio>
+				<ion-radio name="carrier" type="radio" value="04" ng-model="realData.carrier" ng-disabled="realData.rid" class="font12" required>알뜰SK</ion-radio>
+				<ion-radio name="carrier" type="radio" value="05" ng-model="realData.carrier" ng-disabled="realData.rid" class="font12" required>알뜰KT</ion-radio>
+				<ion-radio name="carrier" type="radio" value="06" ng-model="realData.carrier" ng-disabled="realData.rid" class="font12" required>알뜰LG</ion-radio>
+			</ion-item>
+
+			<ion-item class="item-input">
+				<input type="text" name="realname" ng-model="realData.realname" ng-readonly="realData.rid" required placeholder="이름(실명)">
+			</ion-item>
+
+			<ion-item class="item-input">
+				<div class="row ymd-sex-field">
+					<div class="col">
+						<input type="number" ng-minlength="8" ng-maxlength="8" name="birthday" ng-model="realData.birthday" ng-readonly="realData.rid" required placeholder="생년월일(ex.19800101)">
+					</div>
+					<div class="col col-33">
+						<div class="btn-group-field ">
+							<div class="sex-btn-group">
+								<ion-radio name="gender" type="radio" value="male" ng-model="realData.gender" ng-disabled="realData.rid" required>남</ion-radio>
+								<ion-radio name="gender" type="radio" value="female" ng-model="realData.gender" ng-disabled="realData.rid" required>여</ion-radio>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ion-item>
+
+			<ion-item class="item-input">
+				<div class="row cert-hp-field">
+					<div class="col">
+						<input type="tel" name="tel" placeholder="휴대폰번호('-'제외하고 숫자만입력)" ng-model="realData.tel" ng-readonly="realData.rid" required>
+					</div>
+					<div class="col col-20">
+						<button class="button button-dark" ng-disabled="realnameForm.$invalid" ng-click="realnameStart()">전송</button>
+					</div>
+				</div>
+			</ion-item>
+
+			<ion-item class="item-input">
+				<input type="number" ng-maxlength="6" name="secret_realname" ng-model="realData.secretRealname" ng-readonly="!realData.rid" placeholder="인증번호 6자리" />
+			</ion-item>
+
+			<ion-item>
+				<button type="button" class="button button-block button-calm" ng-click="smsCertNumber()" ng-disabled="!realData.secretRealname">인증완료</button>
+			</ion-item>
+
+		</ion-list>
+
+		</form>
+	</ion-content>
+
+	
+</ion-view>
+-->
+<ion-view view-title="휴대폰인증" class="mypage">
+	<!-- <ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="right">
+			<button type="button" class="button button-clear" ng-disabled="!realData.secretRealname" ng-click="realnameSubmit()">인증완료</button>
+		</ion-nav-buttons>
+	</ion-nav-bar> -->
+	
+	<ion-content overflow-scroll="true" class="certification-field">
+	
+		<form name="realnameForm" id="realnameForm" novalidate>			
+		<input type="hidden" name="verified" value="">
+		<!-- <input type="hidden" name="realnameform" value="realnameform"> -->
+		<input type="hidden" name="rid" value="" ng-model="realData.rid"/>
+
+		<ion-list>
+
+			<div class="telecom-agree">
+				<ion-item class="item-divider line-height31 padding item-border-bottom-width-zero">
+					<strong class="font14">이동통신사 약관동의</strong>
+					<a href="#/app/mypage/agreement" class="pull-right button button-small btn-border">자세히보기</a>
+				</ion-item>
+				<div class="padding">
+					<ion-checkbox id="btnAllTerms" name="allTerms" value="1" ng-model="selectedAll" ng-click="checkAll()" class="font14" ng-disabled="realData.rid" required>전체 약관에 동의합니다.</ion-checkbox>
+				</div>
+			</div>
+	<!--			
+			<div class="item item-input btn-group-field">
+				<label class="realname-name padding-right">
+					<input type="text" name="realname" class="form-control text-center" size="20" ng-model="realData.realname" required placeholder="이름(실명)">
+				</label>
+				<label class="realname-birthday padding-right">
+					<input type="date" name="birthday" class="form-control text-center" ng-model="realData.birthday" required placeholder="생년월일">
+				</label>
+				<span class="sex-btn-group">
+					<ion-radio name="gender" value="male" ng-model="realData.gender" required>남</ion-radio><ion-radio name="gender" value="female" ng-model="realData.gender" required>여</ion-radio>
+				</span>
+			</div>
+	-->			
+			<div class="item-divider padding bold line-height31">이동통신사 선택</div>
+			<ion-item class="item-input btn-group-field tel-btn-group item-border-top-width-zero">
+				<ion-radio name="carrier" type="radio" value="01" ng-model="realData.carrier" ng-disabled="realData.rid" required>SK</ion-radio>
+				<ion-radio name="carrier" type="radio" value="02" ng-model="realData.carrier" ng-disabled="realData.rid" required>KT</ion-radio>
+				<ion-radio name="carrier" type="radio" value="03" ng-model="realData.carrier" ng-disabled="realData.rid" required>LG</ion-radio>
+				<ion-radio name="carrier" type="radio" value="04" ng-model="realData.carrier" ng-disabled="realData.rid" class="font12" required>알뜰SK</ion-radio>
+				<ion-radio name="carrier" type="radio" value="05" ng-model="realData.carrier" ng-disabled="realData.rid" class="font12" required>알뜰KT</ion-radio>
+				<ion-radio name="carrier" type="radio" value="06" ng-model="realData.carrier" ng-disabled="realData.rid" class="font12" required>알뜰LG</ion-radio>
+			</ion-item>
+
+			<ion-item class="item-input">
+				<input type="text" name="realname" ng-model="realData.realname" ng-readonly="realData.rid" required placeholder="이름(실명)">
+			</ion-item>
+
+			<ion-item class="item-input">
+				<div class="row ymd-sex-field">
+					<div class="col">
+						<input type="number" ng-minlength="8" ng-maxlength="8" name="birthday" ng-model="realData.birthday" ng-readonly="realData.rid" required placeholder="생년월일(ex.19800101)">
+					</div>
+					<div class="col col-33">
+						<div class="btn-group-field ">
+							<div class="sex-btn-group">
+								<ion-radio name="gender" type="radio" value="male" ng-model="realData.gender" ng-disabled="realData.rid" required>남</ion-radio>
+								<ion-radio name="gender" type="radio" value="female" ng-model="realData.gender" ng-disabled="realData.rid" required>여</ion-radio>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ion-item>
+
+			<ion-item class="item-input">
+				<div class="row cert-hp-field">
+					<div class="col">
+						<input type="tel" name="tel" placeholder="휴대폰번호('-'제외하고 숫자만입력)" ng-model="realData.tel" ng-readonly="realData.rid" required>
+					</div>
+					<div class="col col-20">
+						<button class="button button-dark" ng-disabled="realnameForm.$invalid" ng-click="realnameStart()">전송</button>
+					</div>
+				</div>
+			</ion-item>
+
+			<!-- <div class="item item-input">
+				<span class="font14 padding-right">
+					휴대폰번호
+				</span>
+				<label>
+					<select class="form-control" name="tel1" required ng-model="realData.tel1" >
+						<option value="010">010</option>
+						<option value="011">011</option>
+						<option value="016">016</option>
+						<option value="017">017</option>
+						<option value="018">018</option>
+						<option value="019">019</option>
+					</select>
+				</label>
+				-
+				<label>
+					<input class="form-control text-center" type="tel" name="tel2" id="tel2" required ng-model="realData.tel2">
+				</label>
+				-
+				<label>
+					<input class="form-control text-center" type="tel" name="tel3" id="tel3" required ng-model="realData.tel3">
+				</label>
+				<span class="padding-left"><button type="button" class="pull-right button button-small button-positive" ng-disabled="realnameForm.$invalid" ng-click="realnameStart()">인증하기</button></span>
+			</div> -->
+		
+			<ion-item class="item-input">
+				<input type="number" ng-maxlength="6" name="secret_realname" ng-model="realData.secretRealname" ng-readonly="!realData.rid" placeholder="인증번호 6자리" />
+			</ion-item>
+
+			<ion-item>
+				<button type="button" class="button button-block button-positive" ng-click="realnameSubmit()" ng-disabled="!realData.secretRealname">인증완료</button>
+			</ion-item>
+
+			<ion-item class="item-text-wrap item ng-binding text-center">
+				<h3>휴대폰 본인확인 서비스 인증문의<br />KCB고객센터 (02-708-1000)</h3>
+			</ion-item>
+
+		</ion-list>
+
+
+		</form>		
+
+	</ion-content>
+	
+</ion-view>

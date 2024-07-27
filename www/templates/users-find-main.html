@@ -1,0 +1,39 @@
+<ion-view view-title="회원검색" class="users-find">
+	<ion-nav-buttons side="right">
+		<button class="button button-icon icon ion-ios-settings-strong" ng-click="openModal(1)"></button>
+	</ion-nav-buttons>
+	
+	<!-- <form name="registForm" ng-submit="" novalidate> -->
+	
+		<ion-content>
+			<div class="list">
+				<form name="findFriends" novalidate>
+					<div class="item item-input-inset">
+						<label class="item-input-wrapper">
+							<input type="text" name="search" ng-model="setData.search" required placeholder="닉네임 검색">
+						</label>
+						<a class="button button-icon button-small icon ion-ios-search-strong" ng-disabled="findFriends.$invalid" ng-click="serchFriend()"></a>
+					</div>
+				</form>
+				<ion-item class="text-center">
+					<div class="users-thumb-list item-text-wrap">
+						<ul>
+							<li ng-click="openImageSetModal()">
+								<img ng-src="images/usersPhotoPlus.png">
+								<span class="users-nickname">본인매력 발산하기</span>
+							</li>
+							<li ng-repeat="list in lists" ng-click="onItemProfile(1,list)" ng-show="list.user_name">
+								<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+								<span class="users-nickname">{{list.user_name}}</span>
+								<div class="users-online"></div>
+							</li>
+						</ul>
+					</div>
+				</ion-item>
+			</div>
+
+		</ion-content>
+
+	<!-- </form> -->
+
+</ion-view>

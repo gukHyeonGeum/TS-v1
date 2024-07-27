@@ -1,0 +1,10 @@
+<ion-modal-view class="ion-nifty-modal modal-pop-menu modal-customer-menu modal-c-golflist-menu">
+	<div class="ion-modal-content-custom">
+		<ion-content scroll="false">
+			<ion-list class="text-center">
+				<ion-item ng-click="onItemModify(shareItem)" ng-show="shareItem.poster_id == me.id">수정</ion-item>
+				<ion-item ng-click="onItemCancel(shareItem, listIndex)" ng-show="shareItem.poster_id == me.id">종료(취소)</ion-item>
+			</ion-list>
+		</ion-content>
+	</div>
+</ion-modal-view>

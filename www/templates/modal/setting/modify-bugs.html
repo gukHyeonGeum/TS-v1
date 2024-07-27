@@ -1,0 +1,19 @@
+<ion-modal-view class="modal-pop-menu">	
+	<div class="ion-modal-content-custom">	
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(4)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">{{setData.titles[setData.type]}}</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitBugReport()" ng-disabled="bugsForm.$invalid" >확인</button>
+		</div>
+
+		<form name="bugsForm">
+		<ion-content overflow-scroll="true" class="has-header">
+			<ul class="list">
+				<ion-item class="item-text-wrap">
+					<textarea class="form-control textarea" placeholder="{{setData.placeholder[setData.type]}}" name="body" rows="6" ng-model="setData.body" required></textarea>
+				</ion-item>
+			</ul>
+		</ion-content>
+		</form>		
+	</div>
+</ion-modal-view>

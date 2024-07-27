@@ -1,0 +1,57 @@
+<ion-view view-title="설정" class="setting-field">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<ion-content>
+		<div class="list">
+			<ion-item class="item-divider">
+				<strong>회원정보</strong>
+			</ion-item>
+			<ion-item class="item-icon-right" ng-click="openModal(3)">
+				계정 아이디(이메일)
+				<i class="icon ion-ios-arrow-right"></i>
+			</ion-item>
+			<ion-item class="item-icon-right" ng-click="openModal(1)">
+				닉네임
+				<i class="icon ion-ios-arrow-right"></i>
+			</ion-item>
+			<ion-item class="item-icon-right" ng-click="openModal(2)">
+				비밀번호
+				<i class="icon ion-ios-arrow-right"></i>
+			</ion-item>
+			<ion-item class="item-icon-right" ng-click="certificationOpen()">
+				휴대폰인증
+				<i class="icon ion-ios-arrow-right"></i>
+			</ion-item>
+			<ion-item class="item-icon-right blue-line-top" ng-click="openModal(4, 'bug')">
+				버그 및 오류신고
+				<i class="icon ion-ios-arrow-right"></i>
+			</ion-item>
+			<ion-item class="item-icon-right" ng-click="openModal(4, 'partner')">
+				제휴문의
+				<i class="icon ion-ios-arrow-right"></i>
+			</ion-item>
+			<ion-item class="item-toggle item-text-wrap blue-line-top">
+				알림받기
+				<h4 class="padding-top color-gray">신청자, 메시지, 친구요청, 프로필방문자, 댓글 등을 푸시알림으로 알려드립니다.</h4>
+				<label class="toggle toggle-positive">
+					<input type="checkbox" ng-checked="setDate.push" ng-model="setDate.push"  ng-change="ChangedPush()">
+					<div class="track">
+						<div class="handle"></div>
+					</div>
+			 	</label>
+			</ion-item>
+			<ion-item class="item-icon-left" ng-click="logout()" ng-if="me.id">
+				<i class="icon ion-log-out"></i>
+				로그아웃
+			</ion-item>
+			<ion-item class="item-icon-left" ng-click="rateApp()" ng-if="me.id">
+				<i class="icon ion-star"></i>
+				티샷 앱 평가
+			</ion-item>
+		</div>
+	</ion-content>
+</ion-view>

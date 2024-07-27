@@ -1,0 +1,29 @@
+<ion-view view-title="댓글 달기" id="userMessagesView" class="homeView">
+	<ion-content class="has-header has-footer message-content golf-comment" delegate-handle="userMessageScroll">
+		<div class="list">
+			<div class="item item-avatar item-button-right" ng-repeat="recomment in recomments"  ng-show="recomments.length">
+				<img ng-src="{{recomment.thumbnail_image | local_img}}"  ng-click="onItemProfile(recomment)">
+				<h3><strong>{{recomment.username}}</strong></h3>
+				<p ng-bind-html="recomment.body | linky | nl2br"></p>
+				<div>{{recomment.created_at | f_formatdate}}</div>
+				<a class="button button-clear icon ion-more list-more" ng-click="openModal(recomment)" ng-show="me.id==recomment.user_id"></a>
+			</div>
+			<div class="text-center font14 padding-top" ng-hide="recomments.length">
+				첫 답글을 먼저 등록해보세요!
+			</div>
+		</div>
+	</ion-content>
+
+	<form name="commentForm" ng-submit="commentSend(commentForm)" novalidate>
+		<input type="hidden" name="reple_id" ng-model="formData.reple_id" value="">
+		<ion-footer-bar class="bar-light item-input-inset message-footer" keyboard-attach>
+			<label class="item-input-wrapper">
+				<textarea name="body" ng-model="formData.body" value="" placeholder="댓글을 입력하세요." required minlength="1" maxlength="1500" msd-elastic on-focus='inputUp()' on-blur='inputDown()'></textarea>
+			</label>
+			<div class="footer-btn-wrap">
+				<button class="button button-positive footer-btn" type="submit" ng-disabled="!formData.body || formData.body === ''">확인</button>
+				<!-- ng-disabled="!formData.body || formData.body === ''" -->
+			</div>
+		</ion-footer-bar>
+	</form>
+</ion-view>

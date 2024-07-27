@@ -1,0 +1,65 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">{{view.title}}</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitregistFormApply(registForm)" ng-disabled="registForm.$invalid">확인</button>
+		</div>
+		
+		<form name="registForm" novalidate>
+		<input type="hidden" name="post_id" value="" ng-model="form.post_id">	
+
+		<ion-content overflow-scroll="false" class="has-header golf-posts" delegate-handle="ModalScroll">
+
+			<div class="list">
+				<div class="item item-text-wrap">
+					<p>• 신청하시면 상담 후 프리미엄에 등록됩니다.</p>
+					<p>• 예약이 없는 경우 티샷에서 부킹대행 해드립니다.</p>
+				</div>
+				<ion-item class="item-input btn-group-field tel-btn-group">
+					<span class="input-label">구분</span>
+					<ion-radio name="golfType" type="radio" value="1" ng-model="form.golfType" required>당일</ion-radio>
+					<ion-radio name="golfType" type="radio" value="2" ng-model="form.golfType" ng-style="{'width':'85'}" required>국내1박2일</ion-radio>
+					<ion-radio name="golfType" type="radio" value="3" ng-model="form.golfType" required>해외골프</ion-radio>
+				</ion-item>
+				<label class="item item-input">
+					<span class="input-label">날짜시간</span>
+					<input type="text" name="golfDate" ng-model="form.golfDate" placeholder="예) {{nowTime | date:'MM월 dd일'}} 10시 (7일이후 날짜)" required>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">골프장지역</span>
+					<input type="text" name="golfArea" ng-model="form.golfArea" placeholder="예) 경기남부, 경기북부" required>
+				</label>
+				<ion-item class="item-input btn-group-field tel-btn-group">
+					<span class="input-label">그린피</span>
+					<ion-radio name="golfGreen" type="radio" value="1" ng-model="form.golfGreen" required>저가</ion-radio>
+					<ion-radio name="golfGreen" type="radio" value="2" ng-model="form.golfGreen" required>중가</ion-radio>
+					<ion-radio name="golfGreen" type="radio" value="3" ng-model="form.golfGreen" required>고가</ion-radio>
+					<ion-radio name="golfGreen" type="radio" value="4" ng-model="form.golfGreen" required>무관</ion-radio>
+				</ion-item>
+				<label class="item item-input">
+					<span class="input-label">초청인원</span>
+					<input type="text" name="golfPeople" ng-model="form.golfPeople" placeholder="예) 여1, 여2, 여3..." required>
+				</label>
+				<div class="item item-divider">
+					<strong>추가사항</strong>
+				</div>
+				<label class="item item-input">
+					<textarea name="message" ng-model="form.message" placeholder="전하고 싶은 내용을 입력하세요."></textarea>
+				</label>
+			</div>
+
+			<div class="padding">
+				<button type="button" class="button button-block button-green" ng-click="submitregistFormApply(registForm)" ng-disabled="registForm.$invalid">보내기</button>
+			</div>
+
+			<div class="padding">
+				※ 문의하기 : 010-9128-3489
+			</div>
+
+		</ion-content>
+
+		</form>
+
+	</div>
+</ion-modal-view>

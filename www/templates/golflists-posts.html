@@ -1,0 +1,160 @@
+<style>
+.form-horizontal {width:500px;}
+.datetime-picker-dropdown {position:relative;}
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {border: 0;}
+.datetime-picker-dropdown > li.time-picker-menu div > table {}
+</style>
+<ion-view view-title="{{view.title}}"><!-- 실행이 두번 됨   ng-controller="golfpostsCtrl"  -->
+	
+		<input type="hidden" name="post_id" value="" ng-model="form.post_id">
+		<ion-nav-bar class="bar-positive">
+			<ion-nav-back-button></ion-nav-back-button>
+			<ion-nav-buttons side="right">
+				<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+				<button type="button" class="button button-clear" ng-click="submitregistForm('registForm')" ng-disabled="registForm.$invalid">확인</button>
+			</ion-nav-buttons>
+		</ion-nav-bar>
+		<form name="registForm" novalidate>
+		<ion-content class="golf-posts">
+			<div class="list card">
+				<div class="item item-divider">
+					<strong>골프장</strong>
+				</div>
+				
+				<div ng-class="{ 'has-error' : registForm.club_type.$invalid && !registForm.club_type.$pristine }">
+					<label class="item item-input item-select">
+						<div class="input-label">
+						  	회원종류
+						</div>
+						<select name="club_type" ng-model="form.clubType" required ng-change="set_clubs()">
+							<option value="" selected="selected">회원종류</option>
+							<option value="1">회원제</option>
+							<option value="2">퍼블릭 18홀</option>
+							<option value="3">퍼블릭 9홀</option>
+						</select>
+					</label>
+				</div>
+				
+				<div ng-class="{ 'has-error' : registForm.club_region.$invalid && !registForm.club_region.$pristine }">
+					<label class="item item-input item-select">
+						<div class="input-label">
+						  	지역
+						</div>
+						<select id="clubRegion" name="club_region" ng-model="form.clubRegion" ng-change="set_clubs()" required >
+							<option value="" selected="selected">지역</option>
+							<option value="1">경기북부</option>
+							<option value="2">경기남부</option>
+							<option value="3">강원도</option>
+							<option value="4">충청도</option>
+							<option value="5">경상도</option>
+							<option value="6">전라도</option>
+							<option value="7">제주도</option>
+						</select>
+					</label>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_name.$invalid && !registForm.club_name.$pristine }">
+					<label class="item item-input item-select">
+						<div class="input-label">
+						  	골프장
+						</div>
+						<select id="clubName" name="club_name" ng-model="form.clubName" ng-options="club.id as club.name for club in clubs" required>
+							<option value="">골프장</option>
+						</select>
+					</label>
+				</div>
+			</div>
+
+      
+			<div class="list card">
+				<div class="item item-divider">
+					<strong>부킹일자</strong>
+				</div>
+				<!--
+				<ion-item class="row booking-choice">
+					<div class="col col-50">
+						<ion-radio name="golf_reserved" ng-model="form.golfReserved" value='1'>부킹등록</ion-radio>
+					</div>
+		  			<div class="col col-50">
+		  				<ion-radio name="golf_reserved" ng-model="form.golfReserved" value='2'>부킹예정</ion-radio>
+		  			</div>
+				</ion-item>
+			-->
+			<div class="item-button-right row">
+				<div class="col col-50 col-center">
+					<input type="date" name="bookingDate" ng-model="form.bookingDate" style="text-align:right;" date-field />
+				</div>
+				<div class="col col-50 col-center">
+					<input type="time" name="bookingDateTime" ng-model="form.bookingDateTime" style="text-align:right;" date-field />
+				</div>
+			</div>
+          
+          <!--
+				<div class="item item-button-right">
+					<input type="text" datetime-picker="yyyy/MM/dd HH:mm" ng-model="form.bookingDateTime" is-open="setData.isOpen"  enable-time="true" datepicker-options="setData.dateOptions" button-bar="setData.buttonBar" close-on-date-selecicker-append-to-body="true" clear-text="Remove"/>
+					<button type="button" class="button button-positive" ng-click="openCalendar($event)"><i class="fa fa-calendar"></i></button>		
+				</div>
+			-->
+<!--
+				<ion-item class="row booking-date">
+					<div class="col col-50"><input type="text" name="date" pick-a-date="date" pick-a-date-options="dateoptions" placeholder="일자 선택" ng-model="form.bookingDate" required /></div>
+					<div class="col col-50" ng-show ="form.golfReserved == '1'"><input type="text" name="hourminute" pick-a-time="time"  pick-a-time-options ="form.timeminuteoptions" placeholder="시간/분 선택" ng-model="form.bookingHourMinute" ng-required="CheckBookingMinute()" /></div>
+					<div class="col col-50" ng-hide ="form.golfReserved == '1'"><input type="text" name="hour" pick-a-time="time" pick-a-time-options="form.timeoptions" placeholder="시간 선택" ng-model="form.bookingHour"  ng-required="CheckBookingHour()" /></div>
+				</ion-item>		
+-->
+			</div>
+
+			<div class="list card">
+				<label class="item item-input item-select">
+					<div class="input-label">
+					  	초청인원
+					</div>
+					<select id="partners" name="partners" ng-model="form.partners" required>
+						<option value="" selected="selected">초청인원</option>
+						<option value="3">조인 1명</option>
+						<option value="9">조인 2명</option>
+						<option value="7">부부,커플</option>
+					</select>
+				</label>
+			</div>
+
+			<div class="list card">
+				<div class="item item-divider">
+					<strong>비용</strong>
+				</div>
+				<div class="row booking-price">
+					<div class="col col-33">
+						<label class="item item-input">
+							<input type="number" name="green_fee" ng-model="form.green_fee" required placeholder="그린피">
+						</label>
+					</div>
+					<div class="col col-33">
+						<label class="item item-input">
+							<input type="number" name="cart_fee" ng-model="form.cart_fee" placeholder="카트">
+						</label>
+					</div>
+					<div class="col col-33">
+						<label class="item item-input">
+							<input type="number" name="caddie_fee" ng-model="form.caddie_fee" placeholder="캐디">
+						</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="list card" ng-hide="form.post_id&&form.message">
+				<div class="item item-divider">
+					<strong>메세지</strong>
+				</div>
+				<div class="row booking-price">
+					<div class="col">
+						<label class="item item-input large">
+							<textarea name="message" ng-model="form.message" required placeholder="전하고 싶은 내용을 입력하세요." msd-elastic></textarea>
+						</label>
+					</div>
+				</div>
+			</div>
+	<!--
+			<tt>booking = {{booking.name | json }}</tt>
+	-->
+		</ion-content>
+	</form>
+</ion-view>

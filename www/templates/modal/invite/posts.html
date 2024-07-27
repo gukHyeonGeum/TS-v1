@@ -1,0 +1,171 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">{{view.title}}</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitregistForm(registForm)" ng-disabled="registForm.$invalid">확인</button>
+		</div>
+		
+		<form name="registForm" novalidate>
+		<input type="hidden" name="post_id" value="" ng-model="form.post_id">	
+
+		<ion-content overflow-scroll="false" class="has-header golf-posts" delegate-handle="ModalScroll">			
+
+			<div class="list">
+				<div class="item item-divider" ng-if="Params.inviteType == 1">
+					<strong>필터</strong> <em class="assertive">(원하시는 조건을 입력하세요.)</em>
+				</div>
+				<div class="item item-divider" ng-if="Params.inviteType == 0">
+					<strong>조인 희망자</strong> <em class="assertive">(조인을 원하시는 회원)</em>
+				</div>
+				<ion-item class="item-input btn-group-field tel-btn-group">
+					<span class="input-label">성별</span>
+					<ion-radio name="filterSex" type="radio" value="1" ng-model="form.filterSex" required>여성</ion-radio>
+					<ion-radio name="filterSex" type="radio" value="2" ng-model="form.filterSex" required>남성</ion-radio>
+					<ion-radio name="filterSex" type="radio" value="3" ng-model="form.filterSex" required>무관</ion-radio>
+				</ion-item>
+				<div class="item item-input">
+					<span class="input-label">연령</span>
+					<select name="sAge" ng-model="form.filterSage" class="form-control" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sAge in ageRange" value="{{sAge.value}}" ng-if="sAge">{{sAge.value}}</option>
+					</select> 세 ~&nbsp;
+					<select name="eAge" ng-model="form.filterEage" class="form-control" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="eAge in ageRange" value="{{eAge.value}}" ng-if="eAge">{{eAge.value}}</option>
+					</select> 세
+				</div>
+				<ion-item class="text-center item-border-top-width-zero" ng-if="Params.inviteType == 1">
+					<button class="button button-balanced">필터링 회원중 50명의 회원에게 초청</button>
+				</ion-item>
+			</div>
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>골프장</strong>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_type.$invalid && !registForm.club_type.$pristine }">
+					<label class="item item-input item-select">
+						<span class="input-label">회원종류</span>
+						<select name="club_type" ng-model="form.clubType" required ng-change="set_clubs()">
+							<option value="" selected="selected">회원종류</option>
+							<option value="1">회원제</option>
+							<option value="2">퍼블릭 18홀</option>
+							<option value="3">퍼블릭 9홀</option>
+						</select>
+					</label>
+				</div>
+				
+				<div ng-class="{ 'has-error' : registForm.club_region.$invalid && !registForm.club_region.$pristine }">
+					<label class="item item-input item-select">
+						<span class="input-label">지역</span>
+						<select id="clubRegion" name="club_region" ng-model="form.clubRegion" ng-change="set_clubs()" required >
+							<option value="" selected="selected">지역</option>
+							<option value="1">경기북부</option>
+							<option value="2">경기남부</option>
+							<option value="3">강원도</option>
+							<option value="4">충청도</option>
+							<option value="5">경상도</option>
+							<option value="6">전라도</option>
+							<option value="7">제주도</option>
+						</select>
+					</label>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_name.$invalid && !registForm.club_name.$pristine }">
+					<label class="item item-input item-select">
+						<span class="input-label">골프장</span>
+						<select id="clubName" name="club_name" ng-model="form.clubName" ng-options="club.id as club.name for club in clubs" required>
+							<option value="">골프장</option>
+						</select>
+					</label>
+				</div>
+			</div>
+
+      
+			<div class="list">
+				<div class="item item-divider">
+					<strong>초청일자</strong>
+				</div>
+				<label class="item item-input">
+					<span class="input-label">날짜</span>
+					<input type="date" name="bookingDate" ng-model="form.bookingDate" class="text-right" date-field required />
+				</label>
+				<label class="item item-input">
+					<span class="input-label">시간</span>
+					<input type="time" name="bookingDateTime" ng-model="form.bookingDateTime" class="text-right" date-field required />
+				</label>
+			</div>
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>인원</strong>
+				</div>
+				<label class="item item-input item-select">
+					<span class="input-label">초청자와 동반자</span>
+					<select id="companion" name="companion" ng-model="form.companion" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sel in arrayCompanion" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<div class="input-label">{{TextInvite.postsPerson}}</div>
+					<select id="partners" name="partners" ng-model="form.partners" required ng-if="Params.inviteType==1">
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sel in arrayInvite" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+					<select id="partners" name="partners" ng-model="form.partners" required ng-if="Params.inviteType==0">
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sel in arrayPartner" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+				</label>
+			</div>
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>비용</strong>
+				</div>
+				<label class="item item-input">
+					<div class="input-label">그린피 (필수)</div>
+					<input type="number" name="green_fee" ng-model="form.green_fee" class="text-right" required placeholder="ex) 100000">
+					<div class="input-label">원</div>
+				</label>
+				<label class="item item-input">
+					<div class="input-label">카트피 (선택)</div>
+					<input type="number" name="cart_fee" ng-model="form.cart_fee" class="text-right" placeholder="ex) 100000">
+					<div class="input-label">원</div>
+				</label>
+				<label class="item item-input">
+					<div class="input-label">캐디피 (선택)</div>
+					<input type="number" name="caddie_fee" ng-model="form.caddie_fee" class="text-right" placeholder="ex) 100000">
+					<div class="input-label">원</div>
+				</label>
+			</div>
+			
+			<div class="list" ng-hide="form.post_id&&form.message">
+				<div class="item item-divider">
+					<strong>메세지</strong>
+				</div>
+				<label class="item item-input">
+					<textarea name="message" ng-model="form.message" required placeholder="전하고 싶은 내용을 입력하세요."></textarea>
+				</label>
+			</div>
+
+
+			<div class="card item-text-wrap padding font14">
+				<p><strong>[유의사항]</strong></p>
+				<div ng-if="Params.inviteType==1">
+					<p><strong>① 초청자가 비용을 부담하는 <span class="assertive">프리미엄 초청</span>입니다.</strong></p>
+					<p><strong>② 초청인원 및 비공개</strong></p>
+					<p>초청은 50명의 회원에게만 도달되며, 다른 회원에게는 공개하지 않습니다.</p>
+				</div>
+				<div ng-if="Params.inviteType==0">
+					<p>각자 1/n로 비용을 내는 조인 등록입니다.</p>
+				</div>
+			</div>
+
+		</ion-content>
+
+		</form>
+
+	</div>
+</ion-modal-view>

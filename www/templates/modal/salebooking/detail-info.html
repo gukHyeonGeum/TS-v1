@@ -1,0 +1,111 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(9)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">예약하기 <span class="font14 padding-left">조회수 : {{fieldInfo.view_count}}</span></h1>
+ 			<button type="button" class="button button-clear" ng-click="sharekakaotalk(fieldInfo)"><img ng-src="images/icon/kakaotalk_icon_s.png" /></button>
+		</div>
+		
+		<ion-content overflow-scroll="false" class="has-header has-footer booking-view" ng-show="fieldInfo">
+
+			<ion-list>
+				<div ng-repeat="rsvp in fieldInfo.rsvp_list" class="booking-rsvp">
+					<div class="item item-divider">
+						<strong>예약자</strong>
+						<span class="pull-right font14">예약일 {{rsvp.created_at | f_formatdate : 1}}</span>
+					</div>
+					<div class="item item-thumbnail-left">
+						<img ng-src="{{rsvp.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(rsvp)">
+						<h2>
+							<strong>{{rsvp.realname}}</strong>
+							<div class="pull-right" ng-if="me.id==rsvp.poster_id || me.id==fieldInfo.poster_id"><a href="tel:{{rsvp.phone}}">{{rsvp.phone | phoneNumber}}</a></div>
+						</h2>
+						<p>({{rsvp.poster}})</p>
+						<p>{{rsvp.gender | f_gender}} {{rsvp.dob | f_age}}세<span ng-if="rsvp.geo_location"> / {{rsvp.geo_location}}</span></p>
+						<p>타수 : {{rsvp.golf_score | f_golfScore}}</p>
+						<p>월라운드 : {{rsvp.golf_frequency | f_golfFrequency}}</p>
+						<!-- <div class="booking-icon-complete" ng-if="fieldInfo && rsvp.status == 1 && (me.id==rsvp.poster_id || me.id==fieldInfo.poster_id)">확정</div> -->
+						<!-- <div class="booking-icon-reservation" ng-click="bookingConfirm(fieldInfo)" ng-if="fieldInfo && rsvp.status == 0 && me.id==fieldInfo.poster_id">예약</div> -->
+						<!-- <div class="booking-icon-cancel" ng-click="bookingCancel(fieldInfo)" ng-if="fieldInfo && me.id==fieldInfo.poster_id">취소</div> -->
+					
+						<button class="button button-small button-green booking-icon-reservation" ng-click="bookingConfirm(fieldInfo, rsvp)" ng-if="!rsvp.deleted_at && rsvp.status == 0 && me.id==fieldInfo.poster_id">예약확정</button>
+						<button class="button button-small button-dark booking-icon-cancel" ng-click="bookingCancel(fieldInfo, rsvp)" ng-if="!rsvp.deleted_at && rsvp.status == 1 && (me.id==rsvp.poster_id || me.id==fieldInfo.poster_id)">취소</button>
+						
+						<span class="badge badge-positive booking-icon-cancelcomplete" ng-if="rsvp.status == 1 && !rsvp.deleted_at">확정</span>
+						<span class="badge badge-dark booking-icon-cancelcomplete" ng-if="rsvp.deleted_at">취소</span>
+						<!-- <span class="badge badge-stable border-stable booking-icon-cancelcomplete" ng-if="rsvp.status == 0 && !rsvp.deleted_at">예약</span> -->
+					</div>
+				</div>
+				<!-- <div class="row text-center" ng-if="fieldInfo && fieldInfo.rsvp_list[0].status == 0 && me.id==fieldInfo.poster_id">
+					<div class="col col-50"><button class="button button-block button-positive" ng-click="bookingConfirm(fieldInfo)">부킹 확정</button></div>
+					<div class="col col-50"><button class="button button-block button-assertive" ng-click="bookingCancel(fieldInfo)">예약 취소</button></div>
+				</div> -->
+				<!-- <div class="row text-center" ng-if="fieldInfo && fieldInfo.rsvp_list[0].status == 0 && me.id==fieldInfo.rsvp_list[0].poster_id">
+					<div class="col"><button class="button button-block button-assertive" ng-click="bookingCancel(fieldInfo)">예약 취소</button></div>
+				</div> -->
+				<!-- <div class="row text-center" ng-if="fieldInfo && fieldInfo.rsvp_list[0].status == 1 && (me.id==fieldInfo.rsvp_list[0].poster_id || me.id==fieldInfo.poster_id)">
+					<div class="col"><button class="button button-block button-green">확정 완료</button></div>
+				</div> -->
+
+				<div class="item item-divider">
+					<strong>부킹내용</strong>
+					<span class="pull-right font14">등록일 {{fieldInfo.created_at | f_formatdate : 1}}</span>
+				</div>
+				<div class="item item-text-wrap booking-content">
+					<div class="item"><i class="icon ion-flag"></i> {{fieldInfo.golf_club_name}}</div>
+					<div class="item"><i class="icon ion-calendar"></i> {{fieldInfo.golf_time | f_formatdate : 1}}</div>
+					<div class="item"><i class="icon">￦</i> <strong class="assertive">{{fieldInfo.green_fee | numberformat}}원</strong> <span ng-if="fieldInfo.bOption">({{fieldInfo.bOption}})</span></div>
+					<div class="item"><i class="icon ion-person-stalker"></i> {{fieldInfo.booking_people}}인</div>
+				</div>
+				<div class="item item-divider booking-manager-bar text-right">
+					<strong class="pull-left">매니저 {{fieldInfo.realname}}</strong> 
+					<a ng-href="tel:{{fieldInfo.phone}}" class="button button-small button-light icon-left ion-ios-telephone"> {{fieldInfo.phone | phoneNumber}}</a>
+					<!-- <a href="sms:{{fieldInfo.phone}}"><button class="button button-small button-light"><i class="icon ion-ios-email"></i> 문자</button></a> 
+					-->
+					<button class="button button-small button-light" ng-click="shareSms(fieldInfo)"><i class="icon ion-ios-email"></i> 문자</button>
+					<label class="item item-text-wrap card padding text-left" ng-if="fieldInfo.message">
+						<div ng-bind-html="fieldInfo.message | linky | nl2br"></div>
+					</label>
+				</div>
+				
+				<!-- <div class="item item-divider text-center assertive bold">
+					{{fieldInfo.cancelMsg}}
+				</div> -->
+
+				<!-- <div class="padding" ng-if="fieldInfo.booking_id">
+					<button class="button button-block button-calm" ng-click="golfjoinMove(fieldInfo)">{{fieldInfo.status ? '조인보기 (클릭)' : '조인중 (클릭)'}}</button>
+				</div>
+			  	<div class="row text-center" ng-if="fieldInfo && me.id!=fieldInfo.poster_id && !fieldInfo.bookingjoincnt">
+					<div class="col">(4인 1팀 예약시)<br /><button class="button button-block button-green" ng-click="reservation(fieldInfo)">부킹 예약</button></div>
+					<div class="col" ng-if="!fieldInfo.booking_id">(조인 원할때)<button class="button button-block button-positive" ng-click="bookingJoin(fieldInfo)">조인 등록</button></div>
+				</div> -->
+
+				<!-- <div>
+					<div class="padding" ng-if="!fieldInfo.status"><button class="button button-block button-positive" ng-click="bookingComplete(fieldInfo)">부킹완료 하기</button></div>
+					<div class="row text-center">
+						<div class="col col-50"><button class="button button-block button-positive" ng-click="modify(fieldInfo)">수정</button></div>
+						<div class="col col-50"><button class="button button-block button-positive"><i class="icon ion-ios-email"></i> 친구에게 보내기</button></div>
+						<div class="col col-50" ng-if="me.id==fieldInfo.poster_id"><button class="button button-block button-energized" ng-click="finish(fieldInfo)"><strong class="dark">마감</strong></button></div>
+						<div class="col col-50" ng-if="me.id!=fieldInfo.poster_id"><button class="button button-block button-green" ng-click="reservation(fieldInfo)"><strong class="">부킹 예약</strong></button></div>
+					</div>
+				</div> -->
+			</ion-list>
+
+		</ion-content>
+
+		<div class="bar bar-footer bar-stable bookingjoin-footer" ng-show="fieldInfo">
+			<div class="row text-center font16">
+				<div class="col">
+					<button class="button button-block button-positive" ng-click="share(fieldInfo)"><i class="icon ion-ios-email"></i> 친구에게 보내기</button>
+				</div>
+				<div class="col" ng-if="me.id==fieldInfo.poster_id">
+					<button class="button button-block button-energized" ng-click="finish(fieldInfo)"><span class="dark bold">마감</span></button>
+				</div>
+				<div class="col" ng-if="me.id!=fieldInfo.poster_id">
+					<button class="button button-block button-green" ng-click="reservation(fieldInfo)">부킹예약</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</ion-modal-view>

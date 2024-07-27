@@ -1,0 +1,23 @@
+<ion-modal-view class="modal-pop-menu">	
+	<div class="ion-modal-content-custom">	
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(1)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">닉네임 수정</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitUsername()" ng-disabled="usernameForm.$invalid">확인</button>
+		</div>
+		<form name="usernameForm" id="usernameForm" novalidate>	
+		<ion-content overflow-scroll="true" class="has-header">			
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">현재 닉네임</span>
+					{{me.username}}
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경할 닉네임</span>
+					<input type="text" name="new_username" ng-model="setData.newUsername" placeholder="한글2 ~ 8자 입력" required>
+				</label>
+			</div>			
+		</ion-content>
+		</form>
+	</div>
+</ion-modal-view>

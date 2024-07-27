@@ -1,0 +1,87 @@
+<ion-view view-title="{{user.user.username}}" class="mypage">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<button class="button button-icon icon ion-forward" ng-click="openShareModal(user)"></button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<ion-content>
+		<ion-list>
+
+			<div class="list visit-profile-field">
+				<div class="visit-profile-background" ng-style="profile_image">
+					<img ng-src="{{profileInfo.user.profile_image | local_img}}" ng-style="profile_image" onerror="this.src='images/avatars/avatar-unknown.jpg'" />
+				</div>
+				<div class="visit-icon-left">
+					<span class="visit-photo-icon" ng-click="showImage(0)"><i class="button button-icon icon ion-camera"> <strong>{{user.pictures.length}}</strong></i></span>
+					<!-- <span class="visit-message" ng-click="onItemMessage(profileInfo)"><i class="button button-icon icon ion-chatbubbles"></i></span>
+					<span class="visit-message" ng-click="onItemMakeFriend(user)"><i class="button button-icon icon ion-person-add"></i></span> -->
+				</div>
+				<div class="visit-icon-field">
+					<span class="circle-field" ng-click="onItemMessage(user)"><i class="button button-icon icon ion-chatbubbles"></i></span>
+					<span class="circle-field" ng-click="onItemMakeFriend(user)"><i class="button button-icon icon ion-person-add"></i></span>
+				</div>
+			</div>
+
+			<!-- <div class="list visit-profile-field" style="background-image: url({{user.user.profile.profile_image | local_img}});">
+				<div class="visit-photo-icon" ng-click="showImage(0)"><i class="button button-icon icon ion-camera"> <strong>{{user.pictures.length}}</strong></i></div>
+				<div class="visit-icon-field">
+					<span class="circle-field" ng-click="onItemMessage(user)"><i class="button button-icon icon ion-chatbubbles"></i></span>
+					<span class="circle-field" ng-click="onItemMakeFriend(user)"><i class="button button-icon icon ion-person-add"></i></span>
+				</div>
+			</div> -->
+			<div class="list">
+				<ion-item class="my-info">
+					<p><strong class="my-nickname font18">{{user.user.username}}</strong>, {{user.profile.gender}} {{user.user.profile.gender | f_gender}} {{user.user.profile.dob | f_age}}</p>
+					<p>{{user.profile.geo_location}}</p>
+					<span class="badge badge-assertive">방문자 {{user.user.profile.view_count}}명</span>
+				</ion-item>
+			</div>
+			<div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>골프 정보</strong>
+				</ion-item>
+				<label class="item item-input">
+					<span class="input-label">평균타수</span>
+					<span class="input-value">{{user.user.profile.golf_score | f_golfScore}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">골프경력</span>
+					<span class="input-value">{{user.user.profile.golf_year | f_golfYear}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">월라운딩 회수</span>
+					<span class="input-value">{{user.user.profile.golf_frequency | f_golfFrequency}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">해외 골프횟수</span>
+					<span class="input-value">{{user.user.profile.golf_oversea | f_golfOversea}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">보유 골프회원권</span>
+					<span class="input-value">{{user.user.profile.golf_membership | f_golfMembership}}</span>
+				</label>
+				<ion-item class="item-border-bottom-width-zero">
+					<span class="font14">자주가는 골프장</span>
+				</ion-item>
+				<div class="favorites-field">
+					<div class="item item-divider item-text-wrap">
+						<p ng-hide="user.clubs.length">등록된 골프장이 없습니다.</p>
+						<p ng-repeat="club in user.clubs">[{{club.region}}] {{club.name}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>소개</strong>
+				</ion-item>
+				<ion-item class="item-text-wrap">{{user.user.profile.bio}}</ion-item>
+			</div>
+		</ion-list>
+		
+	</ion-content>
+</ion-view>

@@ -1,0 +1,120 @@
+<style>
+.form-horizontal {width:500px;}
+.datetime-picker-dropdown {position:relative;}
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {border: 0;}
+.datetime-picker-dropdown > li.time-picker-menu div > table {}
+</style>
+<ion-view view-title="번개날리기"><!-- 실행이 두번 됨   ng-controller="golfpostsCtrl"  -->
+	
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="right">
+			<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+			<button type="button" class="button button-clear"  ng-click="screenReview()" ng-disabled="registForm.$invalid">확인</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<form name="registForm" id="registForm" novalidate>
+
+		<ion-content class="golf-posts">
+			<div class="list">
+				<div class="item item-divider">
+					<strong>스크린명</strong>
+				</div>
+				
+				<label class="item item-input" ng-show="setData.screen_id">
+					<span class="input-label">스크린명</span>
+					<span class="input-value">{{setData.store_name_text}}</span>
+				</label>
+
+				<div ng-show="!setData.screen_id">
+					<label class="item item-input item-select">
+						<div class="input-label">
+							시도
+						</div>
+						<select name="store_state" ng-model="setData.store_state" ng-options="k as v for (k, v) in setData.states"  ng-change="ch_store_state()" ng-required="!setData.store_name_text">
+							<option value="" selected="selected">시도</option>
+						</select>
+					</label>
+					<label class="item item-input item-select">
+						<div class="input-label">
+							시.군.구
+						</div>
+						<select id="store_city" name="store_city" ng-model="setData.store_city"ng-options="city.city_code as city.name for city in setData.cities"  ng-change="ch_store_city()"  ng-required="!setData.store_name_text" >
+							<option value="" selected="selected">시군구</option>
+						</select>
+					</label>
+	
+					<label class="item item-input item-select">
+						<div class="input-label">
+						  	스크린
+						</div>
+						<select id="store_name" name="store_name" ng-model="setData.store_name" ng-options="store.id as store.name for store in setData.stores"  ng-required="!setData.store_name_text">
+							<option value="">스크린</option>
+						</select>
+					</label>
+				</div>
+			</div>
+	
+			<div class="list">
+				<div class="item item-divider">
+					<strong>번개일자</strong>
+				</div>
+
+				<label class="item item-input">
+					<span class="input-label font14">날짜</span>
+					<input type="date" name="bookingDate" ng-model="setData.bookingDate" class="text-right" date-field required />
+				</label>
+				<label class="item item-input">
+					<span class="input-label font14">시간</span>
+					<input type="time" name="bookingDateTime" ng-model="setData.bookingDateTime" class="text-right" date-field required />
+				</label>
+
+				<!-- <div class="item-button-right row">
+					<div class="col col-50 col-center">
+						<input type="date" ng-model="setData.bookingDate" style="text-align:right;" />
+					</div>
+					<div class="col col-50 col-center">
+						<input type="time" ng-model="setData.bookingDateTime" style="text-align:right;"/>
+					</div>
+				</div> -->
+			</div>
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>메세지</strong>
+				</div>
+				<label class="item item-input">
+					<textarea name="message" ng-model="setData.message" required rows="3" placeholder="전하고 싶은 내용을 입력하세요." msd-elastic></textarea>
+				</label>
+			</div>
+
+			<!-- <div class="list card">
+				<div class="item item-divider">
+					<strong>메세지</strong>
+				</div>
+				<div class="row booking-price">
+					<div class="col">
+						<label class="item item-input large">
+							<textarea name="message" ng-model="setData.message" required placeholder="전하고 싶은 내용을 입력하세요." msd-elastic></textarea>
+						</label>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="list">
+				<div class="item item-divider item-text-wrap padding font14 text-center">
+					근처 회원들에게 '번개' 초대장을 보내드립니다.
+				</div>
+			</div>			
+
+			<div class="text-center">
+				<button class="button button-block button-positive" ng-disabled="registForm.$invalid" ng-click="screenReview()" disabled="disabled">
+				  확인
+				</button>
+			</div>
+	<!--
+			<tt>booking = {{booking.name | json }}</tt>
+	-->
+		</ion-content>
+	</form>
+</ion-view>

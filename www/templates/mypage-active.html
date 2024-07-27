@@ -1,0 +1,75 @@
+<ion-view view-title="활동정보">
+	<ion-content has-header="true" class="golf-list">
+	
+		<!-- 골프장 조인 초청 시작 -->
+		<div class="list">
+			<div class="item item-divider">
+				<strong>골프장 조인 초청</strong>
+			</div>
+
+			<div class="list card" ng-repeat="list in data.Field">
+				<div class="row text-center item item-divider">
+					<h3 class="font12">{{list.created_at | f_formatdate}} | 골프장조인 "초청" 등록을 하였습니다.</h3>
+				</div>
+				<div class="item item-avatar item-button-right">
+					<img ng-src="{{list.profile.thumbnail_image | local_img}}" ng-click="onItemProfile(list)">
+					<h2><strong><a href="#">{{list.golf_club_name}}</a></strong></h2>
+					<p>{{list.golf_time | f_golfdate : list.golf_reserved}}</p>
+					<div class="list-people">{{list.golf_partner_str}}</div>
+					 <a class="button button-clear icon ion-more list-more" ng-click="openModal(1,list)"></a>
+				</div>
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item" href="#/app/golfjoin/comment/{{list.id}}">
+						<i class="icon ion-chatbox"></i>
+						댓글 <strong class="assertive">{{list.reples |  f_repleCnt}}</strong>
+					</a>
+					<a class="tab-item" ng-click="req_partner(list)">
+						<i class="icon ion-person-stalker"></i>
+						신청 <strong class="assertive">{{list.rsvps.length}}</strong>
+					</a>
+					<a class="tab-item" ng-click="openModal(2, list)">
+						<i class="icon ion-share"></i>
+						공유
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- 골프장 조인 초청 끝  -->
+
+		<!-- 골프장 조인 신청 시작 -->
+		<div class="list">
+			<div class="item item-divider">
+				<strong>골프장 조인 신청</strong>
+			</div>
+
+			<div class="list card" ng-repeat="list in data.FieldRsvp">
+				<div class="row text-center item item-divider">
+					<h3 class="font12">{{list.created_at | f_formatdate}} | 골프장조인 "신청" 등록을 하였습니다.</h3>
+				</div>
+				<div class="item item-avatar item-button-right">
+					<img ng-src="{{list.profile.thumbnail_image | local_img}}" ng-click="onItemProfile(list)">
+					<h2><strong><a href="#">{{list.golf_club_name}}</a></strong></h2>
+					<p>{{list.golf_time | f_golfdate : list.golf_reserved}}</p>
+					<div class="list-people">{{list.golf_partner_str}}</div>
+					 <a class="button button-clear icon ion-more list-more" ng-click="openModal(1,list)"></a>
+				</div>
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item" href="#/app/golfjoin/comment/{{list.id}}">
+						<i class="icon ion-chatbox"></i>
+						댓글 <strong class="assertive">{{list.reples |  f_repleCnt}}</strong>
+					</a>
+					<a class="tab-item" ng-click="req_partner(list)">
+						<i class="icon ion-person-stalker"></i>
+						신청 <strong class="assertive">{{list.rsvps.length}}</strong>
+					</a>
+					<a class="tab-item" ng-click="openModal(2, list)">
+						<i class="icon ion-share"></i>
+						공유
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- 골프장 조인 신청 끝 -->
+		<!-- <ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMore(lists)" distance="2%"></ion-infinite-scroll> -->
+	</ion-content>
+</ion-view>

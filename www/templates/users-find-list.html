@@ -1,0 +1,150 @@
+<ion-view class="users-find">
+	<ion-nav-title>
+		<div class="page-title">{{usersTitle}} <!--{{badgeCount.usersCnt | numberformat}}명--></div>
+	</ion-nav-title>
+	<ion-nav-buttons side="right">
+		<button type="button" class="button button-clear icon-left users-right-button" ng-click="usersLocation('','')"><i class="icon ion-android-options"></i> 필터</button>
+	</ion-nav-buttons>
+
+	<div class="tabs-striped tabs-top tabs-background-light tabs-color-dark">
+		<div class="tabs tabs-icon-top blue-line-bottom">
+		  <a class="tab-item" ng-class="{'active' : usersloc == 'neighborhoodVisit'}" ng-click="usersLocation('neighborhoodVisit','')">
+		    <i class="icon ion-clock"></i>
+		    접속회원 
+		  </a>
+		  <a class="tab-item" ng-class="{'active' : usersloc == 'neighborhoodPopular'}" ng-click="usersLocation('neighborhoodPopular','')">
+		    <i class="icon ion-thumbsup"></i>
+		    인기회원
+		  </a>
+		  <a class="tab-item" ng-class="{'active' : usersloc == 'neighborhoodLocation'}" ng-click="usersLocation('neighborhoodLocation','')">
+		    <i class="icon ion-location"></i>
+		    근처회원
+		  </a>
+		  <a class="tab-item" ng-class="{'active' : usersloc == 'neighborhoodJoin'}" ng-click="usersLocation('neighborhoodJoin','')">
+		    <i class="icon ion-person"></i>
+		    신규회원
+		  </a>
+		</div>
+	</div>
+
+	<ion-content class="has-header has-tabs-top" ng-show="lists">
+
+		
+
+		<div ng-if="!usersloc">
+			<form name="registForm" novalidate>
+				<div class="item item-divider">
+					<strong>조건검색(필터)</strong>
+				</div>
+				<ion-item class="item-input btn-group-field tel-btn-group">
+					<span class="input-label">성별</span>
+					<ion-radio name="filterSex" type="radio" value="all" ng-model="form.filterSex" required>무관</ion-radio>
+					<ion-radio name="filterSex" type="radio" value="female" ng-model="form.filterSex" required>여성</ion-radio>
+					<ion-radio name="filterSex" type="radio" value="male" ng-model="form.filterSex" required>남성</ion-radio>
+				</ion-item>
+				<div class="item item-input">
+					<span class="input-label">나이</span>
+					<select name="sAge" ng-model="form.filterSage" class="form-control">
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sAge in ageRange" value="{{sAge.value}}" ng-if="sAge">{{ sAge.value }} {{sAge.value == 30 || sAge.value == 60 ? (sAge.value==30 ? '세 미만' : '세 이상') : '세'}}</option>
+					</select>~&nbsp;
+					<select name="eAge" ng-model="form.filterEage" class="form-control">
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="eAge in ageRange" value="{{eAge.value}}" ng-if="eAge">{{eAge.value}} {{eAge.value == 30 || eAge.value == 60 ? (eAge.value==30 ? '세 미만' : '세 이상') : '세'}}</option>
+					</select>
+				</div>
+				<label class="item range item-input">
+					<span class="input-label">거리 <em>{{form.distance > 0 ? form.distance + 'Km 이내' : '무관'}}</em></span>
+					<input type="range" name="distance" ng-model="form.distance" min="0" max="200" step="10" value="0">
+				</label>
+				<div class="item item-divider blue-line-top">
+					<strong>선호도(선택 1개)</strong>
+				</div>
+				<label class="item item-input item-select">
+					<span class="input-label">평균타수</span>
+					<select name="golf_score" ng-model="form.golf_score" ng-change="preferenceChange(form.golf_score,'score')">
+						<option value="0">선택하세요</option>
+						<option value="2">싱글</option>
+						<option value="3">80-90타</option>
+						<option value="4">90-100타</option>
+						<option value="5">100-110타</option>
+						<option value="6">110타 이하</option>
+						<option value="7">초보</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<span class="input-label">골프경력</span>
+					<select name="golf_year" ng-model="form.golf_year" ng-change="preferenceChange(form.golf_year,'year')">
+						<option value="0">선택하세요</option>
+						<option value="1">1년 이하</option>
+						<option value="2">2-3년</option>
+						<option value="3">4-5년</option>
+						<option value="4">6-7년</option>
+						<option value="5">8-9년</option>
+						<option value="6">10년 이상</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<span class="input-label">월라운딩 회수</span>
+					<select name="golf_frequency" ng-model="form.golf_frequency" ng-change="preferenceChange(form.golf_frequency,'frequency')">
+						<option value="0">선택하세요</option>
+						<option value="1">1회 이하</option>
+						<option value="2">1-2회</option>
+						<option value="3">2-3회</option>
+						<option value="4">4-5회</option>
+						<option value="5">6-7회</option>
+						<option value="6">8-9회</option>
+						<option value="7">10회 이상</option>
+					</select>
+				</label>
+				<label class="item item-input item-select blue-line-bottom">
+					<span class="input-label">해외 골프횟수</span>
+					<select name="golf_oversea" ng-model="form.golf_oversea" ng-change="preferenceChange(form.golf_oversea,'oversea')">
+						<option value="0">선택하세요</option>
+						<option value="1">1회 이하</option>
+						<option value="2">1-2회</option>
+						<option value="3">2-3회</option>
+						<option value="4">4-5회</option>
+						<option value="5">6-7회</option>
+						<option value="6">8-9회</option>
+						<option value="7">10회 이상</option>
+					</select>
+				</label>
+				<div class="padding margin-top20">
+					<button class="button button-block button-green" ng-click="submitUsersFind(registForm)" ng-disabled="registForm.$invalid">확인</button>
+				</div>
+			</form>
+		</div>
+
+		<div ng-if="lists.length > 0">
+			<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+			
+			<ion-list>
+			  <ion-item collection-repeat="list in lists" ng-click="onItemProfile(list)" class="users-location" collection-item-height="157" item-height="157" ng-style="{ height: '157px' }">
+			  	<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+					<p class="users-nickname">{{list.username}}</p>
+			  </ion-item>
+			</ion-list>
+			
+			<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="10%" immediate-check="false" ng-if="!hasMoreData && lists.length > 47"></ion-infinite-scroll>
+		</div>
+
+	</ion-content>
+
+	<!-- <div class="bar bar-footer bar-positive">
+      <div class="sponsor-tab-modal">
+      	<div class="row row-no-padding text-center font16">
+      	  <div class="col col-33">
+      	  	<a ng-click="usersLocation(usersloc,'')"><span class="{{usersSex==''?'energized bold':'light'}}">전체</span></a>
+      	  </div>
+      	  <div class="col col-33">
+      	  	<a ng-click="usersLocation(usersloc, 'male')"><span class="{{usersSex=='male'?'energized bold':'light'}}">남자</a>
+      	  </div>
+      	  <div class="col col-33">
+      	  	<a ng-click="usersLocation(usersloc, 'female')"><span class="{{usersSex=='female'?'energized bold':'light'}}">여자</a>
+      	  </div>
+      	</div>
+      </div>
+	</div> -->
+
+</ion-view>

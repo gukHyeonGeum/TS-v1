@@ -1,0 +1,23 @@
+<ion-modal-view class="modal-pop-menu modal-agreement-field">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button class="button button-clear" ng-click="closeProfileModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">한줄쓰기</h1>
+		</div>
+		<ion-content scroll="true">			
+			<ion-list>
+				<ion-radio ng-model="likeData.choice" ng-value="6">직접입력</ion-radio>
+  				<label class="item item-input" ng-if="likeData.choice==6">
+  					<textarea name="etc" ng-model="likeData.etc" rows="3" placeholder="한줄평 남겨주세요~"></textarea>
+  				</label>
+				<ion-radio ng-repeat="list in likeData.title" ng-if="list" ng-model="likeData.choice" ng-value="{{$index}}">{{list}}</ion-radio>
+			</ion-list>
+			<div>
+				<div class="row">
+					<div class="col"><button type="button" class="button button-block button-default" ng-click="closeProfileModal(3)">취소</button></div>
+					<div class="col"><button type="button" class="button button-block button-calm" ng-click="submitLike(item)">확인</button></div>
+				</div>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

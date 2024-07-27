@@ -1,0 +1,72 @@
+<ion-view view-title="회원가입" class="">
+
+<form name="userForm" ng-submit="submitForm()" novalidate>
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="right">
+			<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+			<button type="submit" class="button button-clear" ng-disabled="userForm.$invalid">가입완료</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<ion-content overflow-scroll="true">
+		<div class="list">
+			<div ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+				<label class="item item-input">
+					<span class="input-label">이메일</span>
+					<input type="email" name="email" ng-model="user.email" required>
+				</label>
+				<label class="item item-input" ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">유효한 이메일을 입력하세요.</label>
+			</div>
+			<div ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+				<label class="item item-input">
+					<span class="input-label">비밀번호</span>
+					<input type="password" name="password" id="password" ng-model="user.password" placeholder="6자 ~ 16자 입력" ng-minlength="6" ng-maxlength="16" required>
+				</label>
+				<label class="item item-input" ng-show="userForm.password.$error.minlength" class="help-block">6자 이상 입력하세요.</label>
+				<label class="item item-input" ng-show="userForm.password.$error.maxlength" class="help-block">16자 미만 입력하세요.</label>
+			</div>
+		
+			<!--<div ng-class="{ 'has-error' : !userForm.password_c.$error.noMatch }"></div> -->
+			<div ng-class="{ 'has-error' : userForm.password_c.$invalid && !userForm.password_c.$pristine }">
+				<label class="item item-input">
+					<span class="input-label">비밀번호 확인</span>
+					<input type="password" name="password_c" placeholder="비밀번호 확인" ng-model="user.password_c"  valid-password-c required>
+				</label>
+				<label class="item item-input" ng-show="userForm.password_c.$error.Match">패스워드가 일치하지 않습니다.</label>
+			</div>
+		
+			
+			<!--/([^가-힣ㄱ-ㅎㅏ-ㅣ\x20])/i or /^[\d가-힣A-Za-z]+$/ -->
+			
+			<div ng-class="{ 'has-error' : userForm.nickname.$invalid && !userForm.nickname.$pristine}">
+				<label class="item item-input" >
+					<span class="input-label">닉네임</span>
+					<input type="text" name="nickname" ng-model="user.username" placeholder="한글2 ~ 8자 입력" ng-minlength="2" ng-maxlength="8" required ng-pattern="/([가-힣ㄱ-ㅎ])/i">
+				</label>
+				<label class="item item-input"  ng-show="userForm.nickname.$error.minlength" class="help-block">2자이상 닉네임을 사용해 주세요.</label>
+				<label class="item item-input"  ng-show="userForm.nickname.$error.maxlength" class="help-block">8자이상 닉네임을 사용해 주세요.</label>
+				<label class="item item-input" ng-show="userForm.nickname.$error.pattern" class="help-block">한글을 입력해 주세요</label>
+			</div>
+			
+
+
+			<div class="join-agree">
+				<div class="item item-input">
+					<p>
+						<ion-checkbox ng-model="check.agreement" required> 이용약관 동의</ion-checkbox>
+					</p>
+					<button class="button button-small button-stable" ng-click="openModal(1)">내용보기</button>
+				</div>
+				<div class="item item-input">
+					<p>
+						<ion-checkbox ng-model="check.personal" required > 개인정보 수집 및 이용동의</ion-checkbox>
+					</p>
+					<button class="button button-small button-stable" ng-click="openModal(2)">내용보기</button>
+				</div>
+			</div>
+
+		</div>
+	</ion-content>
+</form>
+	
+</ion-view>

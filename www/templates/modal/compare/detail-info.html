@@ -1,0 +1,40 @@
+<ion-modal-view class="modal-pop-menu compare-detail">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(1)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">{{compareInfo[0].name}} 가격비교</h1>
+			<!-- <button type="button" class="button button-clear icon-left ion-android-options" ng-click="openModal(1)"> 필터</button> -->
+		</div>
+		
+		<ion-content overflow-scroll="false" class="has-header" ng-show="compareInfo">
+
+			<div class="list">
+				<div class="item item-text-wrap compare-content">
+					<div class="item font18 bold"><i class="icon ion-flag"></i> {{compareInfo[0].name}} ({{compareInfo[0].region}})</div>
+					<div class="item font18 bold"><i class="icon ion-calendar"></i> {{compareInfo[0].golf_time | f_formatdate : 1}}</div>
+				</div>
+			</div>
+
+			<div class="list card compare-price-content" ng-repeat="list in compareInfo">
+				<ion-item class="item-text-wrap">
+					<div class="margin-bottom20">
+						<strong>{{list.company}}</strong> 
+						<strong class="compare-price assertive pull-right">
+							<span class="badge badge-assertive" ng-if="list.payment==1">선결제</span> {{list.green_fee | numberformat}}원
+						</strong>
+					</div>
+					<p>[{{list.courses}}]</p>
+					<p>{{list.explain}}</p>
+					<div class="row row-no-padding text-center">
+						<div class="col"><a class="button button-block button-small button-green">전화예약</a></div>
+						<div class="col col-10"></div>
+						<div class="col"><a ng-click="openInAppBrowser(list.url)" class="button button-block button-small button-positive">바로가기</a></div>
+					</div>
+					
+				</ion-item>
+			</div>
+
+		</ion-content>
+
+	</div>
+</ion-modal-view>

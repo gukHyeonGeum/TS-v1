@@ -1,0 +1,160 @@
+<ion-modal-view id="userMessagesView" class="modal-pop-menu mypage homeView">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+ 			<h1 class="title">{{profileInfo.user.username}}</h1>
+ 			<button type="button" class="button button-clear" ng-click="closeProfile()"><i class="icon ion-android-close"></i></button>
+		</div>
+		
+		<form name="registForms" novalidate>
+		<input type="hidden" name="post_id" value="" ng-model="form.post_id">
+
+		<ion-content overflow-scroll="false" class="has-header" ng-class="{'has-footer': onelinelike}" ng-show="profileInfo.user">
+ <!-- ng-click="shouldNotFocusOnBlur()" -->
+			<div class="profile-slide-box" ng-if="imgs">
+				<ion-slide-box on-slide-changed="profileSlideChanged(index)">
+				  <ion-slide ng-repeat="img in imgs" class="slide-img-box">
+				    <div class="box"><img ng-src="{{img | local_img}}" ng-style="profile_image" onerror="this.src='images/avatars/avatar-unknown.jpg'"></div>
+				  </ion-slide>
+				</ion-slide-box>
+				<!-- <button class="profile-icon-like" ng-click="userLike(profileInfo,0)" ng-if="!profileInfo.like_cnt"><i class="icon ion-thumbsup"></i>좋아요</button>
+				<button class="profile-icon-like on" ng-click="userLike(profileInfo,1)" ng-if="profileInfo.like_cnt"><i class="icon ion-thumbsup"></i>좋아요</button> -->
+				<button class=" profile-icon-arrow left" ng-click="profilePrevious()" ng-show="profileSlideIndex > 0"><i class="icon ion-chevron-left"></i></button>
+				<button class="profile-icon-arrow right" ng-click="profileNext()" ng-show="profileSlideIndex != imgs.length-1" ng-if="imgs.length > 1"><i class="icon ion-chevron-right"></i></button>
+			</div>
+
+<!-- 			<div class="list visit-profile-field">
+				<div class="visit-profile-background" ng-style="profile_image">
+					<img ng-src="{{profileInfo.user.profile_image | local_img}}" ng-style="profile_image" onerror="this.src='images/avatars/avatar-unknown.jpg'" />
+				</div>
+				<div class="visit-icon-left">
+					<span class="visit-photo-icon" ng-click="showImage(0)"><i class="button button-icon icon ion-camera"> <strong>{{profileInfo.pictures.length}}</strong></i></span>
+				</div>
+				<div class="visit-icon-field">
+					<ul>
+						<li><span class="circle-field" ng-click="onItemMessage(profileInfo)"><i class="button button-icon icon ion-chatbubbles"></i></span></li>
+						<li><span class="circle-field" ng-click="onItemMakeFriend(profileInfo)"><i class="button button-icon icon ion-person-add"></i></span></li>
+					</ul>
+				</div>
+				<div class="visit-report circle-field" ng-click="userReport(profileInfo)"><i class="icon ion-ios-bell assertive"></i></div>
+			</div> -->
+
+			<!-- <div class="list profile-tab"> -->
+				<!-- <div class="item item-input-inset" ng-if="onelinelike">
+					<label class="item-input-wrapper" >
+						<input type="text" ng-model="profileInfo.onemessage" placeholder="한줄평 남겨주세요. ex) 멋진 사진입니다" focus-me detect-focus>
+					</label>
+					<button class="button button-small stable-border" ng-disabled="!profileInfo.onemessage || profileInfo.onemessage === ''" ng-click="submitLike(profileInfo)">보내기</button>
+				</div> -->
+				<!-- <div class="row"> -->
+					<!-- <div class="col col-25"><a ng-click="userComment(profileInfo)"><i class="icon ion-compose"></i>한줄쓰기</a></div> -->
+					<!-- <div class="col">
+						<a ng-click="userLike(profileInfo)"><i class="icon ion-thumbsup" ng-class="{'positive': profileInfo.like_cnt}"></i></i>좋아요</a>
+					</div>
+					<div class="col"><a ng-click="onItemMessage(profileInfo)"><i class="icon ion-chatbubble-working"></i>메시지</a></div>
+					<div class="col">
+						<a ng-click="onItemMakeFriend(profileInfo)" ng-if="!profileInfo.friend_cnt"><i class="icon ion-person-add"></i>친구추가</a>
+						<a ng-if="profileInfo.friend_cnt"><i class="icon ion-person-stalker balanced"></i>내 친구</a>
+					</div>
+					<div class="col"><a ng-click="userReport(profileInfo)"><i class="icon ion-speakerphone assertive"></i>신고</a></div>
+				</div>
+				<ion-item class="my-info">
+					<p><strong class="my-nickname font18">{{profileInfo.user.username}}</strong>, {{profileInfo.user.gender | f_gender}} {{profileInfo.user.dob | f_age}}</p>
+					<p>{{profileInfo.user.geo_location ? profileInfo.user.geo_location : '&nbsp;'}}</p>
+					<span class="badge badge-positive badge-like">좋아요 <em class="pull-right">{{profileInfo.user.like_count}}명</em></span>
+					<span class="badge badge-stable border-stable badge-visit">방문자 <em>{{profileInfo.user.view_count}}명</em></span>
+				</ion-item>
+			</div> -->
+
+			<!-- <div class="list visit-profile-field">
+				<div class="visit-profile-background" ng-style="profile_image">
+					<img ng-src="{{user.user.profile.profile_image | local_img}}" ng-style="profile_image" onerror="this.src='images/avatars/avatar-unknown.jpg'" />
+				</div>
+				<div class="visit-photo-icon" ng-click="showImage(0)"><i class="button button-icon icon ion-camera"> <strong>{{user.pictures.length}}</strong></i></div>
+				<div class="visit-icon-field">
+					<span class="circle-field" ng-click="onItemMessage(user)"><i class="button button-icon icon ion-chatbubbles"></i></span>
+					<span class="circle-field" ng-click="onItemMakeFriend(user)"><i class="button button-icon icon ion-person-add"></i></span>
+				</div>
+			</div> -->
+
+			<div class="list profile-tab" ng-style="{'margin-top':'1px'}">
+				<div class="item-complex light-bg">
+					<div class="row">
+						<div class="col">
+							<a ng-click="userLike(profileInfo)"><i class="icon ion-thumbsup" ng-class="{'positive': profileInfo.like_cnt}"></i></i>좋아요</a>
+						</div>
+						<div class="col"><a ng-click="onItemMessage(profileInfo)"><i class="icon ion-chatbubble-working"></i>메시지</a></div>
+						<div class="col">
+							<a ng-click="onItemMakeFriend(profileInfo)" ng-if="!profileInfo.friend_cnt"><i class="icon ion-person-add"></i>친구추가</a>
+							<a ng-if="profileInfo.friend_cnt"><i class="icon ion-person-stalker balanced"></i>내 친구</a>
+						</div>
+						<div class="col"><a ng-click="userReport(profileInfo)"><i class="icon ion-speakerphone assertive"></i>신고</a></div>
+					</div>
+				</div>
+				<ion-item class="my-info">
+					<p><strong class="my-nickname font18">{{profileInfo.user.username}}</strong>, {{profileInfo.user.gender | f_gender}} {{profileInfo.user.dob | f_age}}</p>
+					<p>{{profileInfo.user.geo_location ? profileInfo.user.geo_location : '&nbsp;'}}</p>
+					<span class="badge badge-positive badge-like">좋아요 <em class="pull-right">{{profileInfo.user.like_count}}명</em></span>
+					<span class="badge badge-stable border-stable badge-visit">방문자 <em>{{profileInfo.user.view_count}}명</em></span>
+				</ion-item>
+			</div>
+
+			<div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>골프 정보</strong>
+				</ion-item>
+				<label class="item item-input">
+					<span class="input-label">평균타수</span>
+					<span class="input-value">{{profileInfo.user.golf_score | f_golfScore}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">골프경력</span>
+					<span class="input-value">{{profileInfo.user.golf_year | f_golfYear}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">월라운딩 회수</span>
+					<span class="input-value">{{profileInfo.user.golf_frequency | f_golfFrequency}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">해외 골프횟수</span>
+					<span class="input-value">{{profileInfo.user.golf_oversea | f_golfOversea}}</span>
+				</label>
+				<label class="item item-input">
+					<span class="input-label">보유 골프회원권</span>
+					<span class="input-value">{{profileInfo.user.golf_membership | f_golfMembership}}</span>
+				</label>
+				<label class="item item-input" ng-if="profileInfo.clubs.length">
+					<span class="input-label">자주가는 골프장</span>
+				</label>
+				<div class="favorites-field">
+					<div class="item item-border-top-width-zero">
+						<p ng-hide="profileInfo.clubs.length">등록된 자주가는 골프장이 없습니다.</p>
+						<ul>
+							<li ng-repeat="club in profileInfo.clubs">
+								{{club.name}} ({{club.region}})
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="list">
+				<ion-item class="item-divider line-height31">
+					<strong>소개</strong>
+				</ion-item>
+				<ion-item class="item-text-wrap">{{profileInfo.user.bio?profileInfo.user.bio:'소개가 입력되지 않았습니다.'}}</ion-item>
+			</div>
+
+		</ion-content>
+
+		</form>
+
+		<ion-footer-bar class="bar-light message-footer" keyboard-attach ng-if="onelinelike">
+			<label class="item-input-wrapper">
+				<textarea focus-me detect-focus id="textmsg" ng-model="profileInfo.onemessage" value="" placeholder="한줄평을 남겨주세요" minlength="1" maxlength="1500" msd-elastic></textarea>
+			</label>
+			<div class="footer-btn-wrap">
+				<button type="button" class="button button-positive footer-btn" ng-disabled="!profileInfo.onemessage || profileInfo.onemessage === ''" ng-click="submitLike(profileInfo)">확인</button>
+			</div>
+		</ion-footer-bar>
+
+	</div>
+</ion-modal-view>

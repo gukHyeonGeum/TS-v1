@@ -1,0 +1,285 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">{{view.title}}</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitregistForm(registForm)" ng-disabled="registForm.$invalid">확인</button>
+ 			<!-- <button type="button" class="button button-clear" ng-click="submitregistForm(registForm)">테스트</button> -->
+		</div>
+		
+		<form name="registForm" novalidate>
+		<input type="hidden" name="post_id" value="" ng-model="form.post_id">	
+
+		<ion-content overflow-scroll="false" class="has-header booking-posts" delegate-handle="ModalScroll">
+
+			<div class="list">
+				<div class="padding text-center" ng-style="{ 'background-color': '#ffe7a4' }">★ 원하는 파트너를 매칭해 드립니다.</div>
+				<div class="row light-bg text-center premium-field-banner">
+					<div class="col col-50">
+						<div class="thumbnail">
+							<img ng-src="images/teeshot_tel_logo.png">
+						</div>
+						<div class="stable-bg padding ban-info">프리미엄 문의<br /><a href="tel:02-2277-3489" class="dark bold underline">02-2277-3489</a></div>
+					</div>
+					<div class="col col-50" ng-click="openInAppBrowser('http://www.hanatour.com/asp/booking/golf/golf-main.asp?hanacode=main_q_pack_golf')">
+						<div class="thumbnail">
+							<img ng-src="images/htour_tel_logo.png">
+						</div>
+						<div class="text-left stable-bg padding ban-info text-center">
+							국내 <a href="tel:070-8857-1264" class="padding-left letter-spacing bold dark underline">070-8857-1264</a><br />
+							해외 <a href="tel:02-725-6100" class="padding-left bold dark underline" ng-style="{'padding-right': 3}">02-725-6100</a>
+						</div>
+					</div>
+				</div>
+				<div class="item item-divider blue-line-top" ng-if="!form.post_id">
+					<strong>초청 종류</strong>
+					<span class="assertive font14 margin-left">* 원하는 종류를 선택</span>
+				</div>
+				<label class="item" ng-if="!form.post_id">
+					<div class="btn-group-field golfType-btn-group" ng-click="golfType()">
+						<ion-radio name="golfType" type="radio" value="4" ng-model="form.golfType" required>스크린</ion-radio>
+						<ion-radio name="golfType" type="radio" value="1" ng-model="form.golfType" required>당일라운드</ion-radio>
+						<ion-radio name="golfType" type="radio" value="2" ng-model="form.golfType" required>국내패키지</ion-radio>
+						<ion-radio name="golfType" type="radio" value="3" ng-model="form.golfType" required>해외골프</ion-radio>
+					</div>
+				</label>
+				<div class="item item-divider blue-line-top">
+					<strong>
+						<span ng-if="form.golfType==4">스크린</span> 
+						<span ng-if="form.golfType!=4">골프장</span> 
+						등록
+					</strong>
+					<span class="assertive font14 margin-left">* 예정도 등록가능하며 등록후 수정</span>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_region.$invalid && !registForm.club_region.$pristine }">
+					<label class="item item-input item-select" ng-if="form.golfType==1 || form.golfType==2">
+						<strong class="input-label">지역</strong>
+						<select id="clubRegion" name="club_region" ng-model="form.clubRegion" ng-change="set_clubs()" required>
+							<option value="" selected="selected">선택하세요</option>
+							<option value="1">경기북부</option>
+							<option value="2">경기남부</option>
+							<option value="3">강원도</option>
+							<option value="4">충청도</option>
+							<option value="5">경상도</option>
+							<option value="6">전라도</option>
+							<option value="7">제주도</option>
+						</select>
+					</label>
+					<label class="item item-input item-select" ng-if="form.golfType==3">
+						<strong class="input-label">국가</strong>
+						<select id="clubRegion" name="club_region" ng-model="form.clubRegion" ng-change="set_club_type()" required>
+							<option value="" selected="selected">선택하세요</option>
+							<option value="10">일본</option>
+							<option value="11">중국</option>
+							<option value="12">태국</option>
+							<option value="13">베트남</option>
+							<option value="14">필리핀</option>
+							<option value="15">라오스</option>
+							<option value="16">말레이시아</option>
+							<option value="17">대만</option>
+							<option value="18">미얀마</option>
+							<option value="19">브루나이</option>
+							<option value="20">인도네시아</option>
+							<option value="21">괌</option>
+							<option value="22">사이판</option>
+							<option value="23">하와이</option>
+						</select>
+					</label>
+					<label class="item item-input" ng-if="form.golfType==4">
+						<strong class="input-label">지역</strong>
+    					<input type="text" name="screenArea" ng-model="form.screenArea" required placeholder="(예:서울 강남)">
+					</label>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_name.$invalid && !registForm.club_name.$pristine }">
+					<label class="item item-input item-select" ng-if="form.golfType==1 || form.golfType==2">
+						<strong class="input-label">골프장</strong>
+						<select id="clubName" name="club_name" ng-model="form.clubName" ng-options="club.id as club.name for club in clubs" ng-change="club_info(form.clubName)" required>
+							<option value="">선택하세요</option>
+						</select>
+					</label>
+					<label class="item item-input item-select" ng-if="form.golfType==3">
+						<strong class="input-label">지역</strong>
+						<select id="clubName" name="club_name" ng-model="form.clubName" ng-options="club.id as club.region for club in clubs" ng-change="club_info(form.clubName)" required>
+							<option value="">선택하세요</option>
+						</select>
+					</label>
+					<label class="item item-input" ng-if="form.golfType==4">
+						<strong class="input-label">스크린</strong>
+    					<input type="text" name="screenName" ng-model="form.screenName" required placeholder="(예:삼성스크린)">
+					</label>
+				</div>
+				<div class="item item-input premium-field-date" ng-if="form.golfType==1 || form.golfType==4">
+					<strong class="input-label">날짜</strong>
+					<input type="date" name="bookingDate" ng-model="form.bookingDate" class="text-right" date-field required />
+				</div>
+				<div class="item item-input premium-field-date" ng-if="form.golfType==2 || form.golfType==3">
+					<strong class="input-label">날짜</strong>
+					<input type="date" name="bookingDate" ng-model="form.bookingDate" class="text-right" date-field required />~
+					<input type="date" name="nextDate" ng-model="form.nextDate" class="text-right" date-field required />
+				</div>
+				<label class="item item-input" ng-if="form.golfType==1 || form.golfType==4">
+					<strong class="input-label">시간</strong>
+					<input type="time" name="bookingDateTime" ng-model="form.bookingDateTime" class="text-right" date-field required />
+				</label>
+				<label class="item item-input item-select" ng-if="form.golfType==1">
+					<strong class="input-label">무료초대 내용</strong>
+					<select id="sponsor" name="sponsor" ng-model="form.sponsor" required >
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">그린피</option>
+						<option value="2">그린피+카트비</option>
+						<option value="3">라운드비용 일체(카트,캐디피 포함)</option>
+					</select>
+				</label>
+				<label class="item item-input item-select" ng-if="form.golfType==2">
+					<strong class="input-label">무료초대 내용</strong>
+					<select id="sponsor" name="sponsor" ng-model="form.sponsor" required >
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">패키지</option>
+						<option value="2">패키지비용 일체(카트, 캐디피 포함)</option>
+						<option value="3">패키지비용 일체(카트, 캐디피 포함)+항공권 포함</option>
+					</select>
+				</label>
+				<label class="item item-input" ng-if="form.golfType==3">
+					<strong class="input-label">무료초대 내용</strong>
+					<div class="font14">해외골프비용 일체</div>
+				</label>
+				<label class="item item-input item-select" ng-if="form.golfType==4">
+					<strong class="input-label">무료초대 내용</strong>
+					<select id="sponsor" name="sponsor" ng-model="form.sponsor" required >
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">스크린 9홀</option>
+						<option value="2">스크린 18홀</option>
+					</select>
+				</label>
+
+				<!-- <label class="item item-input item-select">
+					<strong class="input-label">등록자 인원</strong>
+					<select id="companion" name="companion" ng-model="form.companion" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option ng-if="(!me.level || me.level<6) && sel" ng-repeat="sel in arrayCompanionJoin track by $index" value="{{$index}}">{{sel}}</option>
+						<option ng-if="me.level>=6 && sel" ng-repeat="sel in arrayCompanionBooking track by $index" value="{{$index}}">{{sel}}</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<strong class="input-label">조인요청 인원</strong>
+					<select id="partners" name="partners" ng-model="form.partners" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option ng-repeat="sel in arrayPartnerBooking track by $index" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+				</label>
+				<label class="item item-input">
+					<strong class="input-label">그린피(할인)</strong>
+					<input type="number" name="green_fee" ng-model="form.green_fee" class="text-right" required placeholder="ex) 100000">
+				</label>
+				<label class="item item-input">
+					<strong class="input-label">내장인원</strong>
+					<div class="btn-group-field person-group">
+						<div class="person-btn-group">
+							<ion-radio name="bookingPeople" type="radio" value="4" ng-model="form.bookingPeople" required>4인필수</ion-radio>
+							<ion-radio name="bookingPeople" type="radio" value="3" ng-model="form.bookingPeople" required>3인이상</ion-radio>
+							<ion-radio name="bookingPeople" type="radio" value="2" ng-model="form.bookingPeople" required>2인이상</ion-radio>
+						</div>
+					</div>
+				</label>
+				<div class="item item-input booking-option-group">
+					<strong class="input-label">무료초대내용</strong>
+					<ion-checkbox ng-model="form.cart">카트포함</ion-checkbox>
+					<ion-checkbox ng-model="form.meal">식사포함</ion-checkbox>
+					<ion-checkbox ng-model="form.caddie">노캐디</ion-checkbox>
+				</div> -->
+				<div class="item item-divider blue-line-top">
+					<strong>원하는 파트너</strong>
+					<span class="assertive font14 margin-left">* 초대장이 발송됨</span>
+				</div>
+				<label class="item item-input">
+					<strong class="input-label">파트너</strong>
+					<div class="btn-group-field">
+						<div class="golfPartner-btn-group">
+							<ion-radio name="filterSex" type="radio" value="1" ng-model="form.filterSex" required>여성</ion-radio>
+							<ion-radio name="filterSex" type="radio" value="2" ng-model="form.filterSex" required>남성</ion-radio>
+							<ion-radio name="filterSex" type="radio" value="3" ng-model="form.filterSex" required>무관</ion-radio>
+						</div>
+					</div>
+				</label>
+				<label class="item item-input item-select">
+					<strong class="input-label">초대인원</strong>
+					<select id="partners" name="partners" ng-model="form.partners" required >
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">1명</option>
+						<option value="2">2명</option>
+						<option value="3">3명</option>
+					</select>
+				</label>
+				<div class="item item-input">
+					<strong class="input-label">연령대</strong>
+					<div class="golf-field-Age">
+						<select name="sAge" ng-model="form.filterSage" class="form-control" required>
+							<option value="" selected="selected">선택</option>
+							<option ng-repeat="sAge in ageRange" value="{{sAge.value}}" ng-if="sAge">{{sAge.value}}</option>
+						</select> 세 ~&nbsp;
+						<select name="eAge" ng-model="form.filterEage" class="form-control" required>
+							<option value="" selected="selected">선택</option>
+							<option ng-repeat="eAge in ageRange" value="{{eAge.value}}" ng-if="eAge">{{eAge.value}}</option>
+						</select> 세
+					</div>
+				</div>
+				<label class="item item-input item-select" ng-if="form.golfType==1">
+					<strong class="input-label">무료초대 옵션</strong>
+					<select id="option" name="option" ng-model="form.option" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">라운드</option>
+						<option value="2">라운드+식사(커피)</option>
+						<option value="3">라운드+소주한잔</option>
+					</select>
+				</label>
+				<label class="item item-input" ng-if="form.golfType==2">
+					<strong class="input-label">무료초대 옵션</strong>
+					<div class="font14 padding-right">1박2일 골프(숙박&식사)</div>
+				</label>
+				<label class="item item-input" ng-if="form.golfType==3">
+					<strong class="input-label">무료초대 옵션</strong>
+					<div class="font14 padding-right">동반 해외골프(숙박&식사,항공)</div>
+				</label>
+				<label class="item item-input item-select" ng-if="form.golfType==4">
+					<strong class="input-label">무료초대 옵션</strong>
+					<select id="option" name="option" ng-model="form.option" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">스크린</option>
+						<option value="2">스크린+식사(커피)</option>
+						<option value="3">스크린+소주한잔</option>
+					</select>
+				</label>
+				<label class="item item-input item-border-top-width-zero">
+					<div class="assertive font14">* 상기 이외의 사항은 상호간 협의에 의함</div>
+				</label>
+				<input type="hidden" name="partnerType" value="0" ng-model="form.partnerType">	
+				<!-- <label class="item item-input item-select">
+					<strong class="input-label">원하는 파트너</strong>
+					<select id="partnerType" name="partnerType" ng-model="form.partnerType" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option value="1">골프친구{{form.golfType==2 || form.golfType==3 ? ' (방 따로)':''}}</option>
+						<option value="2">골프애인{{form.golfType==2 || form.golfType==3 ? ' (방 함께)':''}}</option>
+						<option value="3">비즈니스 소개{{form.golfType==2 || form.golfType==3 ? ' (방 함께)':''}}</option>
+					</select>
+				</label> -->
+				<div class="item item-divider blue-line-top">
+					<strong>추가내용</strong>
+					<span class="assertive font14 margin-left">* 광고, 휴대폰 입력시 삭제됨</span>
+				</div>
+				<label class="item item-input">
+					<textarea name="message" ng-model="form.message" placeholder="전하고 싶은 내용을 입력하세요." rows="5"></textarea>
+				</label>
+			</div>
+
+			<div class="padding text-center">
+				<button type="button" class="button button-light" ng-style="{width: 200}" ng-click="openModal(2)" ng-disabled="registForm.$invalid">초대장 미리보기</button>
+				<button type="button" class="button button-block button-green margin-top20" ng-click="submitregistForm(registForm)" ng-disabled="registForm.$invalid">{{ form.post_id ? '수정':'등록' }}하기</button>
+			</div>
+
+
+		</ion-content>
+
+		</form>
+
+	</div>
+</ion-modal-view>

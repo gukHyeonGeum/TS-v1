@@ -1,0 +1,70 @@
+<ion-modal-view class="modal-pop-menu premium-wrap">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(1)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">필터 & 초대장 발송</h1>
+			<button type="button" class="button button-clear icon ion-email" ng-click="openModal(2)"></button>
+		</div>
+		
+		<form name="registForm" novalidate>
+		<input type="hidden" name="field_id" ng-model="form.fieldId">	
+
+		<ion-content overflow-scroll="false" class="has-header booking-view golf-posts" ng-show="fieldInfo">
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>필터 적용 (맞춤형 회원 찾기)</strong>
+				</div>
+				<ion-item class="item-input btn-group-field tel-btn-group">
+					<span class="input-label">성별</span>
+					<ion-radio name="filterSex" type="radio" value="female" ng-model="form.filterSex" required>여성</ion-radio>
+					<ion-radio name="filterSex" type="radio" value="male" ng-model="form.filterSex" required>남성</ion-radio>
+					<ion-radio name="filterSex" type="radio" value="all" ng-model="form.filterSex" required>무관</ion-radio>
+				</ion-item>
+				<div class="item item-input">
+					<span class="input-label">연령</span>
+					<select name="sAge" ng-model="form.filterSage" class="form-control" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sAge in ageRange" value="{{sAge.value}}" ng-if="sAge">{{sAge.value}}</option>
+					</select> 세 ~&nbsp;
+					<select name="eAge" ng-model="form.filterEage" class="form-control" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="eAge in ageRange" value="{{eAge.value}}" ng-if="eAge">{{eAge.value}}</option>
+					</select> 세
+				</div>
+				<label class="item range item-input">
+					<span class="input-label">거리 <em>{{form.distance > 0 ? form.distance + 'Km 이내' : NULL}}</em></span>
+					<input type="range" name="distance" ng-model="form.distance" min="0" max="200" step="10" value="0">
+				</label>
+				<div class="padding" ng-if="!form.inviteCnt">
+					<button class="button button-block button-green" ng-click="submitregistFormInvite(registForm)" ng-disabled="registForm.$invalid">확인</button>
+				</div>
+
+				<div ng-if="form.inviteCnt">
+					<div class="item item-divider">
+						<strong>초대장 발송 (최대 100명회원)</strong>
+					</div>
+					<div class="item text-center">
+						<div>
+							<button class="button button-stable border-stable" ng-click="inviteDefault()">초기화</button>	
+							<button class="button button-assertive" ng-style="{width: 200}" ng-click="invitationSend()"><i class="icon ion-ios-email"></i> {{form.inviteText}}</button>
+						</div>
+						
+						<div class="padding-top">
+							<button class="button button-clear button-default" ng-style="{width: 74}" ng-click=""></button>
+							<button class="button button-stable border-stable" ng-style="{width: 200}" ng-click="openModal(2)">초대장 미리보기</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="padding">
+					<p>★ 초대장은 최대 100명의 회원에게 발송됩니다.</p>
+				</div>
+			</div>
+
+		</ion-content>
+
+		</form>
+
+	</div>
+</ion-modal-view>

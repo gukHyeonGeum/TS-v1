@@ -1,0 +1,57 @@
+<ion-view view-title="친구 {{badgeCount.friendCnt}}명">
+	<!-- <ion-nav-bar class="bar-positive">
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<button class="button button-icon icon ion-trash-b" ng-click="showDelete = !showDelete"></button>
+		</ion-nav-buttons>
+	</ion-nav-bar> -->
+
+	<div class="bar bar-subheader">
+		<p class="list-checkAll"><ion-checkbox ng-model="selectedAll" ng-click="checkAll()" class="bold"> 친구선택 {{getCheckCount()}}명</ion-checkbox></p>
+		<button class="button icon-left ion-edit pull-right" ng-click="showPopup()">메시지 보내기</button>
+	</div>
+
+	<ion-content class="has-subheader">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<ion-list class="friend-field">
+			<!-- <div class="item item-divider">
+				<p class="list-checkAll"><ion-checkbox ng-model="selectedAll" ng-click="checkAll()"></ion-checkbox></p>
+				<strong>친구리스트 {{lists.length}}명</strong>
+				<button class="button-clear icon-left ion-edit pull-right" ng-click="showPopup()">메시지 보내기</button>
+			</div> -->
+			<form id="bulkMessageForm">
+				<input type="hidden" id="formData-message" name="message" ng-model="formData.message">
+				<div class="item item-avatar item-icon-right" collection-repeat="list in lists">
+					<img ng-src="{{list.u_id==me.id?list.f_thumbnail_image : list.u_thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(list)">
+					<h2>{{list.u_id==me.id?list.f_username : list.u_username}}</h2>
+					<p>{{list.u_id==me.id?list.f_gender : list.u_gender | f_gender}} {{list.u_id==me.id?list.f_dob : list.u_dob | f_age}},  {{list.u_id==me.id?list.f_geo_location : list.u_geo_location}}</p>
+					<i class="icon ion-minus-circled assertive" ng-click="onFriendDelete(list, $index)"></i>
+					<!-- <input type="checkbox" ng-model="item.Selected" /> -->
+					<p class="list-check"><ion-checkbox name="users[]" ng-model="list.checked" ng-value="list.u_id==me.id?list.f_id:list.u_id"></ion-checkbox></p>
+				</div>
+			</form>
+		</ion-list>
+		<!-- <ion-list show-delete="showDelete">
+			<ion-item ng-repeat="list in lists" class="item-avatar item-remove-animate" href="#">
+				<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+				<h2><strong>{{list.username}}</strong></h2>
+				<p>{{list.gender | f_gender}} {{list.dob | f_age}},  {{list.geo_location}}</p>
+
+				<a class="button button-clear icon ion-more list-more" ng-click="openModal(list)"></a>
+				<ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(list, $index)"></ion-delete-button>
+			</ion-item>
+
+		</ion-list> -->
+		<div class="row" ng-if="lists && !lists.length">
+			<div class="col text-center">친구 리스트가 없습니다.</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="10%" immediate-check="false" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

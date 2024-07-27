@@ -1,0 +1,58 @@
+<ion-view view-title="스크린 번개" class="golf-list screen-wrap">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<a href="#/app/screen/lists" class="button button-clear">번개리스트</a>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+		
+	<form name="locateSearchForm" novalidate>
+		<ion-content scroll="false">
+			<div class="screen-t-wrap item item-input-inset item-divider" ng-click="closeBottom()">
+				<button type="button" class="button button-icon icon ion-android-locate" ng-click="searchCurrentPostion()"></button>
+				<label class="item-input-wrapper">
+					<input type="text" placeholder="예) 서울시 강남구" ng-model="setData.address" required="">
+				</label>
+				<button class="button button-small btn-border" ng-click="searchPosition()" ng-disabled="locateSearchForm.$invalid" >지역변경</button>
+			</div>
+			<div id="map" data-tap-disabled="true" ng-style="{'width': setData.mapCss.width, 'height':setData.mapCss.height}"></div>
+
+			<div class="screen-b-wrap">
+				<div class="screen-b-title">이 지역 회원 {{lists.length}}명</div>
+				<div class="screen-b-button" ng-show="!showlist">
+				  	<button class="button button-small button-positive" ng-click="setScreen({{lists}})">
+						번개 날리기
+					</button>
+				</div>
+				<div ng-show="showlist" class="screen-b-list-field">
+					<ion-list>
+					  <ion-item class="text-center">
+					  		<ion-scroll zooming="false" direction="y" style="max-height: 232px">
+					  		
+					  		  	<div class="users-thumb-list item-text-wrap">
+									<ul>
+										<li>
+											<a href="#/app/screen/lists">
+												<img src="images/icon/bg_circle01.png">
+												<div class="screen-b-list font12">번개 <br />리스트</div>
+											</a>
+										</li>
+										<li ng-repeat="list in lists" ng-click="onItemProfile(list)" ng-if="list.username">
+											<img ng-src="{{list.thumbnail_image  | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+											<span class="users-nickname">{{list.username}}</span>
+										</li>
+									</ul>
+								</div>
+					  		
+					  		</ion-scroll>
+						</ion-item>
+					</ion-list>
+				</div>
+			</div>
+		</ion-content>
+	</form>
+</ion-view>

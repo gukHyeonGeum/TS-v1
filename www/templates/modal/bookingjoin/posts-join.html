@@ -1,0 +1,91 @@
+<ion-modal-view class="modal-pop-menu bookingjoin-posts">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(5)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">조인등록(부킹)</h1>
+ 			<!-- <button type="button" class="button button-clear" ng-click="submitregistForm(registForm)" ng-disabled="registForm.$invalid">확인</button>
+ 			<button type="button" class="button button-clear" ng-click="submitregistForm(registForm)">테스트</button> -->
+		</div>
+
+		<div class="bar bar-subheader">
+			<div class="item">
+				<div class="row">
+					<div class="col text-center Guide-step">
+						<div class="text-center step-circle">
+							<strong>Step<br />1</strong>
+						</div>
+						<span class="step-title">골프장 선택</span>
+					</div>
+					<div class="col col-10"><i class="icon ion-ios-fastforward Guide-r-arrow"></i></div>
+					<div class="col text-center Guide-step">
+						<div class="text-center step-circle active">
+							<strong>Step<br />2</strong>
+						</div>
+						<span class="step-title">조인등록</span>
+					</div>
+					<div class="col col-10"><i class="icon ion-ios-fastforward Guide-r-arrow"></i></div>
+					<div class="col text-center Guide-step">
+						<div class="text-center step-circle">
+							<strong>Step<br />3</strong>
+						</div>
+						<span class="step-title">조인확정</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<form name="bjpRegistForm" novalidate>
+
+		<ion-content overflow-scroll="false" class="has-subheader">
+
+			<div class="list">
+				<div class="item item-divider">
+					<strong>인원</strong>
+				</div>
+				<label class="item item-input item-select">
+					<span class="input-label">등록자와 동반자</span>
+					<select id="companion" name="companion" ng-model="joinform.companion" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sel in arrayCompanionJoin" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<div class="input-label">조인요청</div>
+					<select id="partners" name="partners" ng-model="joinform.partners" required>
+						<option value="" selected="selected">선택</option>
+						<option ng-repeat="sel in arrayPartner" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+				</label>
+				<div class="padding">
+					<button class="button button-block button-green" ng-click="submitregistForm(bjpRegistForm)" ng-disabled="bjpRegistForm.$invalid">등록하기</button>
+				</div>
+			</div>
+			<div class="list">
+				<div class="item item-divider">
+					<strong>부킹내용</strong>
+					<span class="pull-right">등록일 {{salebookingInfo.created_at | f_formatdate : 1}}</span>
+				</div>
+				<div class="item-text-wrap booking-content">
+					<div class="item item-icon-left"><i class="icon ion-flag"></i> {{salebookingInfo.golf_club_name}}</div>
+					<div class="item item-icon-left"><i class="icon ion-calendar"></i> {{salebookingInfo.golf_time | f_formatdate : 1}}</div>
+					<div class="item item-icon-left"><i class="icon ion-social-usd"></i> {{salebookingInfo.green_fee | numberformat}}원 {{salebookingInfo.bOption}}</div>
+					<div class="item item-icon-left"><i class="icon ion-person-stalker"></i> 내장인원 {{salebookingInfo.golf_partner}}인 (인원부족시 조인등록)</div>
+				</div>
+				<div class="item item-divider booking-manager-bar">
+					<strong>매니저 {{salebookingInfo.realname}} <a href="tel:{{salebookingInfo.phone}}">{{salebookingInfo.phone | phoneNumber}}</a></strong>
+					<a href="sms:{{salebookingInfo.phone}}"><button class="button button-small button-positive pull-right">문자문의</button></a>
+				</div>
+				<label class="item item-text-wrap">
+					<div ng-bind-html="salebookingInfo.message | linky | nl2br"></div>
+				</label>
+				<div class="item item-divider text-center assertive bold">
+					{{salebookingInfo.cancelMsg}}
+				</div>
+			</div>
+
+		</ion-content>
+
+		</form>
+
+	</div>
+</ion-modal-view>

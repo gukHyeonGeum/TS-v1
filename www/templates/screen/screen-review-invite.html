@@ -1,0 +1,29 @@
+<ion-modal-view class="ion-nifty-modal modal-pop-menu modal-customer-menu modal-c-invitation-share">
+	<div class="ion-modal-content-custom">
+		<ion-content scroll="false">
+			<div class="item text-center modal-head">
+				<strong>초대장 보내기</strong>
+			</div>
+			<div class="list">
+				<ion-item class="item-avatar">
+					<img ng-src="{{me.profile.thumbnail_image}}" ng-if="me.profile.thumbnail_image">
+					<h2><strong><a href="#">{{shareItem.store_name_text}}</a></strong></h2>
+					<p class="font16">{{shareItem.rDate}} {{shareItem.rHour}}</p>
+					<p class="font16 ng-binding"></p>
+				</ion-item>
+				<div class="item item-body">
+			 		<div class="font14">{{me.username}}님이 스크린 번개로 초대하였습니다.</div>
+				</div>
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item" ng-click="submitregistForm()">
+						<i class="icon ion-flash"></i>
+						<strong>보내기</strong>
+					</a>
+					<a class="tab-item" ng-click="closeModal()">
+						<strong>취소</strong>
+					</a>
+				</div>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

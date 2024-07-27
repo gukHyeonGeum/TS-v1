@@ -1,0 +1,26 @@
+<ion-view view-title="버그 및 오류 신고" class="bugs-field">
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+			<button type="button" class="button button-clear" ng-click="submitBugReport()" ng-disabled="bugsForm.$invalid" >확인</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<form name="bugsForm">
+	<ion-content>
+		<ul class="list">
+			<!-- <ion-item>
+				<select class="form-control" name="subject"  ng-model="setData.subject" required>
+					<option value="1" selected="selected">오류 및 버그 신고하기</option>
+				</select>
+			</ion-item> -->
+			<ion-item class="item-text-wrap">
+				<textarea class="form-control" placeholder="{{setData.placeholder[setData.type]}}" name="body" rows="6" ng-model="setData.body" required></textarea>
+			</ion-item>
+		</ul>
+	</ion-content>
+	</form>
+</ion-view>

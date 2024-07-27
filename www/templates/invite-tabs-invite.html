@@ -1,0 +1,106 @@
+<ion-view view-title="프리미엄 초청">
+	<ion-content class="sponsor-wrap">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		<div class="list" collection-repeat="list in lists">
+			<div class="margin-bottom">
+				<div class="item" ng-class="{'booking-list-end': list.deleted_at}">
+					<h2><strong><a ng-click="openInAppBrowser(list.webpage)">{{list.golf_club_name}} [{{list.golf_club_region_name}}]</a></strong></h2>
+					<a ng-click="openModal(9, list)" class="sponsor-list-link">
+						<div class="bold padding-top">{{list.golf_time | f_golfdate : list.golf_reserved}} / {{list.golf_partner | f_partner}}</div>
+						<p class="padding-top">{{list.message}}&nbsp;</p>
+						<em><strong class="positive"><i class="icon ion-ios-arrow-thin-right"></i> 상세보기</strong></em>
+					</a>
+					<div class="golflist-thumb margin-top">
+						<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(list)">
+
+						<img ng-repeat="companion in (list.golf_companion | f_companion_count).sex track by $index" ng-src="images/avatars/{{companion}}.jpg" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+
+						<div ng-repeat="rsvp in list.rsvp_list">
+							<div ng-if="list.golf_invite_type==0 || list.poster_id==me.id">
+								<div ng-if="rsvp.gender=='male'">
+									<img ng-src="{{rsvp.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(rsvp)">
+									<span ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) !=0 && list.golf_partner==8">
+										<img ng-src="images/avatars/f.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									</span>
+								</div>
+								<div ng-if="rsvp.gender=='female'">
+									<img ng-src="{{rsvp.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(rsvp)">
+									<span ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) !=0 && list.golf_partner==8">
+										<img ng-src="images/avatars/m.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									</span>
+								</div>
+							</div>
+							<div ng-if="list.golf_invite_type==1 && list.poster_id!=me.id" class="sponsor-list-thumb">
+									<div>
+										<img ng-src="images/avatars/a.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+										<span class="bold positive">확정</span>
+									</div>
+							</div>
+						</div>
+						<div ng-repeat="partner in (list.golf_partner | f_partner_count).sex track by $index">
+							<div ng-if="list.golf_invite_type==0">
+								<div ng-if="(!list.rsvp_list.length && list.golf_partner==8) || list.golf_partner!=8">
+									<div ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) == 1 && $index < 1">
+										<img ng-src="images/avatars/{{partner}}.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									</div>
+									<div ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) == 2 && $index < 2">
+										<img ng-src="images/avatars/{{partner}}.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									</div>
+									<div ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) == 3">
+										<img ng-src="images/avatars/{{partner}}.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									</div>
+								</div>
+							</div>
+							<div ng-if="list.golf_invite_type==1" class="sponsor-list-thumb">
+								<div ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) == 1 && $index < 1">
+									<img ng-src="images/avatars/a.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									<span class="bold positive">초대</span>
+								</div>
+								<div ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) == 2 && $index < 2">
+									<img ng-src="images/avatars/a.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									<span class="bold positive">초대</span>
+								</div>
+								<div ng-if="((list.golf_partner | f_partner_count).cnt - list.rsvp_list.length) == 3">
+									<img ng-src="images/avatars/a.png" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									<span class="bold positive">초대</span>
+								</div>
+							</div>
+						</div>
+
+						<button class="button golflist-request button-green" ng-if="!list.deleted_at && list.poster_id!=me.id" ng-click="partner_ask(list)">신청</button>
+						<button class="button golflist-request button-brown" ng-if="!list.deleted_at && list.poster_id==me.id" ng-click="onItemCancel(list)">마감</button>
+					</div>
+					<a class="icon ion-android-more-horizontal list-more" ng-click="openModal(1,list)" ng-if="!list.deleted_at && list.poster_id==me.id"></a>
+					<button class="button button-small button-stable join-price" ng-click="golfPrice(list)" ng-if="list.poster_id!=me.id">￦ 그린피</button>
+				</div>
+				<div class="item sponsor-tab">
+          <div class="row row-no-padding text-center">
+            <div class="col col-33">
+            	<!-- <a ng-click="openModal(9, list)" ng-if="list.poster_id!=me.id"><i class="icon ion-person-stalker"></i> 신청 <strong class="assertive">{{list.rsvps}}</strong>명</a> -->
+            	<a ng-click="partner_ask(list)"><i class="icon ion-person-stalker"></i> 신청 <strong class="assertive">{{list.rsvps}}</strong>명</a>
+            </div>
+            <div class="col col-33">
+            	<a ng-click="openModal(4, list)"><i class="icon ion-chatbox"></i> 댓글  <strong class="assertive">{{list.replecnt}}</strong>개</a>
+            </div>
+            <div class="col col-33" ng-if="list.golf_invite_type==0">
+            	<a ng-click="openModal(2, list)"><i class="icon ion-share"></i> 공유</a>
+            </div>
+            <div class="col col-33" ng-if="list.golf_invite_type==1">
+            	<a ng-click="openModal(9, list)"><i class="icon ion-document-text"></i> 상세보기</a>
+            </div>
+          </div>
+        </div>
+			
+			</div>
+		</div>
+
+		<div class="list margin-top20" ng-if="lists && !lists.length">
+			<div class="col text-center">리스트가 없습니다.</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,33 @@
+<ion-modal-view class="ion-nifty-modal modal-pop-menu modal-customer-menu modal-c-invitation-share">
+	<div class="ion-modal-content-custom">
+		<ion-content scroll="false">
+			<div class="item text-center modal-head">
+				<strong>초대장 도착</strong>
+			</div>
+			<div class="list">
+				<ion-item class="item-avatar">
+					<img ng-src="{{shareItem.profile.thumbnail_image | local_img}}">
+					<h2><strong><a href="#">{{shareItem.golf_store_name}}</a></strong></h2>
+					<p class="font16">{{shareItem.golf_time | f_golfdate : shareItem.golf_reserved}}</p>
+					<p class="font16 ng-binding">{{shareItem.golf_store_region_name}}</p>
+				</ion-item>
+				<div class="item item-body">
+			 		<div class="font14">
+			 			{{shareItem.poster}}님이 스크린 번개로 초대하였습니다.
+						<p>{{shareItem.message}}</p>
+			 		</div>
+				</div>
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item" ng-click="onItemCall(shareItem.profile.phone)">
+						<i class="icon ion-ios-telephone"></i>
+						통화
+					</a>
+					<a class="tab-item" ng-click="onItemMessage(shareItem)">
+						<i class="icon ion-chatbubbles"></i>
+						채팅
+					</a>
+				</div>
+			</div>
+		</ion-content>
+	</div>
+</ion-modal-view>

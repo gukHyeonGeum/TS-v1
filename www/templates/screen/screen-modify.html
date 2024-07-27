@@ -1,0 +1,70 @@
+<ion-view view-title="스크린 정보수정 요청" class="screen-field"><!-- 실행이 두번 됨   ng-controller="golfpostsCtrl"  -->
+	
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="right">
+			<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+			<button type="button" class="button button-clear">확인</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<form name="registForm" id="registForm" novalidate>
+		<ion-content class="golf-posts">
+
+			<div class="list card">
+				<label class="item item-input item-text-wrap">
+					<span class="input-label">상호명</span>
+					구로스크린
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경 : </span>
+					<input type="text" name="screen_name" placeholder="변경된 상호명 입력">
+				</label>
+			</div>
+
+			<div class="list card">
+				<label class="item item-input item-text-wrap">
+					<span class="input-label">주소</span>
+					서울시 구로구 디지털로 32길 30
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경 : </span>
+					<input type="text" name="screen_address" placeholder="변경된 주소 입력">
+				</label>
+			</div>
+
+			<div class="list card">
+				<label class="item item-input">
+					<span class="input-label">전화번호</span>
+					02-2277-3489
+				</label>
+				<label class="item item-input">
+					<span class="input-label">변경 : </span>
+					<input type="text" name="screen_tel" placeholder="변경된 전화번호 입력">
+				</label>
+			</div>
+
+			<div class="list card">
+				<div class="item item-divider">
+					수정사항
+				</div>
+				<ion-item>
+					<textarea name="screen_request" class="form-control textarea" rows="3" placeholder="요청사항을 입력해주세요."></textarea>
+				</ion-item>
+			</div>
+
+			<div class="list card">
+				<div class="item item-divider">
+					사진 <span class="font14 divider-text">(건물 스크린 간판 등을 올려주세요)</span>
+				</div>
+				<ion-item class="screen-photo">
+					<ul>
+						<li><a href="#"><img ng-src="images/usersPhotoPlus.png"></a></li>
+						<li><a href="#"><img ng-src="images/usersPhotoPlus.png"></a></li>
+						<li><a href="#"><img ng-src="images/usersPhotoPlus.png"></a></li>
+					</ul>
+				</ion-item>
+			</div>
+
+		</ion-content>
+	</form>
+</ion-view>

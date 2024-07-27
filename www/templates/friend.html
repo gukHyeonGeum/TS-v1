@@ -1,0 +1,42 @@
+<ion-view view-title="친구" class="friends-list">
+	<ion-content>
+		<div class="list">
+			<div class="item item-divider">
+				<strong>친구요청 답하기 {{reqitems.requesters.length}}명</strong>
+			</div>
+			<div class="item item-avatar" ng-repeat="item in reqitems.requesters">
+				<img ng-src="{{item.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(item)">
+				<h2>{{item.username}}</h2>
+				<div class="row">
+					<div class="col text-center">
+						<button ng-click="onItemMakeFriend(item, $index)" class="button button-block button-small button-positive">수락</button>
+					</div>
+					<div class="col text-center">
+						<button ng-click="onItemDelete(item, $index)" class="button button-block button-small button-stable">삭제</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="list friend-field">
+			<div class="item item-divider">
+				<p class="list-checkAll"><ion-checkbox ng-model="selectedAll" ng-click="checkAll()"></ion-checkbox></p>
+				<!-- <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /> -->
+				<strong>친구리스트 {{items.friends.length}}명</strong>
+				<button class="button-clear icon-left ion-edit pull-right" ng-click="showPopup()">메시지 보내기</button>
+			</div>
+			<form id="bulkMessageForm">
+				<input type="hidden" id="formData-message" name="message" ng-model="formData.message">
+				<div class="item item-avatar item-icon-right" ng-repeat="item in items.friends">
+					<img ng-src="{{item.profile.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'" ng-click="onItemProfile(item)">
+					<h2>{{item.username}}</h2>
+					<i class="icon ion-minus-circled assertive" ng-click="onFriendDelete(item, $index)"></i>
+					<!-- <input type="checkbox" ng-model="item.Selected" /> -->
+					<p class="list-check"><ion-checkbox name="users[]" ng-model="item.checked" ng-value="item.id"></ion-checkbox></p>
+				</div>
+			</form>
+			<div class="row" ng-if="!items.friends.length">
+				<div class="col text-center">친구가 없습니다.</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

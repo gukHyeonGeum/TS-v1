@@ -1,0 +1,44 @@
+<ion-modal-view class="modal-pop-menu">	
+	<div class="ion-modal-content-custom">	
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">계정 아이디</h1>
+		</div>
+		
+		<ion-content overflow-scroll="true" class="has-header">			
+			<div class="list">
+				<ion-item class="item-divider">
+					<strong>계정 아이디</strong>
+				</ion-item>
+				<label class="item item-input">
+					<span class="input-label">이메일</span>
+					{{me.email}}
+				</label>
+				<label class="item item-input">
+					<span class="input-label">가입유형</span>
+					{{setData.socialContent}}
+				</label>
+				<form name="dropForm" id="dropForm" novalidate>
+				<ion-item class="item-divider">
+					<strong>탈퇴하기</strong>
+				</ion-item>
+				<label class="item item-input" ng-show="setData.hasPassword">
+					<span class="input-label">비밀번호</span>
+					<input type="password" name="password" placeholder="" ng-model="setData.password" ng-required="setData.hasPassword">
+				</label>
+				<ion-item class="">
+					<span class="input-label">탈퇴사유</span>
+				</ion-item>
+				<label class="item item-input item-border-top-width-zero item-padding-zero">
+					<textarea name="reason" class="form-control mypage-textarea" rows="3" placeholder="탈퇴사유를 적어주세요."  ng-model="setData.reason" required></textarea>
+				</label>
+				<div class="padding">
+					<button class="button button-block button-assertive" ng-disabled="dropForm.$invalid" ng-click="submitDropForm()">탈퇴하기</button>
+				</div>
+				
+				</form>
+			</div>			
+		</ion-content>
+		
+	</div>
+</ion-modal-view>

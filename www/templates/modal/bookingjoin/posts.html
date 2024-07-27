@@ -1,0 +1,104 @@
+<ion-modal-view class="modal-pop-menu">
+	<div class="ion-modal-content-custom">
+		<div class="bar bar-header bar-positive">
+			<button type="button" class="button button-clear" ng-click="closeModal(3)"><i class="icon ion-ios-arrow-left"></i></button>
+ 			<h1 class="title">{{view.title}}</h1>
+ 			<button type="button" class="button button-clear" ng-click="submitregistForm(registForm)" ng-disabled="registForm.$invalid">확인</button>
+ 			<!-- <button type="button" class="button button-clear" ng-click="submitregistForm(registForm)">테스트</button> -->
+		</div>
+		
+		<form name="registForm" novalidate>
+		<input type="hidden" name="post_id" value="" ng-model="form.post_id">	
+
+		<ion-content overflow-scroll="false" class="has-header booking-posts" delegate-handle="ModalScroll">
+
+			<div class="list">
+				<div class="item item-divider" ng-if="me.level==6">
+					<strong>{{me.profile.realname}}</strong>
+					<span class="item-note">{{me.profile.phone | phoneNumber}}</span>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_region.$invalid && !registForm.club_region.$pristine }">
+					<label class="item item-input item-select">
+						<strong class="input-label">지역</strong>
+						<select id="clubRegion" name="club_region" ng-model="form.clubRegion" ng-change="set_clubs()" required >
+							<option value="" selected="selected">선택하세요</option>
+							<option value="1">경기북부</option>
+							<option value="2">경기남부</option>
+							<option value="3">강원도</option>
+							<option value="4">충청도</option>
+							<option value="5">경상도</option>
+							<option value="6">전라도</option>
+							<option value="7">제주도</option>
+						</select>
+					</label>
+				</div>
+				<div ng-class="{ 'has-error' : registForm.club_name.$invalid && !registForm.club_name.$pristine }">
+					<label class="item item-input item-select">
+						<strong class="input-label">골프장</strong>
+						<select id="clubName" name="club_name" ng-model="form.clubName" ng-options="club.id as club.name for club in clubs" ng-change="club_info(form.clubName)" required>
+							<option value="">선택하세요</option>
+						</select>
+					</label>
+				</div>
+				<label class="item item-input">
+					<strong class="input-label">날짜</strong>
+					<input type="date" name="bookingDate" ng-model="form.bookingDate" class="text-right" date-field required />
+				</label>
+				<label class="item item-input">
+					<strong class="input-label">시간</strong>
+					<input type="time" name="bookingDateTime" ng-model="form.bookingDateTime" class="text-right" date-field required />
+				</label>
+				<label class="item item-input item-select booking-strong">
+					<strong class="input-label">등록자 인원</strong>
+					<select id="companion" name="companion" ng-model="form.companion" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option ng-if="(!me.level || me.level<6) && sel" ng-repeat="sel in arrayCompanionJoin track by $index" value="{{$index}}">{{sel}}</option>
+						<option ng-if="me.level>=6 && sel" ng-repeat="sel in arrayCompanionBooking track by $index" value="{{$index}}">{{sel}}</option>
+					</select>
+				</label>
+				<label class="item item-input item-select booking-strong">
+					<strong class="input-label">조인요청 인원</strong>
+					<select id="partners" name="partners" ng-model="form.partners" required>
+						<option value="" selected="selected">선택하세요</option>
+						<option ng-repeat="sel in arrayPartnerBooking track by $index" value="{{$index}}" ng-if="sel">{{sel}}</option>
+					</select>
+				</label>
+				<label class="item item-input">
+					<strong class="input-label">그린피(할인)</strong>
+					<input type="number" name="green_fee" ng-model="form.green_fee" class="text-right" required placeholder="ex) 100000">
+				</label>
+				<label class="item item-input">
+					<strong class="input-label">내장인원</strong>
+					<div class="btn-group-field person-group">
+						<div class="person-btn-group">
+							<ion-radio name="bookingPeople" type="radio" value="4" ng-model="form.bookingPeople" required>4인필수</ion-radio>
+							<ion-radio name="bookingPeople" type="radio" value="3" ng-model="form.bookingPeople" required>3인이상</ion-radio>
+							<ion-radio name="bookingPeople" type="radio" value="2" ng-model="form.bookingPeople" required>2인이상</ion-radio>
+						</div>
+					</div>
+				</label>
+				<div class="item item-input booking-option-group">
+					<strong class="input-label">기타옵션</strong>
+					<ion-checkbox ng-model="form.cart">카트포함</ion-checkbox>
+					<ion-checkbox ng-model="form.meal">식사포함</ion-checkbox>
+					<ion-checkbox ng-model="form.caddie">노캐디</ion-checkbox>
+				</div>
+				<div class="item item-divider">
+					<strong>추가내용</strong>
+				</div>
+				<label class="item item-input">
+					<textarea name="message" ng-model="form.message" placeholder="전하고 싶은 내용을 입력하세요." rows="5"></textarea>
+				</label>
+			</div>
+
+			<div class="padding">
+				<button type="button" class="button button-block button-green" ng-click="submitregistForm(registForm)" ng-disabled="registForm.$invalid">등록하기</button>
+			</div>
+
+
+		</ion-content>
+
+		</form>
+
+	</div>
+</ion-modal-view>

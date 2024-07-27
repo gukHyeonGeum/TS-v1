@@ -1,0 +1,155 @@
+<ion-view view-title="신청자(파트너 선택)"><!--   ng-controller="golfpartnerListCtrl" -->
+
+	<ion-nav-bar class="bar-positive">
+		<ion-nav-back-button></ion-nav-back-button>
+		<ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			</button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<!-- Putting a return between the buttons causes them to be stacked on Android 4.4.2 -->
+			<button class="button button-positive font16" ng-click="isconfirm()" ng-show="field.poster_id == me.id" ng-disabled="field.deleted_at" >확인</button>
+			<!--<button class="button button-assertive" ng-click="iscancel()" ng-show="field.poster_id == me.id" ng-disabled="field.deleted_at" >취소</button> -->
+			
+			<button type="button" class="button button-assertive" ng-disabled="field.deleted_at" ng-click="applyCancel()" ng-hide="field.poster_id == me.id">취소</button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+			
+	<div ng-show="field.poster_id == me.id">
+		<form name="Accept1Form" novalidate>
+			<ion-content class="partner-list">
+				<div ng-repeat="list in lists">
+					<div ng-if="list.deleted_at"><!-- 신청자가 취소하였습니다. -->
+						<div class="item button-msg">
+							<button class="button button-small button-assertive status-button">취소</button>
+							<div class="item-content">
+								<div class="item item-avatar item-button-right">
+									<img ng-src="{{list.thumbnail_image | local_img}}" ng-click="onItemProfile(list)" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									<h3><strong>{{list.username}}</strong></h3>
+									<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+									<div class="font14 assertive">신청을 취소하였습니다.</div>
+								</div>
+							</div>
+						</div>
+					</div>	
+					<div ng-if="!list.deleted_at"><!-- 신청자가 취소하지 않은 경우 -->
+						<div ng-if="list.status == 1"><!-- 신청자가 선정된 경우 -->
+							<div class="item button-msg">
+								<button class="button button-small button-positive status-button">파트너</button>
+								<div class="item-content">
+									<div class="item item-avatar item-button-right">
+										<img ng-src="{{list.thumbnail_image | local_img}}" ng-click="onItemProfile(list)" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+										<h3><strong>{{list.username}}</strong></h3>
+										<p><a href="tel:{{list.phone}}" class="bold">{{list.phone}}</a></p>
+										<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+										<button class="button button-positive font14 partner-chat" ng-click="onItemMessage(list)">채팅</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-if="list.status != 1"><!-- 신청자가 선정되지 못한 경우 -->
+							<div ng-if="field.deleted_at"><!-- 종료된 경우 -->
+								<div class="item button-msg">
+									<button class="button button-small button-dark status-button">다음에</button>
+									<div class="item-content">
+										<div class="item item-avatar item-button-right">
+											<img ng-src="{{list.thumbnail_image | local_img}}" ng-click="onItemProfile(list)" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+											<h3><strong>{{list.username}}</strong></h3>
+											<p>다음기회에 부탁드립니다.</p>
+											<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="checkbox-field" ng-if="!field.deleted_at"><!-- 종료되지 않은 경우 -->
+								<!-- <label for="choice{{list.id}}" class="checkbox-assertive item item-checkbox ">
+									<div class="radio-box checkbox">
+										<input type="radio" name="choice" id="choice{{list.id}}" ng-model="lists.choice" ng-value="{{list.id}}" />
+									</div>
+								</label>
+								<div class="item item-avatar item-button-right">
+									<img ng-src="{{list.thumbnail_image | local_img}}" ng-click="onItemProfile(list)" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									<h3><strong>{{list.username}}</strong> </h3>
+									<div class="partner-date">신청일 {{list.created_at}}</div>
+								</div> -->
+								<ion-checkbox name="ids[]" value="{{list.id}}" ng-click="toggleSelection(list.id)"></ion-checkbox>
+								<div class="item item-avatar item-button-right">
+									<img ng-src="{{list.thumbnail_image | local_img}}" ng-click="onItemProfile(list)" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+									<h3><strong>{{list.username}}</strong></h3>
+									<p><a href="tel:{{list.phone}}" class="bold">{{list.phone}}</a></p>
+									<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+									<button class="button button-positive font14 partner-chat" ng-click="onItemMessage(list)">채팅</button>
+								</div>
+							</div><!-- 종료되지 않은 경우 -->
+						</div><!-- 신청자가 선정되지 못한 경우 -->
+					</div><!-- 신청자가 취소하지 않은 경우 -->
+				</div><!-- loop -->
+			</ion-content>
+		</form>
+	</div><!-- ng-show="field.poster_id == me.id" -->
+	<div ng-show="field.poster_id != me.id">
+		<form name="Accept2Form" ng-submit="submitAccept2Form()" novalidate>
+
+			<ion-content class="partner-list">
+				<div ng-repeat="list in lists">
+					<div ng-if="list.poster_id == me.id">
+						<span style="display: none;">{{formDate.listId=list.id}}</span>
+						<div ng-if="list.deleted_at"><!-- 신청자가 취소하였습니다. -->
+							<div class="item button-msg">
+								<button class="button button-small button-assertive status-button">취소</button>
+								<div class="item-content">
+									<div class="item item-avatar">
+										<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+										<h3><strong>{{list.username}}</strong></h3>
+										<p>취소하였습니다.</p>
+										<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+						<div ng-if="!list.deleted_at"><!-- 신청자가 취소하지 않은 경우 -->
+							<div ng-if="list.status == 1"><!-- 신청자가 선정된 경우 -->
+								<div class="item button-msg">
+									<button class="button button-small button-positive status-button">파트너</button>
+									<div class="item-content">
+										<div class="item item-avatar item-button-right">
+											<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+											<h3><strong>{{list.username}}</strong></h3>
+											<p>{{field.poster}} <a href="tel:{{field.profile.phone}}" class="bold">{{field.profile.phone}}</a></p>
+											<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+											<button class="button button-positive font14 partner-chat" ng-click="onItemMessage(field)">채팅</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div ng-if="list.status != 1"><!-- 신청자가 선정되지 못한 경우 -->
+								<div ng-if="field.deleted_at"><!-- 종료된 경우 -->
+									<div class="item button-msg">
+										<button class="button button-small button-dark status-button">다음에</button>
+										<div class="item-content">
+											<div class="item item-avatar">
+												<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+												<h3><strong>{{list.username}}</strong></h3>
+												<p>다음기회에 부탁드립니다.</p>
+												<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div ng-if="!field.deleted_at"><!-- 종료되지 않은 경우 -->
+									<div class="item item-avatar item-button-right">
+										<img ng-src="{{list.thumbnail_image | local_img}}" onerror="this.src='images/avatars/avatar-unknown.jpg'">
+										<h3><strong>{{list.username}}</strong></h3>
+										<div class="partner-date">{{list.created_at | f_formatdate}}</div>
+										<p>{{field.poster}} <a href="tel:{{field.profile.phone}}" class="bold">{{field.profile.phone}}</a></p>
+										<button class="button button-positive font14 partner-chat" ng-click="onItemMessage(field)">채팅</button>
+									</div>
+								</div><!-- 종료되지 않은 경우 -->
+							</div><!-- 신청자가 선정되지 못한 경우 -->
+						</div><!-- 신청자가 취소하지 않은 경우 -->
+					</div><!-- list.poster_id == me.id -->
+				</div><!-- loop -->
+			</ion-content>
+		</form>
+	</div>
+</ion-view>					

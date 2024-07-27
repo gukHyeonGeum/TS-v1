@@ -1,0 +1,10 @@
+<ion-view view-title="이동통신사 약관보기">
+		<ion-content>
+			<ion-list>
+				<ion-item ng-repeat="list in telecomAgree" ng-click="openAgreeModal('{{$index+1}}')" class="item-icon-right">
+					{{list.text}}
+					<i class="icon dark ion-ios-arrow-forward"></i>
+				</ion-item>
+			</ion-list>
+		</ion-content>
+</ion-view>

@@ -1,0 +1,19 @@
+<ion-modal-view class="ion-nifty-modal modal-pop-menu modal-customer-menu modal-c-users-sort">
+	<div class="ion-modal-content-custom">
+		<ion-content scroll="false">
+			<div class="item item-divider">
+				<strong>정렬순</strong>
+			</div>
+			<ion-list class="text-center modal-item-link">
+				<!-- <ion-item href="#/app/usersFind/visit">접속일자순</ion-item> -->
+				<!-- <ion-item href="#/app/usersFind/list">내 주변회원들</ion-item>
+				<ion-item href="#/app/usersFind/join">가입자순</ion-item>
+				<ion-item href="#/app/usersFind/popular">인기도순</ion-item> -->
+				<ion-item href="#" ng-click="usersLocation('neighborhoodVisit','')">접속자순</ion-item>
+				<ion-item href="#" ng-click="usersLocation('neighborhoodLocation','')">내 주변회원들</ion-item>
+				<ion-item href="#" ng-click="usersLocation('neighborhoodJoin','')">가입자순</ion-item>
+				<ion-item href="#" ng-click="usersLocation('neighborhoodPopular','')">인기도순</ion-item>
+			</ion-list>
+		</ion-content>
+	</div>
+</ion-modal-view>

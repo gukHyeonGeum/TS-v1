@@ -1,0 +1,88 @@
+<ion-view view-title="이용권 구매내역" class="payment-coupon-lists">
+	<ion-nav-bar class="bar-positive">
+        <ion-nav-back-button></ion-nav-back-button>
+        <ion-nav-buttons side="left">
+			<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	
+	<div class="bar bar-subheader">
+		<div class="row text-center stable-bg bold">
+			<div class="col col-15">
+				결제일
+			</div>
+			<div class="col">
+				이용권구매
+			</div>
+			<div class="col col-20">
+				남은일수
+			</div>
+			<div class="col col-10">
+			</div>
+		</div>
+	</div>
+
+	<ion-content class="has-subheader has-footer">
+
+		<ion-refresher pulling-text="새로고침" on-refresh="doRefresh()"></ion-refresher>
+
+		
+		<div class="list" collection-repeat="list in lists">
+			<div class="row text-center light-bg font14 line-height31">
+				<div class="col col-15 letter-spacing">
+					{{ list.created_at | f_formatdate : 'y.m.d' }}
+				</div>
+				<div class="col letter-spacing" ng-bind-html="(list.item_code | PayList).title"></div>
+				<div class="col col-20">
+					<div ng-if="!list.canceled_at && !list.deleted_at">
+						<span class="assertive">{{ list.ended_at | BetweenDay : 'day' }}일</span>
+						<!-- <div class="assertive letter-spacing">{{ list.ended_at | BetweenDay : 'payment' : list.started_at }}</div> -->
+					</div>
+					<div ng-if="!list.canceled_at && list.deleted_at">종료</div>
+					<div ng-if="list.canceled_at && !list.deleted_at" class="assertive">취소신청</div>
+					<div ng-if="list.canceled_at && list.deleted_at" class="assertive">취소</div>
+				</div>
+				<div class="col col-10">
+					<button class="button button-small button-clear icon ion-chevron-right" ng-click="openModal(1,list)"></button>
+					<!-- <div>
+						<a ng-if="!list.canceled_at" ng-click="paymentCancel(list)"><u>취소</u></a>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<div class="list text-center padding" ng-if="lists.length < 1 && !me.normal_expired_at">
+			<strong>구매내역이 없습니다.</strong>
+		</div>
+		<div class="list" ng-if="lists.length < 1 && me.normal_expired_at && me.profile.gender=='male'">
+			<div class="row text-center light-bg font14">
+				<div class="col col-15 letter-spacing">
+					{{ me.created_at | f_formatdate : 'y.m.d' }}
+				</div>
+				<div class="col letter-spacing">무료체험권</div>
+				<div class="col col-15">
+					<div ng-if="!list.deleted_at">
+						<span class="assertive">{{ me.normal_expired_at | f_formatdate : 'm.d' }}</span>
+					</div>
+				</div>
+				<div class="col col-20">
+					-
+				</div>
+				<div class="col col-20">
+					-
+				</div>
+			</div>
+		</div>
+
+		<ion-infinite-scroll icon="ion-loading-c" on-infinite="loadMores()" distance="5%" ng-if="!hasMoreData && lists.length > 19"></ion-infinite-scroll>
+
+	</ion-content>
+
+	<div class="bar bar-footer bar-stable bookingjoin-footer">
+		<div class="row text-center font16">
+			<div class="col">
+				<a href="tel:0222773489"><button class="button button-block button-positive"><i class="icon ion-android-call"></i> 티샷 문의</button></a>
+			</div>
+		</div>
+	</div>
+
+</ion-view>
